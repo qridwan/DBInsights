@@ -7,6 +7,8 @@ from pydantic import ValidationError
 from experiments.groundtruth import Category, Manifest, ProblemType, load_manifest
 
 MANIFEST_DIR = Path(__file__).parents[2] / "experiments" / "groundtruth" / "manifests"
+REPO_ROOT = Path(__file__).parents[3]
+COMMITTED = sorted(MANIFEST_DIR.glob("*.json"))
 
 
 def test_valid_manifest(make_manifest, make_entry, make_data_entry):
@@ -71,6 +73,27 @@ def test_load_manifest_from_file(tmp_path, make_manifest, make_entry):
     assert load_manifest(path).entries[0].id == "ecom-n1-01"
 
 
-@pytest.mark.parametrize("path", sorted(MANIFEST_DIR.glob("*.json")), ids=lambda p: p.name)
+def test_anchor_requires_a_code_location(make_manifest, make_data_entry):
+    with pytest.raises(ValidationError, match="anchor"):
+        Manifest.model_validate(make_manifest(make_data_entry(anchor="x")))
+
+
+@pytest.mark.parametrize("path", COMMITTED, ids=lambda p: p.name)
 def test_committed_manifests_validate(path):
     load_manifest(path)
+
+
+@pytest.mark.parametrize("path", COMMITTED, ids=lambda p: p.name)
+def test_committed_manifest_locations_point_at_their_anchors(path):
+    manifest = load_manifest(path)
+    assert manifest.source_root, "committed manifests must declare sourceRoot"
+    root = REPO_ROOT / manifest.source_root
+    for entry in manifest.entries:
+        if entry.file is None or entry.line is None:
+            continue
+        lines = (root / entry.file).read_text(encoding="utf-8").splitlines()
+        assert entry.anchor, f"{entry.id}: committed code entries need an anchor"
+        assert entry.anchor in lines[entry.line - 1], (
+            f"{entry.id}: line {entry.line} no longer holds its anchor"
+        )
+        assert (entry.end_line or entry.line) <= len(lines), f"{entry.id}: endLine past end of file"

@@ -26,6 +26,8 @@ class ManifestEntry(_Model):
     end_line: int | None = Field(default=None, ge=1)
     #: HTTP endpoint that exercises the problem, e.g. "GET /api/orders".
     endpoint: str | None = None
+    #: Text that must appear on `line`. Guards against line drift as code changes.
+    anchor: str | None = Field(default=None, min_length=1)
 
     # Data location: actual database table and column names.
     table: str | None = None
@@ -69,6 +71,8 @@ class ManifestEntry(_Model):
             raise ValueError("'file' and 'line' must be given together")
         if self.end_line is not None and (self.line is None or self.end_line < self.line):
             raise ValueError("'endLine' must be >= 'line'")
+        if self.anchor is not None and self.line is None:
+            raise ValueError("'anchor' requires 'file' and 'line'")
         if self.column is not None and self.table is None:
             raise ValueError("'column' requires 'table'")
         return self
@@ -78,6 +82,8 @@ class Manifest(_Model):
     schema_version: Literal[1]
     #: Application name, e.g. "ecommerce".
     app: str = Field(min_length=1)
+    #: Application root relative to the repository root; entry files are relative to it.
+    source_root: str | None = None
     entries: list[ManifestEntry]
 
     @model_validator(mode="after")
