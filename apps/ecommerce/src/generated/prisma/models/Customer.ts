@@ -28,6 +28,8 @@ export type CustomerMinAggregateOutputType = {
   id: string | null
   email: string | null
   name: string | null
+  phone: string | null
+  marketingOptIn: boolean | null
   createdAt: Date | null
 }
 
@@ -35,6 +37,8 @@ export type CustomerMaxAggregateOutputType = {
   id: string | null
   email: string | null
   name: string | null
+  phone: string | null
+  marketingOptIn: boolean | null
   createdAt: Date | null
 }
 
@@ -42,6 +46,8 @@ export type CustomerCountAggregateOutputType = {
   id: number
   email: number
   name: number
+  phone: number
+  marketingOptIn: number
   createdAt: number
   _all: number
 }
@@ -51,6 +57,8 @@ export type CustomerMinAggregateInputType = {
   id?: true
   email?: true
   name?: true
+  phone?: true
+  marketingOptIn?: true
   createdAt?: true
 }
 
@@ -58,6 +66,8 @@ export type CustomerMaxAggregateInputType = {
   id?: true
   email?: true
   name?: true
+  phone?: true
+  marketingOptIn?: true
   createdAt?: true
 }
 
@@ -65,6 +75,8 @@ export type CustomerCountAggregateInputType = {
   id?: true
   email?: true
   name?: true
+  phone?: true
+  marketingOptIn?: true
   createdAt?: true
   _all?: true
 }
@@ -145,6 +157,8 @@ export type CustomerGroupByOutputType = {
   id: string
   email: string
   name: string
+  phone: string | null
+  marketingOptIn: boolean
   createdAt: Date
   _count: CustomerCountAggregateOutputType | null
   _min: CustomerMinAggregateOutputType | null
@@ -173,6 +187,8 @@ export type CustomerWhereInput = {
   id?: Prisma.UuidFilter<"Customer"> | string
   email?: Prisma.StringFilter<"Customer"> | string
   name?: Prisma.StringFilter<"Customer"> | string
+  phone?: Prisma.StringNullableFilter<"Customer"> | string | null
+  marketingOptIn?: Prisma.BoolFilter<"Customer"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Customer"> | Date | string
   orders?: Prisma.OrderListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
@@ -182,6 +198,8 @@ export type CustomerOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  marketingOptIn?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   orders?: Prisma.OrderOrderByRelationAggregateInput
   reviews?: Prisma.ReviewOrderByRelationAggregateInput
@@ -194,6 +212,8 @@ export type CustomerWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.CustomerWhereInput[]
   NOT?: Prisma.CustomerWhereInput | Prisma.CustomerWhereInput[]
   name?: Prisma.StringFilter<"Customer"> | string
+  phone?: Prisma.StringNullableFilter<"Customer"> | string | null
+  marketingOptIn?: Prisma.BoolFilter<"Customer"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Customer"> | Date | string
   orders?: Prisma.OrderListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
@@ -203,6 +223,8 @@ export type CustomerOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  marketingOptIn?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.CustomerCountOrderByAggregateInput
   _max?: Prisma.CustomerMaxOrderByAggregateInput
@@ -216,6 +238,8 @@ export type CustomerScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"Customer"> | string
   email?: Prisma.StringWithAggregatesFilter<"Customer"> | string
   name?: Prisma.StringWithAggregatesFilter<"Customer"> | string
+  phone?: Prisma.StringNullableWithAggregatesFilter<"Customer"> | string | null
+  marketingOptIn?: Prisma.BoolWithAggregatesFilter<"Customer"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Customer"> | Date | string
 }
 
@@ -223,6 +247,8 @@ export type CustomerCreateInput = {
   id?: string
   email: string
   name: string
+  phone?: string | null
+  marketingOptIn?: boolean
   createdAt?: Date | string
   orders?: Prisma.OrderCreateNestedManyWithoutCustomerInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCustomerInput
@@ -232,6 +258,8 @@ export type CustomerUncheckedCreateInput = {
   id?: string
   email: string
   name: string
+  phone?: string | null
+  marketingOptIn?: boolean
   createdAt?: Date | string
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutCustomerInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCustomerInput
@@ -241,6 +269,8 @@ export type CustomerUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingOptIn?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orders?: Prisma.OrderUpdateManyWithoutCustomerNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCustomerNestedInput
@@ -250,6 +280,8 @@ export type CustomerUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingOptIn?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orders?: Prisma.OrderUncheckedUpdateManyWithoutCustomerNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCustomerNestedInput
@@ -259,6 +291,8 @@ export type CustomerCreateManyInput = {
   id?: string
   email: string
   name: string
+  phone?: string | null
+  marketingOptIn?: boolean
   createdAt?: Date | string
 }
 
@@ -266,6 +300,8 @@ export type CustomerUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingOptIn?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -273,6 +309,8 @@ export type CustomerUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingOptIn?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -280,6 +318,8 @@ export type CustomerCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
+  marketingOptIn?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -287,6 +327,8 @@ export type CustomerMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
+  marketingOptIn?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -294,12 +336,22 @@ export type CustomerMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
+  marketingOptIn?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type CustomerScalarRelationFilter = {
   is?: Prisma.CustomerWhereInput
   isNot?: Prisma.CustomerWhereInput
+}
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type CustomerCreateNestedOneWithoutOrdersInput = {
@@ -334,6 +386,8 @@ export type CustomerCreateWithoutOrdersInput = {
   id?: string
   email: string
   name: string
+  phone?: string | null
+  marketingOptIn?: boolean
   createdAt?: Date | string
   reviews?: Prisma.ReviewCreateNestedManyWithoutCustomerInput
 }
@@ -342,6 +396,8 @@ export type CustomerUncheckedCreateWithoutOrdersInput = {
   id?: string
   email: string
   name: string
+  phone?: string | null
+  marketingOptIn?: boolean
   createdAt?: Date | string
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCustomerInput
 }
@@ -366,6 +422,8 @@ export type CustomerUpdateWithoutOrdersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingOptIn?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reviews?: Prisma.ReviewUpdateManyWithoutCustomerNestedInput
 }
@@ -374,6 +432,8 @@ export type CustomerUncheckedUpdateWithoutOrdersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingOptIn?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCustomerNestedInput
 }
@@ -382,6 +442,8 @@ export type CustomerCreateWithoutReviewsInput = {
   id?: string
   email: string
   name: string
+  phone?: string | null
+  marketingOptIn?: boolean
   createdAt?: Date | string
   orders?: Prisma.OrderCreateNestedManyWithoutCustomerInput
 }
@@ -390,6 +452,8 @@ export type CustomerUncheckedCreateWithoutReviewsInput = {
   id?: string
   email: string
   name: string
+  phone?: string | null
+  marketingOptIn?: boolean
   createdAt?: Date | string
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutCustomerInput
 }
@@ -414,6 +478,8 @@ export type CustomerUpdateWithoutReviewsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingOptIn?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orders?: Prisma.OrderUpdateManyWithoutCustomerNestedInput
 }
@@ -422,6 +488,8 @@ export type CustomerUncheckedUpdateWithoutReviewsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  marketingOptIn?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orders?: Prisma.OrderUncheckedUpdateManyWithoutCustomerNestedInput
 }
@@ -470,6 +538,8 @@ export type CustomerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   id?: boolean
   email?: boolean
   name?: boolean
+  phone?: boolean
+  marketingOptIn?: boolean
   createdAt?: boolean
   orders?: boolean | Prisma.Customer$ordersArgs<ExtArgs>
   reviews?: boolean | Prisma.Customer$reviewsArgs<ExtArgs>
@@ -480,6 +550,8 @@ export type CustomerSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   id?: boolean
   email?: boolean
   name?: boolean
+  phone?: boolean
+  marketingOptIn?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["customer"]>
 
@@ -487,6 +559,8 @@ export type CustomerSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   id?: boolean
   email?: boolean
   name?: boolean
+  phone?: boolean
+  marketingOptIn?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["customer"]>
 
@@ -494,10 +568,12 @@ export type CustomerSelectScalar = {
   id?: boolean
   email?: boolean
   name?: boolean
+  phone?: boolean
+  marketingOptIn?: boolean
   createdAt?: boolean
 }
 
-export type CustomerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "createdAt", ExtArgs["result"]["customer"]>
+export type CustomerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "phone" | "marketingOptIn" | "createdAt", ExtArgs["result"]["customer"]>
 export type CustomerInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   orders?: boolean | Prisma.Customer$ordersArgs<ExtArgs>
   reviews?: boolean | Prisma.Customer$reviewsArgs<ExtArgs>
@@ -516,6 +592,8 @@ export type $CustomerPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     id: string
     email: string
     name: string
+    phone: string | null
+    marketingOptIn: boolean
     createdAt: Date
   }, ExtArgs["result"]["customer"]>
   composites: {}
@@ -945,6 +1023,8 @@ export interface CustomerFieldRefs {
   readonly id: Prisma.FieldRef<"Customer", 'String'>
   readonly email: Prisma.FieldRef<"Customer", 'String'>
   readonly name: Prisma.FieldRef<"Customer", 'String'>
+  readonly phone: Prisma.FieldRef<"Customer", 'String'>
+  readonly marketingOptIn: Prisma.FieldRef<"Customer", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Customer", 'DateTime'>
 }
     

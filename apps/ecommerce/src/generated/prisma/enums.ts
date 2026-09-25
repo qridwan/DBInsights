@@ -9,6 +9,15 @@
 * 🟢 You can import this file directly.
 */
 
+export const PaymentMethod = {
+  CARD: 'CARD',
+  PAYPAL: 'PAYPAL',
+  BANK_TRANSFER: 'BANK_TRANSFER'
+} as const
+
+export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
+
+
 export const OrderStatus = {
   PENDING: 'PENDING',
   PAID: 'PAID',

@@ -46,7 +46,7 @@ model Comment {
   postId      String   @db.Uuid
   post        Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   authorName  String
-  authorEmail String
+  authorEmail String?
   body        String
   createdAt   DateTime @default(now())
 

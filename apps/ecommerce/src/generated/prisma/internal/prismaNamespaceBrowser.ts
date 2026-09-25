@@ -104,6 +104,8 @@ export const CustomerScalarFieldEnum = {
   id: 'id',
   email: 'email',
   name: 'name',
+  phone: 'phone',
+  marketingOptIn: 'marketingOptIn',
   createdAt: 'createdAt'
 } as const
 
@@ -115,6 +117,9 @@ export const OrderScalarFieldEnum = {
   customerId: 'customerId',
   status: 'status',
   totalCents: 'totalCents',
+  paymentMethod: 'paymentMethod',
+  paymentReference: 'paymentReference',
+  shippingPostcode: 'shippingPostcode',
   createdAt: 'createdAt'
 } as const
 
@@ -159,4 +164,12 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
