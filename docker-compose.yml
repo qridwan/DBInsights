@@ -23,6 +23,8 @@ services:
       dockerfile: apps/ecommerce/Dockerfile
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-dbinsight}:${POSTGRES_PASSWORD:-dbinsight}@postgres:5432/ecommerce
+      # Runtime query collection; set DBINSIGHT_COLLECTOR_URL= (empty) to switch it off.
+      DBINSIGHT_COLLECTOR_URL: ${DBINSIGHT_COLLECTOR_URL-http://collector:8700/v1/operations}
     ports:
       - "${ECOMMERCE_PORT:-3001}:3001"
     depends_on:
@@ -35,11 +37,29 @@ services:
       dockerfile: apps/blog/Dockerfile
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-dbinsight}:${POSTGRES_PASSWORD:-dbinsight}@postgres:5432/blog
+      # Runtime query collection; set DBINSIGHT_COLLECTOR_URL= (empty) to switch it off.
+      DBINSIGHT_COLLECTOR_URL: ${DBINSIGHT_COLLECTOR_URL-http://collector:8700/v1/operations}
     ports:
       - "${BLOG_PORT:-3002}:3002"
     depends_on:
       postgres:
         condition: service_healthy
+
+  collector:
+    build:
+      context: services
+    environment:
+      DBINSIGHT_RESULTS_DATABASE_URL: postgresql://${POSTGRES_USER:-dbinsight}:${POSTGRES_PASSWORD:-dbinsight}@postgres:5432/${POSTGRES_DB:-dbinsight}
+    ports:
+      - "${COLLECTOR_PORT:-8700}:8700"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8700/health')"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
 volumes:
   pgdata:

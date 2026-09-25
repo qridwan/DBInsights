@@ -1,0 +1,80 @@
+{
+  "generator": "packages/collector/scripts/record-prisma-sql.ts",
+  "queries": [
+    {
+      "name": "findMany where id IN list",
+      "variants": [
+        {
+          "size": 1,
+          "sql": [
+            "SELECT \"public\".\"Product\".\"id\", \"public\".\"Product\".\"name\" FROM \"public\".\"Product\" WHERE \"public\".\"Product\".\"id\" IN ($1) OFFSET $2"
+          ]
+        },
+        {
+          "size": 5,
+          "sql": [
+            "SELECT \"public\".\"Product\".\"id\", \"public\".\"Product\".\"name\" FROM \"public\".\"Product\" WHERE \"public\".\"Product\".\"id\" IN ($1,$2,$3,$4,$5) OFFSET $6"
+          ]
+        },
+        {
+          "size": 50,
+          "sql": [
+            "SELECT \"public\".\"Product\".\"id\", \"public\".\"Product\".\"name\" FROM \"public\".\"Product\" WHERE \"public\".\"Product\".\"id\" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38,$39,$40,$41,$42,$43,$44,$45,$46,$47,$48,$49,$50) OFFSET $51"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "findUnique batched by Promise.all",
+      "variants": [
+        {
+          "size": 1,
+          "sql": [
+            "SELECT \"public\".\"Product\".\"id\", \"public\".\"Product\".\"name\" FROM \"public\".\"Product\" WHERE (\"public\".\"Product\".\"id\" = $1 AND 1=1) LIMIT $2 OFFSET $3"
+          ]
+        },
+        {
+          "size": 5,
+          "sql": [
+            "SELECT \"public\".\"Product\".\"id\", \"public\".\"Product\".\"name\" FROM \"public\".\"Product\" WHERE \"public\".\"Product\".\"id\" IN ($1,$2,$3,$4,$5) OFFSET $6"
+          ]
+        },
+        {
+          "size": 50,
+          "sql": [
+            "SELECT \"public\".\"Product\".\"id\", \"public\".\"Product\".\"name\" FROM \"public\".\"Product\" WHERE \"public\".\"Product\".\"id\" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38,$39,$40,$41,$42,$43,$44,$45,$46,$47,$48,$49,$50) OFFSET $51"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "findMany with include and IN list",
+      "variants": [
+        {
+          "size": 1,
+          "sql": [
+            "SELECT \"public\".\"Product\".\"id\", \"public\".\"Product\".\"sku\", \"public\".\"Product\".\"name\", \"public\".\"Product\".\"description\", \"public\".\"Product\".\"priceCents\", \"public\".\"Product\".\"stock\", \"public\".\"Product\".\"categoryId\", \"public\".\"Product\".\"createdAt\", \"public\".\"Product\".\"updatedAt\" FROM \"public\".\"Product\" WHERE \"public\".\"Product\".\"id\" IN ($1) OFFSET $2",
+            "SELECT \"public\".\"Category\".\"id\", \"public\".\"Category\".\"name\", \"public\".\"Category\".\"slug\", \"public\".\"Category\".\"createdAt\" FROM \"public\".\"Category\" WHERE \"public\".\"Category\".\"id\" IN ($1) OFFSET $2",
+            "SELECT \"public\".\"Review\".\"id\", \"public\".\"Review\".\"productId\", \"public\".\"Review\".\"customerId\", \"public\".\"Review\".\"rating\", \"public\".\"Review\".\"title\", \"public\".\"Review\".\"body\", \"public\".\"Review\".\"createdAt\" FROM \"public\".\"Review\" WHERE \"public\".\"Review\".\"productId\" IN ($1) ORDER BY \"public\".\"Review\".\"id\" ASC OFFSET $2"
+          ]
+        },
+        {
+          "size": 5,
+          "sql": [
+            "SELECT \"public\".\"Product\".\"id\", \"public\".\"Product\".\"sku\", \"public\".\"Product\".\"name\", \"public\".\"Product\".\"description\", \"public\".\"Product\".\"priceCents\", \"public\".\"Product\".\"stock\", \"public\".\"Product\".\"categoryId\", \"public\".\"Product\".\"createdAt\", \"public\".\"Product\".\"updatedAt\" FROM \"public\".\"Product\" WHERE \"public\".\"Product\".\"id\" IN ($1,$2,$3,$4,$5) OFFSET $6",
+            "SELECT \"public\".\"Category\".\"id\", \"public\".\"Category\".\"name\", \"public\".\"Category\".\"slug\", \"public\".\"Category\".\"createdAt\" FROM \"public\".\"Category\" WHERE \"public\".\"Category\".\"id\" IN ($1,$2,$3,$4,$5) OFFSET $6",
+            "SELECT \"public\".\"Review\".\"id\", \"public\".\"Review\".\"productId\", \"public\".\"Review\".\"customerId\", \"public\".\"Review\".\"rating\", \"public\".\"Review\".\"title\", \"public\".\"Review\".\"body\", \"public\".\"Review\".\"createdAt\" FROM \"public\".\"Review\" WHERE \"public\".\"Review\".\"productId\" IN ($1,$2,$3,$4,$5) ORDER BY \"public\".\"Review\".\"id\" ASC OFFSET $6"
+          ]
+        },
+        {
+          "size": 50,
+          "sql": [
+            "SELECT \"public\".\"Product\".\"id\", \"public\".\"Product\".\"sku\", \"public\".\"Product\".\"name\", \"public\".\"Product\".\"description\", \"public\".\"Product\".\"priceCents\", \"public\".\"Product\".\"stock\", \"public\".\"Product\".\"categoryId\", \"public\".\"Product\".\"createdAt\", \"public\".\"Product\".\"updatedAt\" FROM \"public\".\"Product\" WHERE \"public\".\"Product\".\"id\" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38,$39,$40,$41,$42,$43,$44,$45,$46,$47,$48,$49,$50) OFFSET $51",
+            "SELECT \"public\".\"Category\".\"id\", \"public\".\"Category\".\"name\", \"public\".\"Category\".\"slug\", \"public\".\"Category\".\"createdAt\" FROM \"public\".\"Category\" WHERE \"public\".\"Category\".\"id\" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38,$39,$40,$41,$42,$43,$44,$45,$46,$47,$48,$49,$50) OFFSET $51",
+            "SELECT \"public\".\"Review\".\"id\", \"public\".\"Review\".\"productId\", \"public\".\"Review\".\"customerId\", \"public\".\"Review\".\"rating\", \"public\".\"Review\".\"title\", \"public\".\"Review\".\"body\", \"public\".\"Review\".\"createdAt\" FROM \"public\".\"Review\" WHERE \"public\".\"Review\".\"productId\" IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38,$39,$40,$41,$42,$43,$44,$45,$46,$47,$48,$49,$50) ORDER BY \"public\".\"Review\".\"id\" ASC OFFSET $51"
+          ]
+        }
+      ]
+    }
+  ]
+}

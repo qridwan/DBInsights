@@ -11,9 +11,10 @@ WORKDIR /repo
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY packages/core/package.json packages/core/
 COPY packages/cli/package.json packages/cli/
+COPY packages/collector packages/collector
 COPY apps/ecommerce/package.json apps/ecommerce/
 COPY apps/blog/package.json apps/blog/
-RUN pnpm install --frozen-lockfile --filter blog
+RUN pnpm install --frozen-lockfile --filter blog...
 
 COPY apps/blog apps/blog
 WORKDIR /repo/apps/blog
