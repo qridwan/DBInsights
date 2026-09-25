@@ -193,8 +193,9 @@ describe("grammar coverage", () => {
   const schema = fixture("grammar.prisma");
   const document = model(schema, "Document");
 
-  it("reads datasource provider and skips generator config", () => {
+  it("reads datasource and generator config", () => {
     expect(schema.datasources).toMatchObject([{ name: "db", provider: "postgresql" }]);
+    expect(schema.generators).toMatchObject([{ name: "client", provider: "prisma-client", output: "../generated" }]);
   });
 
   it("reads @@map, @map and enum @@map", () => {
@@ -288,6 +289,6 @@ model A {
   });
 
   it("parses an empty schema", () => {
-    expect(parseSchema("// nothing here\n")).toEqual({ datasources: [], models: [], enums: [], types: [] });
+    expect(parseSchema("// nothing here\n")).toEqual({ datasources: [], generators: [], models: [], enums: [], types: [] });
   });
 });

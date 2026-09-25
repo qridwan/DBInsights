@@ -4,6 +4,7 @@
 
 export interface SchemaModel {
   datasources: Datasource[];
+  generators: Generator[];
   models: Model[];
   enums: EnumDef[];
   /** Composite types (`type` blocks, MongoDB). */
@@ -13,6 +14,14 @@ export interface SchemaModel {
 export interface Datasource {
   name: string;
   provider?: string;
+  line: number;
+}
+
+export interface Generator {
+  name: string;
+  provider?: string;
+  /** Output path as written, relative to the schema file. */
+  output?: string;
   line: number;
 }
 

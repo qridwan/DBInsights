@@ -7,6 +7,7 @@ import type {
   EnumDef,
   Field,
   FieldKind,
+  Generator,
   Index,
   IndexField,
   IndexKind,
@@ -488,6 +489,7 @@ function build(blocks: BlockNode[]): SchemaModel {
   };
 
   const datasources: Datasource[] = [];
+  const generators: Generator[] = [];
   const models: Model[] = [];
   const enums: EnumDef[] = [];
   const types: CompositeType[] = [];
@@ -501,6 +503,15 @@ function build(blocks: BlockNode[]): SchemaModel {
         const provider = asString(block.entries.get("provider"));
         if (provider !== undefined) datasource.provider = provider;
         datasources.push(datasource);
+        break;
+      }
+      case "generator": {
+        const generator: Generator = { name: block.name, line: block.line };
+        const provider = asString(block.entries.get("provider"));
+        const output = asString(block.entries.get("output"));
+        if (provider !== undefined) generator.provider = provider;
+        if (output !== undefined) generator.output = output;
+        generators.push(generator);
         break;
       }
       case "enum": {
@@ -536,7 +547,7 @@ function build(blocks: BlockNode[]): SchemaModel {
   }
 
   resolveRelations(models);
-  return { datasources, models, enums, types };
+  return { datasources, generators, models, enums, types };
 }
 
 /**
