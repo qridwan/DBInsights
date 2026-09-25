@@ -21,15 +21,42 @@ jobs:
 
   python:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: services
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: dbinsight
+          POSTGRES_PASSWORD: dbinsight
+          POSTGRES_DB: dbinsight
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U dbinsight"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      # Enables the catalog-reader integration tests.
+      DBINSIGHT_TEST_DATABASE_URL: postgresql://dbinsight:dbinsight@localhost:5432/dbinsight
     steps:
       - uses: actions/checkout@v4
+      # The Python services call the TypeScript core as a subprocess; build it
+      # so the bridge tests run instead of skipping.
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile --filter @dbinsight/core
+      - run: pnpm --filter @dbinsight/core build
       - uses: astral-sh/setup-uv@v6
         with:
           python-version: "3.12"
       - run: uv sync
+        working-directory: services
       - run: uv run ruff check .
+        working-directory: services
       - run: uv run ruff format --check .
+        working-directory: services
       - run: uv run pytest
+        working-directory: services

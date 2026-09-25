@@ -23,7 +23,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "rm -rf dist && tsup",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
@@ -35,5 +35,8 @@
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
     "vitest": "^5.0.2"
+  },
+  "bin": {
+    "dbinsight-core": "./dist/cli.js"
   }
 }
