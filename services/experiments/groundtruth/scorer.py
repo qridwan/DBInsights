@@ -11,12 +11,16 @@ A finding matches an entry when both hold:
 1. Problem type: the finding's rule maps (via RULE_PROBLEM_TYPES) to the
    entry's problem type. Any rule of that type counts, so a problem reported
    by the static rule or by a runtime/correlated rule scores the same.
-2. Location, either of:
+2. Location, any of:
    - code: same file, and the finding's [line, endLine] overlaps the entry's
      [line, endLine];
    - data: an evidence item's `data` names the entry's table (and column, when
      the entry has one) as `table` plus `column` or `columns`. Comparison is
-     case-insensitive and ignores quoting and a `public.` schema prefix.
+     case-insensitive and ignores quoting and a `public.` schema prefix;
+   - endpoint: an evidence item's `data.route` is the entry's endpoint path.
+     Runtime findings have no source line and locate themselves this way.
+     `/api/orders/[id]` (Next.js) and `/api/orders/:id` (manifest) are the
+     same pattern; the HTTP method and query string are ignored.
 
 Entries and findings are paired one-to-one by maximum bipartite matching, so
 the result does not depend on input order. A matched pair is a true positive.
@@ -160,10 +164,35 @@ def _data_matches(entry: ManifestEntry, finding: Finding) -> bool:
     )
 
 
+def _route_pattern(route: str) -> str:
+    """'GET /api/orders/:id?x=1' or '/api/orders/[id]' -> '/api/orders/:'."""
+    path = route.split(" ", 1)[-1].split("?", 1)[0].rstrip("/") or "/"
+    segments = [
+        ":" if s.startswith(":") or (s.startswith("[") and s.endswith("]")) else s
+        for s in path.split("/")
+    ]
+    return "/".join(segments)
+
+
+def _endpoint_matches(entry: ManifestEntry, finding: Finding) -> bool:
+    if entry.endpoint is None:
+        return False
+    expected = _route_pattern(entry.endpoint)
+    return any(
+        isinstance((evidence.data or {}).get("route"), str)
+        and _route_pattern(evidence.data["route"]) == expected
+        for evidence in finding.evidence
+    )
+
+
 def _matches(entry: ManifestEntry, finding: Finding) -> bool:
     if RULE_PROBLEM_TYPES.get(finding.rule_id) is not entry.problem_type:
         return False
-    return _code_matches(entry, finding) or _data_matches(entry, finding)
+    return (
+        _code_matches(entry, finding)
+        or _data_matches(entry, finding)
+        or _endpoint_matches(entry, finding)
+    )
 
 
 # ---------------------------------------------------------------------------

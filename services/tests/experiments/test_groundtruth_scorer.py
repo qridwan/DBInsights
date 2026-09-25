@@ -171,6 +171,29 @@ def test_entry_with_both_locations_matches_either(make_manifest, make_entry, mak
     assert run(make_manifest(entry), [runtime]).aggregate.tp == 1
 
 
+@pytest.mark.parametrize(
+    ("entry_endpoint", "finding_route", "matches"),
+    [
+        ("GET /api/orders/recent", "/api/orders/recent", True),
+        ("GET /api/orders/:id/invoice", "/api/orders/[id]/invoice", True),
+        ("GET /api/orders?status=PENDING", "/api/orders", True),
+        ("GET /api/orders/:id/invoice", "/api/orders/[id]", False),
+        ("GET /api/orders/recent", "/api/orders/[id]", False),
+    ],
+)
+def test_endpoint_matching_for_runtime_findings(
+    make_manifest, make_entry, make_finding, entry_endpoint, finding_route, matches
+):
+    finding = make_finding(
+        ruleId="RUNTIME_N_PLUS_ONE",
+        file=f"route:{finding_route}",
+        line=0,
+        evidence=[{"source": "RUNTIME", "description": "x", "data": {"route": finding_route}}],
+    )
+    report = run(make_manifest(make_entry(endpoint=entry_endpoint)), [finding])
+    assert report.aggregate.tp == (1 if matches else 0)
+
+
 def test_metrics_are_undefined_rather_than_zero_without_denominators(make_manifest, make_entry):
     s = by_type(run(make_manifest(make_entry()), []), ProblemType.N_PLUS_ONE)
     assert (s.tp, s.fp, s.fn) == (0, 0, 1)

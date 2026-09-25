@@ -1,0 +1,15 @@
+{
+  "_comment": "Where the harness gets values for endpoint placeholders. Keys are '<segment>/:<param>' for path parameters or '?<name>=' for empty query parameters. Each query must return one text column in a deterministic order; the harness picks from it with a seeded RNG. Queries are read-only.",
+  "ecommerce": {
+    "categories/:slug": "SELECT slug FROM \"Category\" ORDER BY slug",
+    "customers/:id": "SELECT c.id::text FROM \"Customer\" c WHERE EXISTS (SELECT 1 FROM \"Order\" o WHERE o.\"customerId\" = c.id) ORDER BY c.id LIMIT 100",
+    "orders/:id": "SELECT o.id::text FROM \"Order\" o JOIN \"Customer\" c ON c.id = o.\"customerId\" WHERE (SELECT count(*) FROM \"OrderItem\" i WHERE i.\"orderId\" = o.id) >= 3 ORDER BY o.id LIMIT 100",
+    "products/:id": "SELECT p.id::text FROM \"Product\" p WHERE EXISTS (SELECT 1 FROM \"Review\" r WHERE r.\"productId\" = p.id) ORDER BY p.id LIMIT 100"
+  },
+  "blog": {
+    "authors/:id": "SELECT a.id::text FROM \"Author\" a WHERE EXISTS (SELECT 1 FROM \"Post\" p WHERE p.\"authorId\" = a.id) ORDER BY a.id LIMIT 100",
+    "posts/:slug": "SELECT p.slug FROM \"Post\" p WHERE p.status = 'PUBLISHED' AND EXISTS (SELECT 1 FROM \"PostTag\" t WHERE t.\"postId\" = p.id) ORDER BY p.slug LIMIT 100",
+    "tags/:slug": "SELECT slug FROM \"Tag\" ORDER BY slug",
+    "?email=": "SELECT \"authorEmail\" FROM \"Comment\" WHERE \"authorEmail\" IS NOT NULL GROUP BY 1 ORDER BY count(*) DESC, 1 LIMIT 100"
+  }
+}

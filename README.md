@@ -15,8 +15,9 @@ DBInsight is a hybrid static and runtime analysis framework that detects databas
   4. [Inject the data-quality ground truth](#4-inject-the-data-quality-ground-truth)
   5. [Compare declared and actual schema (RQ6)](#5-compare-declared-and-actual-schema-rq6)
   6. [Watch runtime queries](#6-watch-runtime-queries)
-  7. [Score findings against the ground truth](#7-score-findings-against-the-ground-truth)
-  8. [Run the test suites](#8-run-the-test-suites)
+  7. [Load harness, runtime N+1 and collector overhead](#7-load-harness-runtime-n1-and-collector-overhead)
+  8. [Score findings against the ground truth](#8-score-findings-against-the-ground-truth)
+  9. [Run the test suites](#9-run-the-test-suites)
 - [Resetting](#resetting)
 
 ---
@@ -49,7 +50,9 @@ flowchart LR
     GT["ground truth:<br/>manifests · injection · scorer"]
     API["collector service<br/>(FastAPI)"]
     FP["SQL fingerprinting<br/>(SQLGlot AST)"]
-    RES[("results DB<br/>runtime.operation /<br/>runtime.statement")]
+    RES[("results DB<br/>runtime.* · experiments.*")]
+    RT["runtime N+1 detector"]
+    LOAD["load harness<br/>(fixed seed, ABBA overhead)"]
   end
 
   DECL --> PARSE --> RULES
@@ -61,6 +64,9 @@ flowchart LR
   RULES -->|Finding[]| GT
   DIV -->|Finding[]| GT
   COL -->|batched events,<br/>off the request path| API --> FP --> RES
+  LOAD -->|HTTP| App
+  LOAD -->|requests, CPU/memory samples| RES
+  RES --> RT -->|Finding[]| GT
 ```
 
 ### Evidence layers
@@ -70,7 +76,7 @@ flowchart LR
 | Static ORM analysis | application source (ts-morph + type checker) | `packages/core` | no | done (M1) |
 | Declared schema | `schema.prisma` | `packages/core` | no | done (M1) |
 | Actual schema | `information_schema`, `pg_catalog` | `services/analyzers/schema` | yes | done (M3.1) |
-| Runtime | Prisma client extension + driver-adapter wrapper, per-request SQL | `packages/collector`, `services/api` | yes | capture + fingerprinting done (M3.2); N+1 detection M3.3 |
+| Runtime | Prisma client extension + driver-adapter wrapper, per-request SQL | `packages/collector`, `services/api`, `services/analyzers/runtime` | yes | done (M3.2–M3.3) |
 | SQL | generated SQL (SQLGlot) | `services/analyzers` | yes | planned |
 | Data quality | profiles + learned-baseline anomaly detection | `services/analyzers` | yes | M4 |
 
@@ -122,8 +128,10 @@ services/                 Python 3.12, uv
   analyzers/core_bridge.py  calls packages/core as a subprocess
   analyzers/schema/       declared + actual schema, divergence comparator
   analyzers/sql/          query fingerprinting (SQLGlot AST normalization)
+  analyzers/runtime/      runtime N+1 detection over collected requests
   api/                    collector service (FastAPI) + runtime event storage
   experiments/groundtruth/  manifests, data-quality injection, scorer
+  experiments/load/       load harness: fixed sequences, repeatability, collector overhead
 apps/ecommerce/           test application 1 (Next.js + Prisma + Postgres)
 apps/blog/                test application 2
 fixtures/                 synthetic inputs for analyzer tests; recorded Prisma SQL
@@ -139,7 +147,8 @@ docker/postgres/init/     creates the ecommerce and blog databases
 | M2 | Ground truth: 30 performance, 12 data-quality, 4 divergence problems; scorer | done |
 | M3.1 | Actual-schema reader + divergence comparator | done |
 | M3.2 | Runtime collector, collector service, AST query fingerprinting | done |
-| M3.3–M3.4 | Load harness, runtime N+1, collector overhead | next |
+| M3.3 | Load harness, runtime N+1 detection, collector overhead (RQ5) | done |
+| M3.4 | M3 exit check | next |
 | M4–M8 | Data quality, correlation, ablation, real-world validation, dashboard | planned |
 
 Static rules implemented in the core:
@@ -326,7 +335,53 @@ DBINSIGHT_COLLECTOR_URL= docker compose up -d ecommerce blog    # off: no hook i
 docker compose up -d ecommerce blog                             # back on
 ```
 
-### 7. Score findings against the ground truth
+### 7. Load harness, runtime N+1 and collector overhead
+
+The harness requests every endpoint recorded in an app's ground-truth manifest. Path parameters are filled from read-only SQL in [`params.json`](services/experiments/load/params.json), picked with a seeded RNG, so a given seed always sends the identical sequence. Requests are sequential over one keep-alive connection. Every request, every run window and every CPU/memory sample is stored raw in the results database (schema `experiments`); aggregation only happens when reporting.
+
+```bash
+cd services
+uv run python -m experiments.load plan --app ecommerce --repetitions 1 | jq '.[] | {entry_id, path}'   # preview
+uv run python -m experiments.load run  --app ecommerce --repetitions 3
+```
+
+**Repeatability**: N identical runs, reporting how much the collector's query counts vary (must be under 5%):
+
+```bash
+uv run python -m experiments.load repeatability --app ecommerce --runs 5 --repetitions 3 \
+  | jq '{session, totals, max_relative_deviation, worst_route_relative_deviation, passes}'
+```
+
+**Runtime N+1**: within one request, the same query fingerprint executing more than `--threshold` times (default 2, i.e. 3+ executions; a query run exactly twice is the separate *repeated identical query* problem):
+
+```bash
+uv run python -m analyzers.runtime --app ecommerce --session <session-id> > /tmp/runtime.json
+jq '.[] | .evidence[0].data | {route, model, operation, maxExecutionsPerRequest, requestsAffected}' /tmp/runtime.json
+uv run python -m experiments.groundtruth --manifest experiments/groundtruth/manifests/ecommerce.json \
+  --findings /tmp/runtime.json | jq '.perProblemType[] | select(.problemType == "n_plus_one")'
+```
+
+Runtime findings have no source line; they carry the route in their evidence and the scorer matches it to the manifest entry's endpoint.
+
+**Collector overhead (RQ5)**: the collector is switched on and off by recreating the app container, in ABBA order (on, off, off, on) so drift over the session cancels. Each block runs an unrecorded warm-up pass, then the measured run. CPU and memory come from the containers' cgroup v2 counters, read immediately before and after each run: the CPU delta is the exact CPU time the run consumed (reported per request), independent of sampling. `docker stats` samples are kept alongside as a coarse time series. Each run is checked afterwards to have really been in the state it claims (`collector_verified`).
+
+```bash
+uv run python -m experiments.load overhead --app ecommerce --cycles 2 --repetitions 5 \
+  | jq '{session, latency, median_overhead_ms, median_overhead_ratio, cost}'
+uv run python -m experiments.load report --session <session-id>     # recompute from the raw rows
+cd ..
+```
+
+Raw data, for your own analysis:
+
+```bash
+docker compose exec postgres psql -U dbinsight -d dbinsight -c "
+  SELECT r.collector_enabled, count(*) AS requests, round(percentile_cont(0.5) WITHIN GROUP (ORDER BY q.latency_ms)::numeric, 2) AS median_ms
+  FROM experiments.load_request q JOIN experiments.load_run r USING (run_id)
+  WHERE NOT r.warmup GROUP BY 1"
+```
+
+### 8. Score findings against the ground truth
 
 Any `Finding[]`, from any layer, is scored the same way:
 
@@ -350,7 +405,7 @@ uv run python -m experiments.groundtruth \
 
 Matching is by **problem type and location**: code findings must overlap the manifest entry's lines; data and schema findings match on the `table`/`column` named in their evidence. See the module docstring of [`scorer.py`](services/experiments/groundtruth/scorer.py) for the exact rules.
 
-### 8. Run the test suites
+### 9. Run the test suites
 
 ```bash
 pnpm typecheck && pnpm test              # TypeScript: core (parser, ORM location, data-flow, rules, CLI) + collector
