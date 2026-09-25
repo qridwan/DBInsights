@@ -1,0 +1,901 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>DBInsight</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+  :root{
+    color-scheme: light;
+    --paper:#F4F6F8;
+    --surface:#FFFFFF;
+    --surface-2:#EDF1F5;
+    --ink:#141A21;
+    --ink-2:#39424E;
+    --muted:#5E6875;
+    --line:#D9E0E7;
+    --line-2:#C2CCD6;
+    --accent:#1B5B88;
+    --accent-ink:#0F4467;
+    --accent-tint:#E2EDF5;
+    --accent-2:#6B5E8C;
+    --ok:#3F7A4E;
+    --warn:#9A6B1F;
+    --crit:#A2402F;
+    --radius:3px;
+  }
+
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      color-scheme: dark;
+      --paper:#0C1015;
+      --surface:#141A21;
+      --surface-2:#1B222B;
+      --ink:#E3E9EF;
+      --ink-2:#BCC6D2;
+      --muted:#8E9BAA;
+      --line:#242D38;
+      --line-2:#33404E;
+      --accent:#6BADDD;
+      --accent-ink:#9BCBEC;
+      --accent-tint:#16283A;
+      --accent-2:#A396C4;
+      --ok:#6FAE7D;
+      --warn:#D0A153;
+      --crit:#D97D68;
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --paper:#0C1015;
+    --surface:#141A21;
+    --surface-2:#1B222B;
+    --ink:#E3E9EF;
+    --ink-2:#BCC6D2;
+    --muted:#8E9BAA;
+    --line:#242D38;
+    --line-2:#33404E;
+    --accent:#6BADDD;
+    --accent-ink:#9BCBEC;
+    --accent-tint:#16283A;
+    --accent-2:#A396C4;
+    --ok:#6FAE7D;
+    --warn:#D0A153;
+    --crit:#D97D68;
+  }
+
+  *{box-sizing:border-box}
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Source Serif 4", Georgia, "Times New Roman", serif;
+    font-size:17px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .mono{font-family:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace}
+
+  /* ---------- nav ---------- */
+  nav{
+    position:sticky;
+    top:env(safe-area-inset-top, 0px);
+    z-index:20;
+    background:color-mix(in srgb, var(--paper) 92%, transparent);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:1080px;
+    margin:0 auto;
+    padding:0 16px;
+    display:flex;
+    align-items:center;
+    gap:20px;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .nav-inner::-webkit-scrollbar{display:none}
+  .nav-mark{
+    font-family:"Archivo", system-ui, sans-serif;
+    font-weight:700;
+    font-size:14px;
+    letter-spacing:-0.01em;
+    padding:13px 0;
+    white-space:nowrap;
+    color:var(--ink);
+  }
+  .nav-inner a{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:11.5px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    color:var(--muted);
+    text-decoration:none;
+    padding:13px 0;
+    white-space:nowrap;
+    border-bottom:2px solid transparent;
+  }
+  .nav-inner a:hover{color:var(--accent); border-bottom-color:var(--accent)}
+  .nav-inner a:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+  /* ---------- shell ---------- */
+  .wrap{
+    max-width:1080px;
+    margin:0 auto;
+    padding-inline:16px;
+    padding-block:0;
+  }
+  .col{max-width:70ch}
+
+  section{
+    padding-block:52px;
+    border-bottom:1px solid var(--line);
+  }
+  section:last-of-type{border-bottom:none}
+
+  /* ---------- type ---------- */
+  h1,h2,h3,h4{
+    font-family:"Archivo", system-ui, sans-serif;
+    text-wrap:balance;
+    margin:0;
+    letter-spacing:-0.015em;
+  }
+  h1{font-size:clamp(30px,4.6vw,46px); font-weight:700; line-height:1.1}
+  h2{font-size:clamp(22px,2.8vw,29px); font-weight:600; line-height:1.18}
+  h3{font-size:18px; font-weight:600; line-height:1.3}
+  h4{font-size:15px; font-weight:600}
+
+  p{margin:0 0 1.05em}
+  p:last-child{margin-bottom:0}
+
+  .eyebrow{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin:0 0 12px;
+    display:block;
+  }
+  .lede{font-size:19px; color:var(--ink-2); line-height:1.58}
+  .small{font-size:15px; color:var(--muted)}
+
+  a{color:var(--accent-ink)}
+
+  /* ---------- header ---------- */
+  header.hero{
+    padding-block:56px 44px;
+    border-bottom:1px solid var(--line);
+  }
+  .hero-meta{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:11.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--muted);
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px 18px;
+    margin-bottom:22px;
+  }
+  .hero h1{margin-bottom:18px; max-width:20ch}
+  .hero .subtitle{
+    font-size:19px;
+    color:var(--ink-2);
+    max-width:62ch;
+    margin-bottom:26px;
+  }
+  .claim{
+    border-left:3px solid var(--accent);
+    padding:14px 0 14px 18px;
+    max-width:62ch;
+    font-size:17px;
+    color:var(--ink-2);
+  }
+  .claim strong{color:var(--ink); font-weight:600}
+
+  /* ---------- prior art ---------- */
+  .priors{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(224px,1fr));
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    margin-top:26px;
+  }
+  .prior{
+    background:var(--surface);
+    padding:18px 18px 20px;
+  }
+  .prior .who{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:11px;
+    letter-spacing:0.07em;
+    text-transform:uppercase;
+    color:var(--accent);
+    display:block;
+    margin-bottom:7px;
+  }
+  .prior p{font-size:14.5px; line-height:1.55; color:var(--ink-2); margin:0}
+
+  /* ---------- rq list ---------- */
+  .rq{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:10px 16px;
+    align-items:baseline;
+    margin-top:8px;
+  }
+  .rq dt{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:12.5px;
+    font-weight:500;
+    color:var(--accent);
+    letter-spacing:0.02em;
+  }
+  .rq dd{margin:0; font-size:16.5px; color:var(--ink-2)}
+  .rq dd.new{color:var(--ink)}
+  .tag-new{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:9.5px;
+    letter-spacing:0.09em;
+    text-transform:uppercase;
+    background:var(--accent-tint);
+    color:var(--accent-ink);
+    padding:2px 6px;
+    margin-left:8px;
+    vertical-align:2px;
+    white-space:nowrap;
+  }
+
+  /* ---------- approaches ---------- */
+  .approach{
+    border:1px solid var(--line);
+    border-left:3px solid var(--line-2);
+    background:var(--surface);
+    padding:16px 18px;
+    margin-bottom:10px;
+  }
+  .approach.b{border-left-color:var(--accent)}
+  .approach.c{border-left-color:var(--accent-2)}
+  .approach h4{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:12.5px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    margin-bottom:6px;
+    color:var(--ink);
+  }
+  .approach p{font-size:15.5px; color:var(--ink-2); margin:0}
+  .approach .cost{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:11.5px;
+    color:var(--muted);
+    margin-top:8px;
+    display:block;
+  }
+
+  /* ---------- tables ---------- */
+  .tablewrap{overflow-x:auto; margin-top:22px; border:1px solid var(--line)}
+  table{
+    border-collapse:collapse;
+    width:100%;
+    min-width:560px;
+    background:var(--surface);
+    font-family:"IBM Plex Mono", monospace;
+    font-size:12.5px;
+  }
+  th,td{
+    text-align:left;
+    padding:9px 12px;
+    border-bottom:1px solid var(--line);
+    white-space:nowrap;
+  }
+  th{
+    background:var(--surface-2);
+    font-weight:500;
+    font-size:11px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  tbody tr:last-child td{border-bottom:none}
+  td.yes{color:var(--accent); font-weight:500}
+  td.no{color:var(--line-2)}
+  .cfg{font-weight:500; color:var(--ink)}
+  tr.full td{background:var(--accent-tint)}
+
+  .caption{
+    font-size:14px;
+    color:var(--muted);
+    margin-top:12px;
+    max-width:66ch;
+  }
+
+  /* ---------- metrics ---------- */
+  .metrics{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:20px;
+  }
+  .metric{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:12px;
+    border:1px solid var(--line);
+    background:var(--surface);
+    padding:6px 11px;
+    color:var(--ink-2);
+  }
+
+  /* ---------- diagram ---------- */
+  figure{margin:0}
+  .diagram{
+    background:var(--surface);
+    border:1px solid var(--line);
+    padding:20px 16px;
+    margin-top:22px;
+    overflow-x:auto;
+  }
+  .diagram svg{display:block; width:100%; min-width:520px; max-width:760px; margin:0 auto; height:auto}
+
+  /* ---------- milestones ---------- */
+  .ms-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(272px,1fr));
+    gap:14px;
+    margin-top:24px;
+  }
+  .ms{
+    background:var(--surface);
+    border:1px solid var(--line);
+    padding:16px 17px 18px;
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+  }
+  .ms-head{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap}
+  .ms-id{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:12px;
+    font-weight:500;
+    color:var(--accent);
+    letter-spacing:0.03em;
+  }
+  .ms h3{font-size:16px; flex:1; min-width:0}
+  .ms .dep{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:10.5px;
+    color:var(--muted);
+    letter-spacing:0.03em;
+  }
+  .ms .build{font-size:14.5px; color:var(--ink-2); margin:0}
+  .ms ul{
+    margin:0;
+    padding-left:0;
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .ms li{
+    font-size:13.5px;
+    color:var(--muted);
+    line-height:1.45;
+    padding-left:16px;
+    position:relative;
+  }
+  .ms li::before{
+    content:"";
+    position:absolute;
+    left:0; top:0.55em;
+    width:7px; height:7px;
+    border:1px solid var(--line-2);
+  }
+  .ms-label{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:10px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--muted);
+    border-top:1px solid var(--line);
+    padding-top:10px;
+  }
+  .ms.pivotal{border-color:var(--accent); border-width:1px 1px 1px 3px}
+  .ms.optional{opacity:0.82}
+  .ms.optional .ms-id{color:var(--muted)}
+
+  /* ---------- limits ---------- */
+  .limits{
+    margin:22px 0 0;
+    padding:0;
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:13px;
+    max-width:70ch;
+  }
+  .limits li{
+    font-size:16px;
+    color:var(--ink-2);
+    padding-left:20px;
+    border-left:2px solid var(--line-2);
+  }
+
+  /* ---------- docs ---------- */
+  .docs{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:12px;
+    margin-top:22px;
+  }
+  .doc{
+    background:var(--surface);
+    border:1px solid var(--line);
+    padding:15px 16px 17px;
+  }
+  .doc .kind{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:10px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--muted);
+    display:block;
+    margin-bottom:6px;
+  }
+  .doc h4{margin-bottom:5px; font-size:15.5px}
+  .doc p{font-size:13.5px; color:var(--muted); margin:0; line-height:1.5}
+
+  .note{
+    background:var(--accent-tint);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    padding:15px 18px;
+    margin-top:26px;
+    font-size:15.5px;
+    color:var(--ink-2);
+    max-width:70ch;
+  }
+  .note strong{color:var(--ink); font-weight:600}
+
+  footer{
+    padding-block:34px 44px;
+    font-family:"IBM Plex Mono", monospace;
+    font-size:11.5px;
+    letter-spacing:0.05em;
+    color:var(--muted);
+    text-transform:uppercase;
+  }
+
+  @media (max-width:560px){
+    body{font-size:16px}
+    section{padding-block:40px}
+    .hero{padding-block:40px 34px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important; transition:none!important}
+  }
+</style>
+
+<nav>
+  <div class="nav-inner">
+    <span class="nav-mark">DBInsight</span>
+    <a href="#gap">Gap</a>
+    <a href="#questions">Questions</a>
+    <a href="#method">Method</a>
+    <a href="#architecture">Architecture</a>
+    <a href="#plan">Plan</a>
+    <a href="#limits">Limits</a>
+    <a href="#documents">Documents</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="hero-meta">
+      <span>PMIT-6000 Research Project</span>
+      <span>IIT · Jahangirnagar University</span>
+      <span>Ridwan</span>
+      <span>September 2026</span>
+    </div>
+    <h1>A hybrid static and runtime analysis framework for ORM-based applications</h1>
+    <p class="subtitle">Detecting database performance and data-quality problems by correlating evidence across application source code, the ORM layer, generated SQL, schema metadata, runtime query behaviour, and the data itself — then measuring whether that correlation actually helps.</p>
+    <div class="claim">
+      <strong>The contribution is the correlation and its measurement, not any single detection technique.</strong> N+1 detection, index advice and query fingerprinting all exist in shipping tools. What does not exist is a controlled measurement of whether combining five evidence layers detects more, and more reliably, than any one of them alone.
+    </div>
+  </header>
+
+  <section id="gap">
+    <div class="col">
+      <span class="eyebrow">01 — Why now</span>
+      <h2>The gap is real, and one vendor just vacated it</h2>
+      <p class="lede" style="margin-top:16px">Existing tools sit on one side of the application-to-database boundary or the other. None reason across it, and the ORM vendor that tried abandoned the attempt in March 2026.</p>
+    </div>
+
+    <div class="priors">
+      <div class="prior">
+        <span class="who">Prisma Optimize</span>
+        <p>Shipped almost this exact feature set, then sunset in March 2026. The published post-mortem names a client extension for monitoring as the primary adoption blocker. Its replacement is tied to Prisma's own hosted Postgres.</p>
+      </div>
+      <div class="prior">
+        <span class="who">pganalyze</span>
+        <p>Mature Postgres-side index advisor with enterprise deployments. Its own documentation concedes the boundary problem: slow queries can be hidden by ORM calls in application code.</p>
+      </div>
+      <div class="prior">
+        <span class="who">Scout APM</span>
+        <p>Runtime N+1 detection for Prisma by instrumenting the query engine. Grounded in real behaviour, but reasons about neither schema nor data distribution.</p>
+      </div>
+      <div class="prior">
+        <span class="who">Reformulator · ASE 2022</span>
+        <p>Static data-flow analysis that automatically refactors N+1 patterns in Sequelize. Proves the technique is viable — and marks remediation as territory this project deliberately does not enter.</p>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>Positioning follows from this.</strong> The project claims no novelty in N+1 detection, index recommendation, query fingerprinting or anomaly detection. Each already exists. The claim is the multi-layer correlation, the controlled comparison of evidence configurations, and the measurement of how much is achievable without a database connection at all.
+    </div>
+  </section>
+
+  <section id="questions">
+    <div class="col">
+      <span class="eyebrow">02 — Research questions</span>
+      <h2>Six questions, one of them new to this revision</h2>
+      <dl class="rq">
+        <dt>RQ1</dt><dd>How effectively can a hybrid static and runtime framework detect database performance and data-quality problems in ORM-based applications?</dd>
+        <dt>RQ2</dt><dd>Does ORM-aware source analysis detect problems that SQL analysis alone misses?</dd>
+        <dt>RQ3</dt><dd>Does combining static analysis with runtime behaviour improve precision and recall?</dd>
+        <dt>RQ4</dt><dd>Can statistical anomaly detection identify unexpected changes in query behaviour and data characteristics?</dd>
+        <dt>RQ5</dt><dd>What trade-offs exist between detection accuracy, false positives, and analysis overhead?</dd>
+        <dt>RQ6</dt><dd class="new">To what extent does an ORM's <em>declared</em> schema diverge from the database's <em>actual</em> schema, and what does that divergence cost findings derived from the declared schema alone?<span class="tag-new">new</span></dd>
+      </dl>
+
+      <h3 style="margin-top:34px">Hypotheses</h3>
+      <dl class="rq" style="margin-top:14px">
+        <dt>H1</dt><dd>Hybrid analysis detects a broader range of issues than static SQL analysis alone.</dd>
+        <dt>H2</dt><dd>ORM-aware analysis improves detection of application-level anti-patterns such as N+1.</dd>
+        <dt>H3</dt><dd>Runtime analysis provides stronger evidence for performance findings than static analysis alone.</dd>
+        <dt>H4</dt><dd>Statistical anomaly detection identifies meaningful changes in query behaviour and data distributions.</dd>
+        <dt>H5</dt><dd class="new">A substantial share of index findings obtainable from the live database are also obtainable from the declared schema alone — making them available with no database connection.<span class="tag-new">new</span></dd>
+      </dl>
+    </div>
+  </section>
+
+  <section id="method">
+    <div class="col">
+      <span class="eyebrow">03 — Method</span>
+      <h2>Evidence configurations, ordered by what they cost to obtain</h2>
+      <p class="lede" style="margin-top:16px">The three approaches differ in which evidence sources each may use. They are ordered deliberately by operational cost, so the comparison answers a practical question and not only a methodological one.</p>
+    </div>
+
+    <div style="margin-top:24px; max-width:76ch">
+      <div class="approach a">
+        <h4>Approach A — Static SQL</h4>
+        <p>Raw SQL through the SQL analyzer. No ORM source, no schema, no database.</p>
+        <span class="cost">Baseline</span>
+      </div>
+      <div class="approach b">
+        <h4>Approach B — Static source + declared schema</h4>
+        <p>ORM source, raw SQL and <span class="mono">schema.prisma</span> through the static analyzers. Everything already present in a source repository.</p>
+        <span class="cost">Repository read access only · no database, no instrumentation</span>
+      </div>
+      <div class="approach c">
+        <h4>Approach C — Hybrid</h4>
+        <p>Everything in B, plus live <span class="mono">information_schema</span> metadata, runtime query behaviour and data-quality statistics, merged by the correlation engine.</p>
+        <span class="cost">Database credentials + production instrumentation</span>
+      </div>
+    </div>
+
+    <div class="col" style="margin-top:34px">
+      <h3>The B/C boundary is the central design decision</h3>
+      <p style="margin-top:12px">The ORM's schema file is a static source artifact, but it encodes declared indexes, relations and field types — information prior work treats as inherently database-side. In ORM projects it is partly recoverable from source. Approach B is constructed to measure exactly how much, which is why the experiment runs as a six-configuration ablation rather than three coarse buckets.</p>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <caption class="mono" style="caption-side:top; text-align:left; padding:10px 12px; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); background:var(--surface-2); border-bottom:1px solid var(--line)">Ablation — evidence layers per configuration</caption>
+        <thead>
+          <tr>
+            <th>Config</th>
+            <th>Static ORM</th>
+            <th>SQL</th>
+            <th>Declared schema</th>
+            <th>Actual schema</th>
+            <th>Runtime</th>
+            <th>Data stats</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="cfg">A</td><td class="no">—</td><td class="yes">✓</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+          <tr><td class="cfg">B1</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+          <tr><td class="cfg">B2</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+          <tr><td class="cfg">C1</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">—</td><td class="no">—</td></tr>
+          <tr><td class="cfg">C2</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">—</td></tr>
+          <tr class="full"><td class="cfg">C3</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="caption">B1→B2 isolates what the declared schema contributes (H5, RQ6). B2→C1 isolates what a live database adds over it — the core RQ6 comparison. C1→C2 isolates runtime (H3, RQ3). Ten or more repetitions per configuration, reported as means with confidence intervals.</p>
+
+    <div class="col" style="margin-top:34px">
+      <h3>Ground truth and measurement</h3>
+      <p style="margin-top:12px">Two purpose-built Prisma/PostgreSQL applications — e-commerce and blog/CMS — carry deliberately injected problems recorded in a machine-readable manifest. Purpose-built applications are used because precision and recall require the ground truth to be fully known. A separate real-world validation study (M6) compensates for the external-validity cost.</p>
+      <div class="metrics">
+        <span class="metric">Precision</span>
+        <span class="metric">Recall</span>
+        <span class="metric">F1</span>
+        <span class="metric">False-positive rate</span>
+        <span class="metric">Detection latency</span>
+        <span class="metric">Analysis overhead</span>
+        <span class="metric">Schema divergence</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="architecture">
+    <div class="col">
+      <span class="eyebrow">04 — Architecture</span>
+      <h2>Two boundaries define the system</h2>
+      <p class="lede" style="margin-top:16px">One separates evidence that costs nothing to obtain from evidence that requires privileged access. The other separates everything measured from the generated text that is not.</p>
+    </div>
+
+    <figure class="diagram">
+      <svg viewBox="0 0 720 560" role="img" aria-labelledby="archtitle archdesc">
+        <title id="archtitle">DBInsight evidence stack</title>
+        <desc id="archdesc">Six evidence layers stacked vertically. The top three — ORM source code, raw SQL, and the declared schema file — sit above a dashed boundary marking the limit of Approach B, which needs only repository read access. Below that boundary sit the actual schema from information_schema, the runtime query stream, and the data profile, all of which require database access. All six feed a finding correlation engine. A second dashed boundary below the engine separates the measured deterministic pipeline from an AI explanation layer that only consumes findings.</desc>
+
+        <g font-family="IBM Plex Mono, monospace">
+
+          <!-- Group label: Approach B -->
+          <text x="24" y="26" font-size="10.5" letter-spacing="1.4" fill="var(--accent)">SOURCE REPOSITORY</text>
+
+          <!-- Layer 1 -->
+          <rect x="24" y="38" width="440" height="46" fill="var(--accent-tint)" stroke="var(--accent)" stroke-width="1"/>
+          <text x="40" y="60" font-size="13" fill="var(--ink)">ORM source code</text>
+          <text x="40" y="76" font-size="10.5" fill="var(--muted)">ts-morph AST · call sites, loop context, data flow</text>
+          <text x="700" y="66" font-size="10.5" fill="var(--muted)" text-anchor="end">free</text>
+
+          <!-- Layer 2 -->
+          <rect x="24" y="92" width="440" height="46" fill="var(--accent-tint)" stroke="var(--accent)" stroke-width="1"/>
+          <text x="40" y="114" font-size="13" fill="var(--ink)">Raw SQL</text>
+          <text x="40" y="130" font-size="10.5" fill="var(--muted)">SQLGlot parse · joins, filters, missing LIMIT</text>
+          <text x="700" y="120" font-size="10.5" fill="var(--muted)" text-anchor="end">free</text>
+
+          <!-- Layer 3 -->
+          <rect x="24" y="146" width="440" height="46" fill="var(--accent-tint)" stroke="var(--accent)" stroke-width="1"/>
+          <text x="40" y="168" font-size="13" fill="var(--ink)">Declared schema</text>
+          <text x="40" y="184" font-size="10.5" fill="var(--muted)">schema.prisma · models, relations, declared indexes</text>
+          <text x="700" y="174" font-size="10.5" fill="var(--muted)" text-anchor="end">free</text>
+
+          <!-- Boundary 1 -->
+          <line x1="24" y1="212" x2="700" y2="212" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="6 4"/>
+          <text x="24" y="228" font-size="10.5" letter-spacing="0.9" fill="var(--accent)">APPROACH B CEILING — NO DATABASE CONNECTION REQUIRED</text>
+
+          <!-- Layer 4 -->
+          <rect x="24" y="242" width="440" height="46" fill="var(--surface-2)" stroke="var(--line-2)" stroke-width="1"/>
+          <text x="40" y="264" font-size="13" fill="var(--ink)">Actual schema</text>
+          <text x="40" y="280" font-size="10.5" fill="var(--muted)">information_schema · indexes as they truly exist</text>
+          <text x="700" y="270" font-size="10.5" fill="var(--muted)" text-anchor="end">credentials</text>
+
+          <!-- Layer 5 -->
+          <rect x="24" y="296" width="440" height="46" fill="var(--surface-2)" stroke="var(--line-2)" stroke-width="1"/>
+          <text x="40" y="318" font-size="13" fill="var(--ink)">Runtime query stream</text>
+          <text x="40" y="334" font-size="10.5" fill="var(--muted)">fingerprints · per-request repetition · P95/P99</text>
+          <text x="700" y="324" font-size="10.5" fill="var(--muted)" text-anchor="end">instrumentation</text>
+
+          <!-- Layer 6 -->
+          <rect x="24" y="350" width="440" height="46" fill="var(--surface-2)" stroke="var(--line-2)" stroke-width="1"/>
+          <text x="40" y="372" font-size="13" fill="var(--ink)">Data profile</text>
+          <text x="40" y="388" font-size="10.5" fill="var(--muted)">NULL rate · duplicates · cardinality · Z-score, IQR</text>
+          <text x="700" y="378" font-size="10.5" fill="var(--muted)" text-anchor="end">credentials</text>
+
+          <!-- converge -->
+          <path d="M 244 396 L 244 418" stroke="var(--line-2)" stroke-width="1.5" fill="none"/>
+          <path d="M 240 414 L 244 420 L 248 414" stroke="var(--line-2)" stroke-width="1.5" fill="none"/>
+
+          <!-- Correlation engine -->
+          <rect x="24" y="424" width="440" height="44" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"/>
+          <text x="40" y="446" font-size="13" fill="var(--ink)">Finding correlation engine</text>
+          <text x="40" y="461" font-size="10.5" fill="var(--muted)">type · severity · confidence · evidence provenance</text>
+
+          <!-- Boundary 2 -->
+          <line x1="24" y1="486" x2="700" y2="486" stroke="var(--line-2)" stroke-width="1.5" stroke-dasharray="6 4"/>
+          <text x="24" y="502" font-size="10.5" letter-spacing="0.9" fill="var(--muted)">DETERMINISTIC BOUNDARY — EVERYTHING ABOVE IS MEASURED</text>
+
+          <!-- AI layer -->
+          <rect x="24" y="514" width="440" height="36" fill="none" stroke="var(--line-2)" stroke-width="1" stroke-dasharray="3 3"/>
+          <text x="40" y="537" font-size="12.5" fill="var(--muted)">AI explanation layer — consumes findings, never scores them</text>
+        </g>
+      </svg>
+    </figure>
+    <p class="caption">The AI layer sits outside the evaluation by construction. It receives an already-scored finding and returns prose; it cannot change whether that finding is a true positive, so it contributes no data to precision, recall or F1 — and the detection results stay reproducible regardless of model variability.</p>
+  </section>
+
+  <section id="plan">
+    <div class="col">
+      <span class="eyebrow">05 — Plan</span>
+      <h2>Milestones with exit criteria, not a calendar</h2>
+      <p class="lede" style="margin-top:16px">A milestone completes when its criteria are met. No milestone starts before its dependency exits, and every milestone has a written fallback decided before it begins rather than after it goes wrong.</p>
+    </div>
+
+    <div class="ms-grid">
+
+      <div class="ms">
+        <div class="ms-head"><span class="ms-id">M0</span><h3>Foundations</h3></div>
+        <span class="dep">depends on — nothing</span>
+        <p class="build">Literature review finalised with verified citations. Repository, core package skeleton, CI. Two test applications adapted from open-source Prisma starters.</p>
+        <span class="ms-label">Exit</span>
+        <ul>
+          <li>No unverified citations remain</li>
+          <li>Both apps run from one compose command</li>
+          <li>Core package builds and tests in CI</li>
+        </ul>
+      </div>
+
+      <div class="ms">
+        <div class="ms-head"><span class="ms-id">M1</span><h3>Static core + declared schema</h3></div>
+        <span class="dep">depends on — M0</span>
+        <p class="build">Schema parser, ts-morph ORM analyzer with data-flow resolution, SQL analyzer. Rules emitting findings with confidence and evidence.</p>
+        <span class="ms-label">Exit</span>
+        <ul>
+          <li>Accepts any source directory — zero test-app-specific logic</li>
+          <li>Distinguishes a loop over an ORM result from a loop over a literal</li>
+          <li>Zero findings on both apps before injection</li>
+        </ul>
+      </div>
+
+      <div class="ms">
+        <div class="ms-head"><span class="ms-id">M2</span><h3>Ground truth injection</h3></div>
+        <span class="dep">depends on — M0 · parallel to M1</span>
+        <p class="build">Injected performance, data-quality and schema-divergence problems, each recorded in a machine-readable manifest keyed to file and line.</p>
+        <span class="ms-label">Exit</span>
+        <ul>
+          <li>Manifest drives scoring automatically — no manual tallying</li>
+          <li>Every problem reachable through an HTTP endpoint</li>
+          <li>Three or more instances per problem type</li>
+          <li>Divergence cases in both directions</li>
+        </ul>
+      </div>
+
+      <div class="ms">
+        <div class="ms-head"><span class="ms-id">M3</span><h3>Runtime + actual schema</h3></div>
+        <span class="dep">depends on — M1, M2</span>
+        <p class="build">Prisma event collector, query fingerprinting, per-request repetition counting, information_schema reader, reproducible load harness.</p>
+        <span class="ms-label">Exit</span>
+        <ul>
+          <li>Fingerprinting survives the ORM over-granularity failure mode</li>
+          <li>Load harness repeatable within ~5% variance</li>
+          <li>Collector overhead measured — this is RQ5 data</li>
+        </ul>
+      </div>
+
+      <div class="ms">
+        <div class="ms-head"><span class="ms-id">M4</span><h3>Data quality, anomaly, correlation</h3></div>
+        <span class="dep">depends on — M3</span>
+        <p class="build">Data profiler, anomaly detector against learned baselines, and the correlation engine merging all five evidence layers into scored findings.</p>
+        <span class="ms-label">Exit</span>
+        <ul>
+          <li>Baselines learned, not fixed thresholds</li>
+          <li>Correlation demonstrably changes a verdict</li>
+          <li>Confidence scores reproducible across runs</li>
+        </ul>
+      </div>
+
+      <div class="ms pivotal">
+        <div class="ms-head"><span class="ms-id">M5</span><h3>Controlled experiment + ablation</h3></div>
+        <span class="dep">depends on — M4</span>
+        <p class="build">All six configurations against both applications with repetition, then statistical analysis of the pairwise comparisons that answer RQ3 and RQ6.</p>
+        <span class="ms-label">Exit</span>
+        <ul>
+          <li>Ten or more repetitions per configuration</li>
+          <li>Means with confidence intervals, not single runs</li>
+          <li>Significance testing on B2 vs C1 and C1 vs C2</li>
+          <li>Per-problem-type breakdown</li>
+          <li>Reproducible from one command</li>
+        </ul>
+      </div>
+
+      <div class="ms pivotal">
+        <div class="ms-head"><span class="ms-id">M6</span><h3>Real-world validation</h3></div>
+        <span class="dep">depends on — M1 only · runs in parallel</span>
+        <p class="build">Approach B run against 15–20 open-source Prisma projects, every finding manually labelled, real-world precision computed per rule.</p>
+        <span class="ms-label">Exit</span>
+        <ul>
+          <li>15+ repositories on a stated selection criterion</li>
+          <li>Labelling protocol written before labelling starts</li>
+          <li>Second labeller on 20%, Cohen's kappa reported</li>
+          <li>Divergence frequency documented in real projects</li>
+        </ul>
+      </div>
+
+      <div class="ms optional">
+        <div class="ms-head"><span class="ms-id">M7</span><h3>Adapter generalisation</h3></div>
+        <span class="dep">depends on — M5 · optional, first to cut</span>
+        <p class="build">MySQL adapter and Drizzle adapter, with a reduced experiment on one new combination — demonstrating the adapter claim rather than asserting it.</p>
+        <span class="ms-label">Exit</span>
+        <ul>
+          <li>Second database works without core changes</li>
+          <li>Second ORM works without rule changes</li>
+          <li>Differences from the baseline discussed</li>
+        </ul>
+      </div>
+
+      <div class="ms">
+        <div class="ms-head"><span class="ms-id">M8</span><h3>Dashboard, AI layer, write-up</h3></div>
+        <span class="dep">depends on — M5</span>
+        <p class="build">Next.js dashboard, the evidence-consuming AI explanation layer, the thesis document and defense materials.</p>
+        <span class="ms-label">Exit</span>
+        <ul>
+          <li>End-to-end scenario demonstrable in under five minutes</li>
+          <li>AI layer verified unable to alter severity or confidence</li>
+          <li>All six research questions answered against specific results</li>
+          <li>Threats to validity written honestly</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="note">
+      <strong>M6 is the argument for the extended timeline.</strong> M5 shows the tool finds problems that were deliberately planted. M6 shows whether it works on code written by people who were not trying to create any. Those are different claims, and only the second predicts how the tool behaves outside the experiment. Because M6 depends on M1 alone, it runs alongside M3 through M5 instead of extending the critical path.
+    </div>
+  </section>
+
+  <section id="limits">
+    <div class="col">
+      <span class="eyebrow">06 — Scope</span>
+      <h2>What this project does not claim</h2>
+      <ul class="limits">
+        <li>Scoped to one ORM and one database. The adapter architecture is designed for more; implementing them is optional and not part of the core claim.</li>
+        <li>Test applications are purpose-built rather than production systems. This trades external validity for measurement control — the cost M6 exists to offset.</li>
+        <li>The AI layer never determines a finding's type, severity or confidence, and is excluded entirely from the quantitative evaluation.</li>
+        <li>Detection is probabilistic by design. Static findings raise suspicion; runtime and schema evidence strengthen or weaken confidence. Nothing is presented as certain without supporting evidence.</li>
+        <li>Autonomous remediation is out of scope. Reformulator already refactors N+1 patterns automatically, and competing there would be a poor use of the time available.</li>
+        <li>A negative or mixed result is a valid outcome. If the hybrid approach improves recall only for some problem types, or at overhead that makes continuous operation impractical, that is the finding and it gets reported as one.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="documents">
+    <div class="col">
+      <span class="eyebrow">07 — Documents</span>
+      <h2>Supporting material</h2>
+      <p class="lede" style="margin-top:16px">Four documents exist in full. The proposal and literature review are available in Word format for submission.</p>
+    </div>
+    <div class="docs">
+      <div class="doc">
+        <span class="kind">Proposal</span>
+        <h4>Research Proposal</h4>
+        <p>Abstract through references — objectives, six research questions, five hypotheses, methodology, architecture, scope and limitations.</p>
+      </div>
+      <div class="doc">
+        <span class="kind">Literature review</span>
+        <h4>Six-area review</h4>
+        <p>Tuning and index selection, ORM overhead, AST analysis, N+1 prior art, fingerprinting, anomaly detection — every citation verified against a primary source.</p>
+      </div>
+      <div class="doc">
+        <span class="kind">Plan</span>
+        <h4>Full-scope project plan</h4>
+        <p>Nine milestones with exit criteria, dependency graph, fallbacks, and the ablation design.</p>
+      </div>
+      <div class="doc">
+        <span class="kind">Engineering</span>
+        <h4>Phase 0 technical spec</h4>
+        <p>How the static core extracts into a developer tool after the defense, and which constraints during implementation make that extraction free.</p>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>One decision outstanding.</strong> The submitted proposal currently carries a sixteen-week schedule. This plan replaces it with milestones and no fixed calendar, which implies eight to twelve months at part-time pace. Which of the two governs is a question for the supervisor, and the proposal's work-plan section changes accordingly.
+    </div>
+  </section>
+
+  <footer>
+    DBInsight · PMIT-6000 · Institute of Information Technology, Jahangirnagar University · Prepared September 2026
+  </footer>
+
+</div>
+
+</body></html>

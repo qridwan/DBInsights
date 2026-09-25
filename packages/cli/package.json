@@ -1,0 +1,16 @@
+{
+  "name": "@dbinsight/cli",
+  "version": "0.0.0",
+  "private": true,
+  "description": "CLI wrapper around @dbinsight/core (post-defense, Phase 0)",
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@dbinsight/core": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}
