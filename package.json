@@ -6,7 +6,7 @@
     "node": ">=22"
   },
   "scripts": {
-    "build": "pnpm -r build",
+    "build": "pnpm --filter \"./packages/**\" build",
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm -r test"
   }

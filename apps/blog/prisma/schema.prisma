@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model Author {
+  id        String   @id @default(uuid()) @db.Uuid
+  email     String   @unique
+  name      String
+  bio       String
+  createdAt DateTime @default(now())
+  posts     Post[]
+}
+
+model Post {
+  id          String     @id @default(uuid()) @db.Uuid
+  authorId    String     @db.Uuid
+  author      Author     @relation(fields: [authorId], references: [id])
+  title       String
+  slug        String     @unique
+  excerpt     String
+  content     String
+  status      PostStatus @default(DRAFT)
+  publishedAt DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  comments    Comment[]
+  tags        PostTag[]
+
+  @@index([authorId, publishedAt])
+  @@index([status, publishedAt])
+  @@index([title(ops: raw("gin_trgm_ops"))], type: Gin)
+}
+
+model Comment {
+  id          String   @id @default(uuid()) @db.Uuid
+  postId      String   @db.Uuid
+  post        Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  authorName  String
+  authorEmail String
+  body        String
+  createdAt   DateTime @default(now())
+
+  @@index([postId, createdAt])
+}
+
+model Tag {
+  id    String    @id @default(uuid()) @db.Uuid
+  name  String    @unique
+  slug  String    @unique
+  posts PostTag[]
+}
+
+model PostTag {
+  postId String @db.Uuid
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tagId  String @db.Uuid
+  tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([postId, tagId])
+  @@index([tagId])
+}
