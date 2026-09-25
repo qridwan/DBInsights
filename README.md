@@ -61,12 +61,12 @@ flowchart LR
   CLI <-->|subprocess| BRIDGE
   BRIDGE -->|DeclaredSchema| DIV
   DB -->|information_schema, pg_catalog| ACT -->|ActualSchema| DIV
-  RULES -->|Finding[]| GT
-  DIV -->|Finding[]| GT
+  RULES -->|Findings| GT
+  DIV -->|Findings| GT
   COL -->|batched events,<br/>off the request path| API --> FP --> RES
   LOAD -->|HTTP| App
   LOAD -->|requests, CPU/memory samples| RES
-  RES --> RT -->|Finding[]| GT
+  RES --> RT -->|Findings| GT
 ```
 
 ### Evidence layers
