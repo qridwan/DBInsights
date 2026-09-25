@@ -1,0 +1,15 @@
+// @unique (single field, declared on the field) versus @@unique (block level,
+// possibly composite).
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Member {
+  id     String @id @default(uuid()) @db.Uuid
+  email  String @unique(map: "member_email_key")
+  orgId  String @db.Uuid
+  handle String
+
+  @@unique([orgId, handle], name: "orgHandle")
+}

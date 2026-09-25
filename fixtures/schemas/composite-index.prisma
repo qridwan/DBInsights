@@ -1,0 +1,19 @@
+// Composite indexes: field order must be preserved exactly as declared.
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Event {
+  tenantId  Int
+  seq       Int
+  kind      String
+  actorId   Int
+  createdAt DateTime
+
+  @@id([tenantId, seq])
+  @@index([kind, createdAt])
+  // Leading field is actorId, not kind. Named `fields:` argument, per-field
+  // sort, and a `//` inside a string that must not be read as a comment.
+  @@index(fields: [actorId, kind, createdAt(sort: Desc)], map: "event_actor_timeline_idx//v1", type: BTree)
+}

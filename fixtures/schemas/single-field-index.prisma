@@ -1,0 +1,15 @@
+// Single-field indexes declared both at block level and via @id.
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Account {
+  id        Int      @id @default(autoincrement())
+  email     String
+  status    String
+  createdAt DateTime @default(now())
+
+  @@index([email])
+  @@index([createdAt(sort: Desc)], map: "account_created_desc")
+}

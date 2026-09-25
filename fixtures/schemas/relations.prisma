@@ -1,0 +1,44 @@
+// Relations with explicit FK scalars (@relation(fields: ...)) and the
+// implicit sides that carry no FK: back-relations and implicit many-to-many.
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Writer {
+  id       Int       @id @default(autoincrement())
+  profile  Profile?
+  articles Article[]
+  mentor   Writer?   @relation("Mentorship", fields: [mentorId], references: [id])
+  mentorId Int?
+  mentees  Writer[]  @relation("Mentorship")
+}
+
+model Profile {
+  id       Int    @id @default(autoincrement())
+  writer   Writer @relation(fields: [writerId], references: [id])
+  writerId Int    @unique
+}
+
+model Article {
+  id         Int      @id @default(autoincrement())
+  writer     Writer   @relation(fields: [writerId], references: [id], onDelete: Cascade)
+  writerId   Int
+  labels     Label[]
+  edition    Edition  @relation(fields: [editionYear, editionNo], references: [year, number])
+  editionYear Int
+  editionNo  Int
+}
+
+model Label {
+  id       Int       @id @default(autoincrement())
+  articles Article[]
+}
+
+model Edition {
+  year     Int
+  number   Int
+  articles Article[]
+
+  @@id([year, number])
+}

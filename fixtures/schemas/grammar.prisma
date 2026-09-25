@@ -1,0 +1,40 @@
+/// Doc comments, generator/datasource blocks, mapped names, native types,
+/// function-valued defaults, Unsupported types and GIN operator classes.
+
+generator client {
+  provider        = "prisma-client"
+  output          = "../generated"
+  previewFeatures = ["views"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Visibility {
+  PUBLIC  @map("public")
+  PRIVATE @map("private")
+
+  @@map("visibility")
+}
+
+/// A document with a search vector.
+model Document {
+  id         String                   @id(map: "document_pk") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title      String                   @db.VarChar(255) // trailing comment
+  slug       String                   @unique @map("url_slug")
+  visibility Visibility               @default(PUBLIC)
+  tags       String[]
+  score      Decimal?                 @db.Decimal(10, 2)
+  search     Unsupported("tsvector")?
+  note       String                   @default("say \"hi\" // not a comment")
+
+  @@index([title(ops: raw("gin_trgm_ops"))], type: Gin)
+  @@index([visibility, score(sort: Desc)], type: BTree)
+  @@map("documents")
+}
+
+view DocumentStats {
+  id    String @unique @db.Uuid
+  count Int
+}

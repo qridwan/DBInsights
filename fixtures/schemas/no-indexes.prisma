@@ -1,0 +1,21 @@
+// No index declarations of any kind. Prisma only accepts a model without a
+// unique criterion when it is marked @@ignore, which is exactly what
+// introspection produces for such tables.
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Level {
+  INFO
+  WARN
+}
+
+model AuditLog {
+  actor   String
+  action  String
+  level   Level
+  payload Json?
+
+  @@ignore
+}
