@@ -1,4 +1,5 @@
 import json
+import re
 from pathlib import Path
 
 import pytest
@@ -97,3 +98,30 @@ def test_committed_manifest_locations_point_at_their_anchors(path):
             f"{entry.id}: line {entry.line} no longer holds its anchor"
         )
         assert (entry.end_line or entry.line) <= len(lines), f"{entry.id}: endLine past end of file"
+
+
+INJECT_DIR = Path(__file__).parents[2] / "experiments" / "groundtruth" / "inject"
+
+
+def injection_blocks(sql: str) -> dict[str, str]:
+    """Maps each `-- <entry id>: ...` label to the SQL up to the next label."""
+    labels = list(re.finditer(r"^-- ([a-z]+-dq-[a-z]+-\d+):", sql, flags=re.MULTILINE))
+    ends = [m.start() for m in labels[1:]] + [len(sql)]
+    return {m.group(1): sql[m.start() : end] for m, end in zip(labels, ends, strict=True)}
+
+
+@pytest.mark.parametrize("path", COMMITTED, ids=lambda p: p.name)
+def test_data_quality_entries_are_implemented_by_the_injection_sql(path):
+    manifest = load_manifest(path)
+    entries = [e for e in manifest.entries if e.category is Category.DATA_QUALITY]
+    blocks = injection_blocks((INJECT_DIR / f"{manifest.app}.sql").read_text(encoding="utf-8"))
+    assert sorted(blocks) == sorted(e.id for e in entries)
+    for entry in entries:
+        block = blocks[entry.id]
+        # Orphans are made by deleting the parent, so the block may not touch
+        # entry.table itself; the label must still name the affected column.
+        label = block.splitlines()[0]
+        assert f"{entry.table}.{entry.column}" in label, f"{entry.id}: label names another column"
+        assert re.search(r"^(UPDATE|INSERT INTO|DELETE FROM|WITH)\b", block, re.MULTILINE), (
+            f"{entry.id}: block changes no data"
+        )

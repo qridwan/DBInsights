@@ -54,11 +54,11 @@ UPDATE "Customer" SET "marketingOptIn" = true
 WHERE "createdAt" >= '2026-08-02' AND pg_temp.pick(id, ':consent') < 235;
 
 -- ecom-dq-orphan-01: Order.customerId orphans.
--- Account erasure deleted customers; their orders are kept but now point nowhere.
--- (Customers with reviews are skipped: Review_customerId_fkey still restricts.)
-DELETE FROM "Customer" c
-WHERE pg_temp.pick(c.id, ':erase') < 4
-  AND NOT EXISTS (SELECT 1 FROM "Review" r WHERE r."customerId" = c.id);
+-- Account erasure removes the customer and their reviews (personal content)
+-- but keeps their orders for tax records, which now point nowhere.
+DELETE FROM "Review" r USING "Customer" c
+WHERE r."customerId" = c.id AND pg_temp.pick(c.id, ':erase') < 4;
+DELETE FROM "Customer" WHERE pg_temp.pick(id, ':erase') < 4;
 
 -- ecom-dq-orphan-02: OrderItem.productId orphans.
 -- The catalogue sync hard-deleted discontinued products still referenced by order lines.

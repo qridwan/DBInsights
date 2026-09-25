@@ -203,6 +203,62 @@
       "expectedRuleId": "MISSING_PAGINATION",
       "description": "Client search index loads every published post with its tags in one unbounded query.",
       "injectedAt": "2026-09-25T17:13:43Z"
+    },
+    {
+      "id": "blog-dq-null-01",
+      "problemType": "null_spike",
+      "category": "data_quality",
+      "table": "Comment",
+      "column": "authorEmail",
+      "expectedRuleId": "NULL_SPIKE",
+      "description": "Recent comments lost the commenter email (~55% NULL vs 0%) after anonymous commenting was enabled.",
+      "injectedAt": "2026-09-25T17:26:06Z"
+    },
+    {
+      "id": "blog-dq-dup-01",
+      "problemType": "duplicate_spike",
+      "category": "data_quality",
+      "table": "Comment",
+      "column": "body",
+      "expectedRuleId": "DUPLICATE_SPIKE",
+      "description": "Spam wave: three identical messages posted 240 times across recent posts.",
+      "injectedAt": "2026-09-25T17:26:06Z"
+    },
+    {
+      "id": "blog-dq-dup-02",
+      "problemType": "duplicate_spike",
+      "category": "data_quality",
+      "table": "Post",
+      "column": "title",
+      "expectedRuleId": "DUPLICATE_SPIKE",
+      "description": "Editor double-submit bug created a second copy (slug suffixed -2) of every post written in the last 30 days.",
+      "injectedAt": "2026-09-25T17:26:06Z"
+    },
+    {
+      "id": "blog-div-01",
+      "problemType": "index_not_declared",
+      "category": "schema_divergence",
+      "file": "prisma/migrations/20260926150000_published_feed_index/migration.sql",
+      "line": 5,
+      "anchor": "CREATE INDEX IF NOT EXISTS \"Post_published_feed_idx\"",
+      "table": "Post",
+      "column": "publishedAt",
+      "expectedRuleId": "INDEX_NOT_DECLARED",
+      "description": "Partial index on published posts (publishedAt DESC, id DESC) created by raw SQL; not declared in schema.prisma.",
+      "injectedAt": "2026-09-25T17:26:06Z"
+    },
+    {
+      "id": "blog-div-02",
+      "problemType": "declared_index_not_applied",
+      "category": "schema_divergence",
+      "file": "prisma/migrations/20260927110000_drop_redundant_post_tag_index/migration.sql",
+      "line": 4,
+      "anchor": "DROP INDEX IF EXISTS \"PostTag_tagId_idx\"",
+      "table": "PostTag",
+      "column": "tagId",
+      "expectedRuleId": "DECLARED_INDEX_NOT_APPLIED",
+      "description": "@@index([tagId]) is still declared on PostTag but was dropped as 'redundant' with the (postId, tagId) primary key, which cannot serve tagId-only lookups.",
+      "injectedAt": "2026-09-25T17:26:06Z"
     }
   ]
 }

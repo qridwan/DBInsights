@@ -9,12 +9,6 @@ BEGIN;
 CREATE OR REPLACE FUNCTION pg_temp.pick(id uuid, salt text) RETURNS int
   LANGUAGE sql IMMUTABLE AS $$ SELECT get_byte(decode(md5(id::text || salt), 'hex'), 0) $$;
 
--- blog-dq-null-01: Comment.authorEmail NULL spike (~55% of recent comments vs 0%).
--- After anonymous comments were allowed, the form stopped sending the email
--- even when the reader typed one.
-UPDATE "Comment" SET "authorEmail" = NULL
-WHERE "createdAt" >= '2026-08-02' AND pg_temp.pick(id, ':email') < 140;
-
 -- blog-dq-dup-01: Comment.body duplicate spike.
 -- A spam wave posted the same three messages 240 times across recent posts.
 WITH targets AS (
@@ -43,5 +37,12 @@ SELECT md5('resubmit:' || p.id::text)::uuid, p."authorId", p."title", p."slug" |
 FROM "Post" p
 WHERE p."createdAt" >= '2026-08-02' AND p."createdAt" < '2026-09-01' AND p."slug" NOT LIKE '%-2'
 ON CONFLICT DO NOTHING;
+
+-- blog-dq-null-01: Comment.authorEmail NULL spike (~55% of recent comments vs 0%).
+-- Runs after the inserts above so a second run selects exactly the same rows.
+-- After anonymous comments were allowed, the form stopped sending the email
+-- even when the reader typed one.
+UPDATE "Comment" SET "authorEmail" = NULL
+WHERE "createdAt" >= '2026-08-02' AND pg_temp.pick(id, ':email') < 140;
 
 COMMIT;

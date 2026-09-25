@@ -203,6 +203,122 @@
       "expectedRuleId": "MISSING_PAGINATION",
       "description": "Sitemap endpoint returns every product in one unbounded findMany.",
       "injectedAt": "2026-09-25T17:13:43Z"
+    },
+    {
+      "id": "ecom-dq-null-01",
+      "problemType": "null_spike",
+      "category": "data_quality",
+      "table": "Customer",
+      "column": "phone",
+      "expectedRuleId": "NULL_SPIKE",
+      "description": "Recent sign-ups lost their phone number (~65% NULL in the last 30 days vs ~4% historically) after a form refactor.",
+      "injectedAt": "2026-09-25T17:26:06Z"
+    },
+    {
+      "id": "ecom-dq-null-02",
+      "problemType": "null_spike",
+      "category": "data_quality",
+      "table": "Order",
+      "column": "shippingPostcode",
+      "expectedRuleId": "NULL_SPIKE",
+      "description": "Recent orders have no shipping postcode (~50% NULL vs ~3%) after an address-autocomplete rollout.",
+      "injectedAt": "2026-09-25T17:26:06Z"
+    },
+    {
+      "id": "ecom-dq-dup-01",
+      "problemType": "duplicate_spike",
+      "category": "data_quality",
+      "table": "Order",
+      "column": "paymentReference",
+      "expectedRuleId": "DUPLICATE_SPIKE",
+      "description": "Payment webhook retries attached one charge reference to up to three consecutive recent orders.",
+      "injectedAt": "2026-09-25T17:26:06Z"
+    },
+    {
+      "id": "ecom-dq-shift-01",
+      "problemType": "distribution_shift",
+      "category": "data_quality",
+      "table": "Review",
+      "column": "rating",
+      "expectedRuleId": "DISTRIBUTION_SHIFT",
+      "description": "Recent reviews shifted sharply towards 1 star (defective supplier batch).",
+      "injectedAt": "2026-09-25T17:26:06Z"
+    },
+    {
+      "id": "ecom-dq-shift-02",
+      "problemType": "distribution_shift",
+      "category": "data_quality",
+      "table": "Order",
+      "column": "paymentMethod",
+      "expectedRuleId": "DISTRIBUTION_SHIFT",
+      "description": "Recent orders shifted from ~5% to ~70% BANK_TRANSFER during a card-processor outage fallback.",
+      "injectedAt": "2026-09-25T17:26:06Z"
+    },
+    {
+      "id": "ecom-dq-shift-03",
+      "problemType": "distribution_shift",
+      "category": "data_quality",
+      "table": "Customer",
+      "column": "marketingOptIn",
+      "expectedRuleId": "DISTRIBUTION_SHIFT",
+      "description": "Recent sign-ups opted in to marketing ~95% of the time vs ~30%: the consent checkbox shipped pre-ticked.",
+      "injectedAt": "2026-09-25T17:26:06Z"
+    },
+    {
+      "id": "ecom-dq-orphan-01",
+      "problemType": "orphaned_foreign_key",
+      "category": "data_quality",
+      "table": "Order",
+      "column": "customerId",
+      "expectedRuleId": "ORPHANED_FOREIGN_KEY",
+      "description": "Account erasure deleted customers (and their reviews) but kept their orders for tax records. Possible because migration 20260927160000_retain_order_history_on_delete dropped Order_customerId_fkey.",
+      "injectedAt": "2026-09-25T17:26:06Z"
+    },
+    {
+      "id": "ecom-dq-orphan-02",
+      "problemType": "orphaned_foreign_key",
+      "category": "data_quality",
+      "table": "OrderItem",
+      "column": "productId",
+      "expectedRuleId": "ORPHANED_FOREIGN_KEY",
+      "description": "The catalogue sync hard-deleted discontinued products still referenced by order lines (OrderItem_productId_fkey dropped by 20260927160000_retain_order_history_on_delete).",
+      "injectedAt": "2026-09-25T17:26:06Z"
+    },
+    {
+      "id": "ecom-dq-orphan-03",
+      "problemType": "orphaned_foreign_key",
+      "category": "data_quality",
+      "table": "OrderItem",
+      "column": "orderId",
+      "expectedRuleId": "ORPHANED_FOREIGN_KEY",
+      "description": "The archival job deleted old cancelled orders but not their lines (OrderItem_orderId_fkey dropped by 20260927160000_retain_order_history_on_delete).",
+      "injectedAt": "2026-09-25T17:26:06Z"
+    },
+    {
+      "id": "ecom-div-01",
+      "problemType": "index_not_declared",
+      "category": "schema_divergence",
+      "file": "prisma/migrations/20260926140000_customer_email_lookup_index/migration.sql",
+      "line": 6,
+      "anchor": "CREATE INDEX IF NOT EXISTS \"Customer_email_lower_idx\"",
+      "table": "Customer",
+      "column": "email",
+      "expectedRuleId": "INDEX_NOT_DECLARED",
+      "description": "Expression index on lower(email) created by raw SQL; schema.prisma cannot express it and does not declare it.",
+      "injectedAt": "2026-09-25T17:26:06Z"
+    },
+    {
+      "id": "ecom-div-02",
+      "problemType": "declared_index_not_applied",
+      "category": "schema_divergence",
+      "file": "prisma/migrations/20260927100000_drop_redundant_product_created_at_index/migration.sql",
+      "line": 4,
+      "anchor": "DROP INDEX IF EXISTS \"Product_createdAt_idx\"",
+      "table": "Product",
+      "column": "createdAt",
+      "expectedRuleId": "DECLARED_INDEX_NOT_APPLIED",
+      "description": "@@index([createdAt]) is still declared on Product but was dropped as 'redundant' with (categoryId, createdAt), which cannot serve createdAt-only access.",
+      "injectedAt": "2026-09-25T17:26:06Z"
     }
   ]
 }
