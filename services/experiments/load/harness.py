@@ -4,6 +4,7 @@ import os
 import subprocess
 import time
 import uuid
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -21,8 +22,14 @@ from .store import ResultsStore
 REPO_ROOT = Path(__file__).resolve().parents[3]
 MANIFESTS = REPO_ROOT / "services" / "experiments" / "groundtruth" / "manifests"
 DEFAULT_PORTS = {"ecommerce": 3001, "blog": 3002}
-#: Time for the collector's background flush (250 ms timer) to land before counting.
-FLUSH_WAIT_S = 2.0
+#: How long to poll for the collector's background flush to land before counting.
+FLUSH_TIMEOUT_S = 15.0
+FLUSH_POLL_INTERVAL_S = 0.5
+#: Let the first batch (flushIntervalMs=250ms in the collector, plus network/DB) land
+#: before the first read, so an empty first read is not mistaken for "nothing coming".
+FLUSH_INITIAL_DELAY_S = 1.0
+#: Consecutive equal reads required before a count is accepted as final.
+FLUSH_STABLE_READS = 3
 
 
 @dataclass(frozen=True)
@@ -111,6 +118,52 @@ def set_collector(config: Config, enabled: bool) -> None:
         )
 
 
+def poll_until_stable(
+    read: Callable[[], int],
+    *,
+    stable_reads: int = FLUSH_STABLE_READS,
+    interval: float = FLUSH_POLL_INTERVAL_S,
+    initial_delay: float = FLUSH_INITIAL_DELAY_S,
+    timeout: float = FLUSH_TIMEOUT_S,
+    sleep: Callable[[float], None] = time.sleep,
+    now: Callable[[], float] = time.monotonic,
+) -> int:
+    """Calls `read()` until it returns the same value `stable_reads` times in a row, or
+    `timeout` elapses, returning the last value read.
+
+    Delivery is asynchronous (the collector's own flush timer, network, DB insert), so a
+    single steady read is not proof that everything has arrived: two zero-reads in a row
+    can mean "nothing coming" or just "the first batch hasn't landed yet", and those must
+    not be confused. Waiting `initial_delay` before the first read, then requiring several
+    consecutive equal reads, tells them apart without knowing the expected count.
+    """
+    deadline = now() + timeout
+    sleep(initial_delay)
+    value = read()
+    streak = 1
+    while streak < stable_reads and now() < deadline:
+        sleep(interval)
+        current = read()
+        streak = streak + 1 if current == value else 1
+        value = current
+    return value
+
+
+def _wait_for_flush(
+    store: ResultsStore, app: str, window_start: Any, window_end: Any
+) -> tuple[list[dict[str, Any]], int]:
+    """Waits for the collector's background flush to settle, then returns the final counts."""
+
+    def read() -> int:
+        nonlocal counts
+        counts = store.runtime_counts(app, window_start, window_end)
+        return sum(c["operations"] for c in counts)
+
+    counts: list[dict[str, Any]] = []
+    recorded = poll_until_stable(read)
+    return counts, recorded
+
+
 def run_once(
     store: ResultsStore,
     config: Config,
@@ -142,10 +195,8 @@ def run_once(
     store.add_counters(run_id, "start", before)
     store.add_counters(run_id, "end", after)
 
-    time.sleep(FLUSH_WAIT_S)
     run = next(r for r in store.runs(session_id) if str(r["run_id"]) == run_id)
-    counts = store.runtime_counts(config.app, run["window_start"], run["window_end"])
-    recorded = sum(c["operations"] for c in counts)
+    counts, recorded = _wait_for_flush(store, config.app, run["window_start"], run["window_end"])
     store.set_verified(run_id, (recorded > 0) is collector_enabled)
     return {
         "run_id": run_id,
