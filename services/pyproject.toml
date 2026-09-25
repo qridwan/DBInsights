@@ -3,7 +3,9 @@ name = "dbinsight-services"
 version = "0.0.0"
 description = "DBInsight thesis services: SQL analysis, runtime stats, data quality, correlation, experiments"
 requires-python = ">=3.12,<3.13"
-dependencies = []
+dependencies = [
+    "pydantic>=2.7",
+]
 
 [dependency-groups]
 dev = [
