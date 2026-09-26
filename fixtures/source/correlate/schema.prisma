@@ -1,0 +1,17 @@
+// The foreign key Task.assigneeId is deliberately NOT indexed in the declared schema.
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id    Int    @id @default(autoincrement())
+  name  String
+  tasks Task[]
+}
+
+model Task {
+  id         Int  @id @default(autoincrement())
+  assigneeId Int
+  assignee   User @relation(fields: [assigneeId], references: [id])
+}

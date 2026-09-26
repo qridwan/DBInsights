@@ -48,6 +48,7 @@ export const missingIndexOnFilteredField: Rule = (context) =>
     if (columns.length === 0) return [];
     if (columns.some((column) => isLeadingIndexColumn(model, column))) return [];
 
+    const dbColumns = columns.map((column) => model.fields.find((field) => field.name === column)?.dbName ?? column);
     const fields = columns.map((column) => model.fields.find((field) => field.name === column));
     const lowSelectivity = fields.every((field) => field?.kind === "enum" || field?.type === "Boolean");
     const list = columns.map((column) => `\`${column}\``).join(", ");
@@ -79,7 +80,9 @@ export const missingIndexOnFilteredField: Rule = (context) =>
                 : `${model.name} declares no indexes.`,
             file: context.schemaFile,
             line: model.line,
-            data: { model: model.name, indexes: declared },
+            // `columns` are database column names (@map applied), the names the actual schema uses;
+            // `fields` are the Prisma field names.
+            data: { model: model.name, table: model.dbName ?? model.name, columns: dbColumns, fields: columns, indexes: declared },
           },
         ],
         suggestedFix: codeBlock(

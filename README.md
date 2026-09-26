@@ -18,8 +18,9 @@ DBInsight is a hybrid static and runtime analysis framework that detects databas
   7. [Load harness, runtime N+1 and collector overhead](#7-load-harness-runtime-n1-and-collector-overhead)
   8. [Profile data quality](#8-profile-data-quality)
   9. [Detect anomalies against a learned baseline](#9-detect-anomalies-against-a-learned-baseline)
-  10. [Score findings against the ground truth](#10-score-findings-against-the-ground-truth)
-  11. [Run the test suites](#11-run-the-test-suites)
+  10. [Correlate evidence across layers](#10-correlate-evidence-across-layers)
+  11. [Score findings against the ground truth](#11-score-findings-against-the-ground-truth)
+  12. [Run the test suites](#12-run-the-test-suites)
 - [Resetting](#resetting)
 
 ---
@@ -55,6 +56,7 @@ flowchart LR
     RES[("results DB<br/>runtime.* · experiments.* · dataquality.*")]
     DQ["data-quality profiler<br/>(windowed history ·<br/>referential integrity)"]
     AN["anomaly detector<br/>(z-score · IQR · moving average,<br/>ranges learned from history)"]
+    COR["correlation engine<br/>(competing hypotheses,<br/>weighed evidence)"]
     RT["runtime N+1 detector"]
     LOAD["load harness<br/>(fixed seed, ABBA overhead)"]
   end
@@ -74,6 +76,12 @@ flowchart LR
   DB -->|rows, read-only| DQ -->|profiles: one run per window| RES
   DQ -->|orphan findings| GT
   RES -->|profile history| AN -->|Findings| GT
+  RULES -->|static| COR
+  RT -->|runtime| COR
+  DIV -->|schema| COR
+  AN -->|data| COR
+  ACT -->|actual schema| COR
+  COR -->|"single scored Findings"| GT
 ```
 
 ### Evidence layers
@@ -138,6 +146,7 @@ services/                 Python 3.12, uv
   analyzers/runtime/      runtime N+1 detection over collected requests
   analyzers/dataquality/  data-quality profiler: windowed history, referential integrity
   analyzers/anomaly/      interpretable detectors (z-score, IQR, moving average), no fixed thresholds
+  analyzers/correlate/    correlation engine: layers' findings -> single scored findings
   api/                    collector service (FastAPI) + runtime event storage
   experiments/groundtruth/  manifests, data-quality injection, scorer
   experiments/load/       load harness: fixed sequences, repeatability, collector overhead
@@ -160,7 +169,8 @@ docker/postgres/init/     creates the ecommerce and blog databases
 | M3.4 | M3 exit check | done |
 | M4.1 | Data-quality profiler: windowed history, referential integrity | done |
 | M4.2 | Anomaly detectors with ranges learned from each column's own history | done |
-| M4.3–M4.4 | Correlation engine, M4 exit check | next |
+| M4.3 | Correlation engine: competing hypotheses, corroboration and contradiction, reproducible scores | done |
+| M4.4 | M4 exit check | next |
 | M5–M8 | Ablation, real-world validation, dashboard, AI explanation layer | planned |
 
 Static rules implemented in the core:
@@ -445,7 +455,7 @@ uv run python -m analyzers.dataquality integrity --app ecommerce \
 # Order.customer 339 orphans, OrderItem.order 645, OrderItem.product 309: exactly the injected ones
 ```
 
-Without `--report` the same command prints `Finding[]` (rule `ORPHANED_FOREIGN_KEY`), which step 10 scores against the manifest.
+Without `--report` the same command prints `Finding[]` (rule `ORPHANED_FOREIGN_KEY`), which step 11 scores against the manifest.
 
 **A clean baseline** must be profiled from data that never had the problems applied. Step 9 does that without touching the running databases.
 
@@ -501,11 +511,75 @@ jq -c '.[] | {rule: .ruleId, column: "\(.evidence[0].data.table).\(.evidence[0].
 jq '.[0].evidence[] | select(.data.detector) | {detector: .data.detector, expected: [.data.expectedLower, .data.expectedUpper], observation: .data.observation}' /tmp/anomalies.json
 ```
 
-Each finding carries one piece of evidence per detector: the learned range, the observation, the history size and the parameters used. Score them like any other findings (step 10). `--detectors zscore,iqr` and `--vote` compare configurations; `--report` lists every anomaly including decreases; leaving out `--current-label` judges a series against its own earlier windows.
+Each finding carries one piece of evidence per detector: the learned range, the observation, the history size and the parameters used. Score them like any other findings (step 11). `--detectors zscore,iqr` and `--vote` compare configurations; `--report` lists every anomaly including decreases; leaving out `--current-label` judges a series against its own earlier windows.
 
 Two behaviours to know about. A history with no spread (a column that has always been exactly 0) collapses to a single-value range, so any change is flagged; the evidence marks these `degenerate`. And a metric that trends or depends on volume (an order-status mix that depends on order age, a foreign-key duplicate rate that rises with row count) will look anomalous to any method that learns only from its own past; the backtest is how to see which columns do that.
 
-### 10. Score findings against the ground truth
+### 10. Correlate evidence across layers
+
+Each layer reports on its own, and they can disagree. The correlation engine joins their findings on what they are about, weighs the evidence, and emits **one finding per problem**, carrying the evidence of every layer that contributed, each item naming its layer.
+
+**Hypotheses compete.** At a *site* (one request route and one model) the engine may hold several explanations for the same symptom. Each is scored from evidence for and against it, in nats of log-odds:
+
+| Evidence | Weight |
+|---|---|
+| a layer's own confidence in what it raised: HIGH / MEDIUM / LOW | +1.5 / +0.5 / −0.5 |
+| runtime saw one query shape repeat within a request (N+1): HIGH / MEDIUM / LOW | +2.5 / +1.5 / +0.5 |
+| the *actual* schema has an index leading with the filtered column (contradicts "missing index") | **−4.0** |
+| the actual schema has no such index (confirms it) | +1.0 |
+| orphaned rows, and the database has no foreign-key constraint (explains them) | +1.5 |
+| orphaned rows, yet the database enforces the constraint (should be impossible) | −3.0 |
+
+A hypothesis is believed at log-odds 0 (posterior 0.5) and strongly believed at log 4 (posterior 0.8, HIGH confidence). The weights are expert-set, **not calibrated**: they encode which evidence outweighs which (a real index outweighs even the strongest suspicion drawn from a declaration), they live in one file ([`scoring.py`](services/analyzers/correlate/scoring.py)), and M5's ablation is where to vary them.
+
+**Contradicting evidence can change a finding's type.** The canonical case: static analysis sees an N+1 loop *and*, because schema.prisma declares no index on the filtered column, suspects a missing index; runtime shows the query executing hundreds of times per request; but the database itself has that index (created outside Prisma). The missing-index hypothesis is eliminated, and the result is an N+1 finding, not a missing-index finding. If static analysis had seen only the unindexed filter, the *type* of the finding changes from missing-index to N+1. The eliminated hypothesis is not discarded: its evidence stays on the surviving finding, tagged `ruled_out`.
+
+Every evidence item on an output finding carries `data.correlation = {role, hypothesis, weightNats, posterior}`, with role `supports`, `contradicts`, `ruled_out` or `context`.
+
+Rules implemented: **F1** missing index vs N+1 (static + declared + runtime + actual schema), and **F2** orphaned rows against the actual schema's foreign keys (data + declared + actual; confidence only). Anything without a counterpart in another layer passes through unchanged. Static and runtime findings are recognised as the same request through the Next.js App Router convention (`src/app/api/orders/[id]/route.ts` is `/api/orders/[id]`); a static finding outside a route handler cannot be joined to runtime and is judged by the schema layers alone.
+
+Collect every layer's findings, then correlate (declared schema and the live database supply the schema facts; either may be omitted, and an absent layer has no opinion):
+
+```bash
+cd services
+echo '{"command":"analyze","sourceDir":"../apps/ecommerce","schemaPath":"../apps/ecommerce/prisma/schema.prisma"}' \
+  | node ../packages/core/dist/cli.js | jq '.result' > /tmp/static.json
+uv run python -m analyzers.runtime --app ecommerce > /tmp/runtime.json
+uv run python -m analyzers.schema --schema ../apps/ecommerce/prisma/schema.prisma \
+  --database-url postgresql://dbinsight:dbinsight@localhost:5432/ecommerce --format findings > /tmp/divergence.json
+uv run python -m analyzers.anomaly detect --app ecommerce --baseline-label clean-seed --current-label injected > /tmp/anomaly.json
+uv run python -m analyzers.dataquality integrity --app ecommerce --schema ../apps/ecommerce/prisma/schema.prisma > /tmp/integrity.json
+jq -s 'add' /tmp/static.json /tmp/runtime.json /tmp/divergence.json /tmp/anomaly.json /tmp/integrity.json > /tmp/all-layers.json
+
+uv run python -m analyzers.correlate --findings /tmp/all-layers.json \
+  --declared-schema ../apps/ecommerce/prisma/schema.prisma \
+  --database-url postgresql://dbinsight:dbinsight@localhost:5432/ecommerce > /tmp/correlated.json
+```
+
+See what was decided and why:
+
+```bash
+uv run python -m analyzers.correlate --findings /tmp/all-layers.json \
+  --declared-schema ../apps/ecommerce/prisma/schema.prisma \
+  --database-url postgresql://dbinsight:dbinsight@localhost:5432/ecommerce --report \
+  | jq -r '.decisions[] | "\(.site)  ->  " + ([.hypotheses[] | "\(.rule_id) \(.posterior) \(.confidence)"] | join(" | "))'
+jq '.[] | select(.ruleId == "N_PLUS_ONE_IN_LOOP") | .evidence[] | {source, role: .data.correlation.role, weight: .data.correlation.weightNats}' /tmp/correlated.json | head -20
+```
+
+Compare the layers side by side with the merged result, through the same scorer (step 11):
+
+```bash
+for f in all-layers correlated; do
+  uv run python -m experiments.groundtruth --manifest experiments/groundtruth/manifests/ecommerce.json \
+    --findings /tmp/$f.json | jq -c '{findings: "'$f'", tp: .aggregate.tp, fp: .aggregate.fp, fn: .aggregate.fn, duplicates: .aggregate.duplicates}'
+done
+```
+
+On the test apps, correlation keeps every true positive, adds no false positive, and turns each N+1 that static analysis and runtime both reported into one HIGH-confidence finding (the scorer's *duplicates* go from 3 to 0 per app). It does not eliminate anything there because neither app contains a declared-only false positive; elimination and type change are exercised by the tests, including one that runs the real TypeScript analyzer against a fixture and reads a real database index.
+
+**Reproducible.** The input is put in a canonical order, weights are combined order-independently, and nothing random or time-dependent is involved: the same findings give byte-identical output across runs, hash seeds and input orders (tested, including across separate processes).
+
+### 11. Score findings against the ground truth
 
 Any `Finding[]`, from any layer, is scored the same way:
 
@@ -548,7 +622,7 @@ uv run python -m experiments.groundtruth \
 
 Matching is by **problem type and location**: code findings must overlap the manifest entry's lines; data and schema findings match on the `table`/`column` named in their evidence; runtime findings match on the `route` in their evidence against the entry's endpoint. See the module docstring of [`scorer.py`](services/experiments/groundtruth/scorer.py) for the exact rules.
 
-### 11. Run the test suites
+### 12. Run the test suites
 
 ```bash
 pnpm typecheck && pnpm test              # TypeScript: core (parser, ORM location, data-flow, rules, CLI) + collector

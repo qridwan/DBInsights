@@ -33,13 +33,18 @@ export function where(operation: ORMOperation): string {
   return operation.enclosingFunction ? `\`${operation.enclosingFunction}\`` : "module scope";
 }
 
+/**
+ * Evidence about one Prisma call. `model` and `operation` are always recorded as structured
+ * data so other evidence layers can join on them (e.g. runtime findings on the same route
+ * and model) without parsing titles.
+ */
 export function callEvidence(operation: ORMOperation, description: string, data?: Record<string, unknown>): Evidence {
   return {
     source: "STATIC_SOURCE",
     description,
     file: operation.file,
     line: operation.line,
-    ...(data ? { data } : {}),
+    data: { model: operation.model, operation: operation.operation, ...data },
   };
 }
 

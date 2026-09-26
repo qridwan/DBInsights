@@ -1,0 +1,13 @@
+// @@map / @map: the Prisma names differ from the database names.
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Ticket {
+  id      Int    @id @default(autoincrement())
+  ownerId Int    @map("owner_id")
+  title   String
+
+  @@map("tickets")
+}

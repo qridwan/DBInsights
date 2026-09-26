@@ -110,6 +110,36 @@ describe("R5 MISSING_PAGINATION", async () => {
   });
 });
 
+describe("structured evidence for cross-layer joins", async () => {
+  const mapped = await analyze({ sourceDir: sourceDir("mapped"), schemaPath: join(sourceDir("mapped"), "schema.prisma") });
+  const byRule = (ruleId: string) => mapped.filter((f) => f.ruleId === ruleId);
+
+  it("records the model and operation on every static-source evidence item", () => {
+    for (const finding of mapped) {
+      const source = finding.evidence.find((e) => e.source === "STATIC_SOURCE");
+      expect(source?.data).toMatchObject({ model: "Ticket" });
+      expect(typeof source?.data?.operation).toBe("string");
+    }
+  });
+
+  it("gives the missing-index finding both database and Prisma names for table and columns", () => {
+    const [finding] = byRule("MISSING_INDEX_ON_FILTERED_FIELD");
+    const declared = finding?.evidence.find((e) => e.source === "DECLARED_SCHEMA");
+    expect(declared?.data).toMatchObject({
+      model: "Ticket",
+      table: "tickets",
+      columns: ["owner_id"],
+      fields: ["ownerId"],
+    });
+  });
+
+  it("uses the model name as the table when there is no @@map", async () => {
+    const plain = await analyze({ sourceDir: sourceDir("rules/missing-index"), schemaPath: SOURCE_SCHEMA_PATH });
+    const declared = plain.find((f) => f.title.includes("Invoice.amountCents"))?.evidence.find((e) => e.source === "DECLARED_SCHEMA");
+    expect(declared?.data).toMatchObject({ table: "Invoice", columns: ["amountCents"], fields: ["amountCents"] });
+  });
+});
+
 describe("every finding", async () => {
   const all = (
     await Promise.all(
