@@ -152,6 +152,7 @@ services/                 Python 3.12, uv
   experiments/load/       load harness: fixed sequences, repeatability, collector overhead
   experiments/ablation/   configurations as layer sets, one pipeline, results store, `run` command
   experiments/analysis/   CIs, significance tests, figures -> experiments/results/
+  experiments/realworld/  repository selection, batch analysis, labelling worksheet
 apps/ecommerce/           test application 1 (Next.js + Prisma + Postgres)
 apps/blog/                test application 2
 fixtures/                 synthetic inputs for analyzer tests; recorded Prisma SQL
@@ -176,7 +177,10 @@ docker/postgres/init/     creates the ecommerce and blog databases
 | M5.1 | Ablation harness: 6 configurations + sensitivity arm, raw results in Postgres | done |
 | M5.2 | Statistical analysis: CIs, four named tests, figures | done |
 | M5.3 | M5 exit check | next |
-| M6–M8 | Real-world validation, dashboard, AI explanation layer | planned |
+| M6.1 | Repository selection protocol and candidate list | done |
+| M6.2 | Batch analysis at pinned commits, labelling worksheet | done |
+| M6.3 | Analysis of labels | after labelling |
+| M7–M8 | Adapter generalisation, dashboard, AI explanation layer | planned |
 
 Static rules implemented in the core:
 
@@ -690,7 +694,34 @@ repetitions show that, and vary only in timing. Accuracy is therefore compared o
 and F1), and timing across repetitions (Wilcoxon signed-rank with Cliff's delta). The reasoning is
 in the module docstring of [`stats.py`](services/experiments/analysis/stats.py).
 
-### 14. Run the test suites
+### 14. Real-world validation (M6)
+
+Measures the real-world precision of the static rules on open-source Prisma projects. The
+protocol is fixed in advance and the analyzer is never used to choose the sample.
+
+```bash
+cd services
+uv run python -m experiments.realworld select      # M6.1: pool -> seeded order -> criteria -> candidates
+uv run python -m experiments.realworld analyze     # M6.2: analyze the study set at pinned commits
+uv run python -m experiments.realworld show        # per-repository status and finding counts
+uv run python -m experiments.realworld worksheet   # M6.2: write labelling/worksheet.csv
+```
+
+- [`PROTOCOL.md`](services/experiments/realworld/PROTOCOL.md): inclusion and exclusion criteria,
+  the search method and its version history, and the known limits. `select` writes
+  `candidates.json` (every decision and its reason) and `CANDIDATES.md` (the table).
+- `analyze` clones each study repository at its pinned commit, runs the Approach B analyzer
+  (`{ sourceDir, schemaPath }`, no database), and stores every finding with repository, commit
+  SHA, rule, file, line and confidence in the `realworld` schema. A repository the analyzer cannot
+  process is recorded as failed and stays in the denominator.
+- `worksheet` writes one row per finding with 10 lines of source either side and the schema
+  excerpt, and **empty** `label` / `fp_cause` / `rationale` columns. Confidence and severity are
+  kept out of the worksheet (in `worksheet_key.csv`) so labelling is blind to them. The
+  double-labelled sample (at least 20% of every rule) is drawn with a fixed seed before labelling.
+- [`LABELLING.md`](services/experiments/realworld/LABELLING.md) is a **draft** labelling protocol
+  for the author to review. Nothing is labelled by the tooling.
+
+### 15. Run the test suites
 
 ```bash
 pnpm typecheck && pnpm test              # TypeScript: core (parser, ORM location, data-flow, rules, CLI) + collector

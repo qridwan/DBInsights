@@ -1,0 +1,2187 @@
+{
+  "selection_date": "2026-09-26",
+  "protocol_sha256": "26886b4394a680674bd6d5a3baf8afc105af953136c4b2907a1fb718c82051eb",
+  "study_seed": 20261001,
+  "evaluation_order": [
+    "Bmowville/flow",
+    "ibam28/erp-automation-platform",
+    "utosrad/whop-tasks-mvp",
+    "Quanosek/Games",
+    "Yuceldayan/academix-2.0",
+    "Hereetria/shearcraft-booking",
+    "deveripon/Next-Nest-Better-Auth",
+    "gkhurana21/bulkpilot",
+    "RicardoGEsteves/omniscient",
+    "cerinoligutom/GraphQL-Starter",
+    "mouadhhhallem/postforge-ai",
+    "renderffx/random",
+    "Shramkoweb/Portfolio",
+    "zrosenbauer/fastify-prisma",
+    "tarun869/donor-identity-via-link",
+    "JonathanSolvesProblems/bloom",
+    "qisarazu/iroha-fansite",
+    "mrkingsleyobi/researchhive",
+    "AGachet/SaaSFoundry",
+    "VoxHash/qr-code-generator",
+    "velobase/velobase-harness",
+    "Kennypapa/nestjs-rbac-starter",
+    "RaJharit77/Diamond-App-NextJS",
+    "omar-dulaimi/prisma-custom-models-generator",
+    "sairishitsunku/Spendr",
+    "Klemz-696/opensio",
+    "ulixert/owl-the-social-media",
+    "Hector0122/varo_backend",
+    "almuzahidseyam/cf-practice-ladder",
+    "Felix-au/CognitoX-Unified-Intelligence",
+    "salonyranjan/RxScan-AI",
+    "alishehiryarniazi-collab/school-management",
+    "Shreyas-29/cura",
+    "ahmedabbas52233-a11y/NexMart",
+    "haakonhelmenrusas/Bueboka-website",
+    "guisilva10/bigfy",
+    "bader2424/StayOps",
+    "webstonehq/webstone-plugins",
+    "balloon-4/tracker-backend",
+    "baiwumm/vue3-admin",
+    "shahriar-ahmed-seam/autoresearch-ai",
+    "ryaneggz/next-postgres-shadcn",
+    "sixP-NaraKa/chatty",
+    "MDBossss/examium",
+    "itabaselc/creative-intelligence",
+    "fahadAziz44/hobby-drop",
+    "khalidsaidi/a2abench",
+    "mohammed-bahumaish/prisma-editor",
+    "osisdie/payment-integration-demos",
+    "mike840609/assets_tracker",
+    "DS1003/baraka-shop",
+    "fletchertyler914/food-delivery",
+    "luanfreitas8779/salao-saas",
+    "bhanu87777/StockPilot-Inventory-Management-System",
+    "lulabs-org/nove-api",
+    "JohnMata0427/EPN-Places-Information-RESTful-API",
+    "adeeshperera/coursegenix-ai-learning-studio",
+    "AstorisTheBrave/Rostra",
+    "rtivital/express-template",
+    "DenGian/concord",
+    "amanbairagi30/merged-n-share",
+    "ryan-heidema/essay-grader",
+    "jawadall/codemancy-portfolio",
+    "albertjin222/taskflow",
+    "omar-dulaimi/prisma-orm-extension-zod-json",
+    "Piero24/airbnb-clone",
+    "TrinaxCode/open-banking-sandbox",
+    "drylikov/Crypto_Portfolio_Tracker_BackEnd",
+    "devhenrico/econoapp",
+    "MrSaikatS/open-exam-web",
+    "tiagogcastro/heat",
+    "muhammadjufry/jamalipay",
+    "hashmihamzah2002/InvestIQ-research-lab",
+    "isabelle-bh/X-Drive",
+    "Josenoelmarenco/foodlovers",
+    "nagarajpandith/nagarajpandith.in",
+    "MuratOfficial/pathlogs",
+    "krivoox/agent-stack-template",
+    "luisdlopera/sellflow-system",
+    "prisma-flow/prisma-flow",
+    "simongonzalezdc/tradesflow",
+    "Zidans-Haare/beer-pong",
+    "nshorna/routehub",
+    "riigait/ims",
+    "ardakrg/smp-backend",
+    "aurorascharff/next16-airline",
+    "warlock277/chronostash",
+    "calcom/cal.diy",
+    "FurlPay/furlpay-bot",
+    "Ryokacchi/Haber",
+    "Praashh/Helix",
+    "darvelyokess7-cmyk/SmartStudy-AI",
+    "pdovhomilja/nextcrm-app",
+    "kamenarov/krawlify-app",
+    "JENILP07/srsm_service-request-management-system",
+    "pphilfre/markup",
+    "KatkamKoushik/guardai",
+    "mbdevlabs/nlw-spacetime",
+    "erarbazansari/strikes-community",
+    "bhavinvirani/habit-tracker-with-openclaw",
+    "ChrisDANG-data/Household-Finance-AI",
+    "samwduncan/RowLab",
+    "OmarTemsah99/my-portfolio",
+    "albincsergo/mentat-markets"
+  ],
+  "pool_size": 2496,
+  "unevaluated": 2392,
+  "shards": [
+    {
+      "kind": "repositories",
+      "query": "topic:prisma language:TypeScript license:mit fork:false archived:false pushed:>2025-09-26 stars:0..0",
+      "total_count": 1790,
+      "returned": 1000
+    },
+    {
+      "kind": "repositories",
+      "query": "topic:prisma language:TypeScript license:mit fork:false archived:false pushed:>2025-09-26 stars:1..1",
+      "total_count": 542,
+      "returned": 542
+    },
+    {
+      "kind": "repositories",
+      "query": "topic:prisma language:TypeScript license:mit fork:false archived:false pushed:>2025-09-26 stars:2..3",
+      "total_count": 306,
+      "returned": 306
+    },
+    {
+      "kind": "repositories",
+      "query": "topic:prisma language:TypeScript license:mit fork:false archived:false pushed:>2025-09-26 stars:4..7",
+      "total_count": 144,
+      "returned": 144
+    },
+    {
+      "kind": "repositories",
+      "query": "topic:prisma language:TypeScript license:mit fork:false archived:false pushed:>2025-09-26 stars:8..15",
+      "total_count": 98,
+      "returned": 98
+    },
+    {
+      "kind": "repositories",
+      "query": "topic:prisma language:TypeScript license:mit fork:false archived:false pushed:>2025-09-26 stars:16..30",
+      "total_count": 70,
+      "returned": 70
+    },
+    {
+      "kind": "repositories",
+      "query": "topic:prisma language:TypeScript license:mit fork:false archived:false pushed:>2025-09-26 stars:31..61",
+      "total_count": 46,
+      "returned": 46
+    },
+    {
+      "kind": "repositories",
+      "query": "topic:prisma language:TypeScript license:mit fork:false archived:false pushed:>2025-09-26 stars:62..122",
+      "total_count": 22,
+      "returned": 22
+    },
+    {
+      "kind": "repositories",
+      "query": "topic:prisma language:TypeScript license:mit fork:false archived:false pushed:>2025-09-26 stars:123..244",
+      "total_count": 26,
+      "returned": 26
+    },
+    {
+      "kind": "repositories",
+      "query": "topic:prisma language:TypeScript license:mit fork:false archived:false pushed:>2025-09-26 stars:245..488",
+      "total_count": 17,
+      "returned": 17
+    },
+    {
+      "kind": "repositories",
+      "query": "topic:prisma language:TypeScript license:mit fork:false archived:false pushed:>2025-09-26 stars:489..976",
+      "total_count": 12,
+      "returned": 12
+    },
+    {
+      "kind": "repositories",
+      "query": "topic:prisma language:TypeScript license:mit fork:false archived:false pushed:>2025-09-26 stars:977..1953",
+      "total_count": 9,
+      "returned": 9
+    },
+    {
+      "kind": "repositories",
+      "query": "topic:prisma language:TypeScript license:mit fork:false archived:false pushed:>2025-09-26 stars:1954..3906",
+      "total_count": 3,
+      "returned": 3
+    },
+    {
+      "kind": "repositories",
+      "query": "topic:prisma language:TypeScript license:mit fork:false archived:false pushed:>2025-09-26 stars:3907..7812",
+      "total_count": 2,
+      "returned": 2
+    },
+    {
+      "kind": "repositories",
+      "query": "topic:prisma language:TypeScript license:mit fork:false archived:false pushed:>2025-09-26 stars:7813..15625",
+      "total_count": 2,
+      "returned": 2
+    },
+    {
+      "kind": "repositories",
+      "query": "topic:prisma language:TypeScript license:mit fork:false archived:false pushed:>2025-09-26 stars:15626..31250",
+      "total_count": 4,
+      "returned": 4
+    },
+    {
+      "kind": "repositories",
+      "query": "topic:prisma language:TypeScript license:mit fork:false archived:false pushed:>2025-09-26 stars:31251..62500",
+      "total_count": 2,
+      "returned": 2
+    },
+    {
+      "kind": "repositories",
+      "query": "topic:prisma language:TypeScript license:mit fork:false archived:false pushed:>2025-09-26 stars:62501..125000",
+      "total_count": 0,
+      "returned": 0
+    },
+    {
+      "kind": "repositories",
+      "query": "topic:prisma language:TypeScript license:mit fork:false archived:false pushed:>2025-09-26 stars:125001..250000",
+      "total_count": 0,
+      "returned": 0
+    },
+    {
+      "kind": "repositories",
+      "query": "topic:prisma language:TypeScript license:mit fork:false archived:false pushed:>2025-09-26 stars:250001..500000",
+      "total_count": 0,
+      "returned": 0
+    },
+    {
+      "kind": "repositories",
+      "query": "topic:prisma language:TypeScript license:apache-2.0 fork:false archived:false pushed:>2025-09-26 stars:0..500000",
+      "total_count": 157,
+      "returned": 157
+    },
+    {
+      "kind": "repositories",
+      "query": "topic:prisma language:TypeScript license:bsd-2-clause fork:false archived:false pushed:>2025-09-26 stars:0..500000",
+      "total_count": 1,
+      "returned": 1
+    },
+    {
+      "kind": "repositories",
+      "query": "topic:prisma language:TypeScript license:bsd-3-clause fork:false archived:false pushed:>2025-09-26 stars:0..500000",
+      "total_count": 2,
+      "returned": 2
+    },
+    {
+      "kind": "repositories",
+      "query": "topic:prisma language:TypeScript license:isc fork:false archived:false pushed:>2025-09-26 stars:0..500000",
+      "total_count": 23,
+      "returned": 23
+    },
+    {
+      "kind": "repositories",
+      "query": "topic:prisma language:TypeScript license:0bsd fork:false archived:false pushed:>2025-09-26 stars:0..500000",
+      "total_count": 4,
+      "returned": 4
+    },
+    {
+      "kind": "repositories",
+      "query": "topic:prisma language:TypeScript license:unlicense fork:false archived:false pushed:>2025-09-26 stars:0..500000",
+      "total_count": 4,
+      "returned": 4
+    }
+  ],
+  "found": 2496,
+  "eligible": 40,
+  "meets_minimum": true,
+  "excluded_by_first_failing_test": {
+    "E1": 5,
+    "E3": 10,
+    "I1": 25,
+    "I2": 17,
+    "I3": 7
+  },
+  "study_set": [
+    "AstorisTheBrave/Rostra",
+    "ChrisDANG-data/Household-Finance-AI",
+    "DenGian/concord",
+    "FurlPay/furlpay-bot",
+    "Hereetria/shearcraft-booking",
+    "JENILP07/srsm_service-request-management-system",
+    "JonathanSolvesProblems/bloom",
+    "KatkamKoushik/guardai",
+    "MuratOfficial/pathlogs",
+    "Praashh/Helix",
+    "Shramkoweb/Portfolio",
+    "Yuceldayan/academix-2.0",
+    "ahmedabbas52233-a11y/NexMart",
+    "albincsergo/mentat-markets",
+    "baiwumm/vue3-admin",
+    "bhanu87777/StockPilot-Inventory-Management-System",
+    "bhavinvirani/habit-tracker-with-openclaw",
+    "calcom/cal.diy",
+    "erarbazansari/strikes-community",
+    "fletchertyler914/food-delivery",
+    "haakonhelmenrusas/Bueboka-website",
+    "ibam28/erp-automation-platform",
+    "kamenarov/krawlify-app",
+    "mike840609/assets_tracker",
+    "mohammed-bahumaish/prisma-editor",
+    "pdovhomilja/nextcrm-app",
+    "pphilfre/markup",
+    "riigait/ims",
+    "samwduncan/RowLab",
+    "sixP-NaraKa/chatty"
+  ],
+  "candidates": [
+    {
+      "repo": "Bmowville/flow",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I2: 10 models and 4108 TypeScript lines",
+      "url": "https://github.com/Bmowville/flow",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-09-10T15:29:18Z",
+      "last_commit_sha": "9903093dbdc3476b362bb02558c8b379bd4e019d",
+      "schema_path": "prisma/postgres/schema.prisma",
+      "schema_files": 2,
+      "models": 10,
+      "typescript_loc": 4108
+    },
+    {
+      "repo": "ibam28/erp-automation-platform",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/ibam28/erp-automation-platform",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "master",
+      "last_commit_date": "2026-09-01T08:50:17Z",
+      "last_commit_sha": "08e2232e39b4cbccd7bb0c4fc2f0d28e2652ab25",
+      "schema_path": "packages/database/prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 19,
+      "typescript_loc": 7519
+    },
+    {
+      "repo": "utosrad/whop-tasks-mvp",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "E3: tutorial/starter word 'demo'",
+      "url": "https://github.com/utosrad/whop-tasks-mvp",
+      "stars": 0,
+      "license": null,
+      "default_branch": "main",
+      "last_commit_date": null,
+      "last_commit_sha": null,
+      "schema_path": null,
+      "schema_files": 0,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "Quanosek/Games",
+      "found_by": [
+        "topic:apache-2.0"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/Quanosek/Games",
+      "stars": 0,
+      "license": "Apache-2.0",
+      "default_branch": "master",
+      "last_commit_date": "2025-12-29T20:34:05Z",
+      "last_commit_sha": "d90965fad4bfa8d1d82e31027e0c37c53c359902",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 6,
+      "typescript_loc": 5910
+    },
+    {
+      "repo": "Yuceldayan/academix-2.0",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/Yuceldayan/academix-2.0",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-08-02T22:14:07Z",
+      "last_commit_sha": "1707604380b2e8b4527b950f0e4c439d0f445f95",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 8,
+      "typescript_loc": 10216
+    },
+    {
+      "repo": "Hereetria/shearcraft-booking",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/Hereetria/shearcraft-booking",
+      "stars": 4,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2025-10-01T19:59:43Z",
+      "last_commit_sha": "993dfa4e597a60f6b6c96d8a7ef021864b9c5407",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 8,
+      "typescript_loc": 14496
+    },
+    {
+      "repo": "deveripon/Next-Nest-Better-Auth",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "E3: tutorial/starter word 'starter'",
+      "url": "https://github.com/deveripon/Next-Nest-Better-Auth",
+      "stars": 29,
+      "license": null,
+      "default_branch": "main",
+      "last_commit_date": null,
+      "last_commit_sha": null,
+      "schema_path": null,
+      "schema_files": 0,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "gkhurana21/bulkpilot",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I1: no schema.prisma with a postgresql datasource",
+      "url": "https://github.com/gkhurana21/bulkpilot",
+      "stars": 1,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-07-22T02:15:27Z",
+      "last_commit_sha": "3bc485210ac6faa65883f39c47c4b46aeca0fee3",
+      "schema_path": null,
+      "schema_files": 1,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "RicardoGEsteves/omniscient",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I3: last commit 2025-02-28 is older than 12 months",
+      "url": "https://github.com/RicardoGEsteves/omniscient",
+      "stars": 120,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2025-02-28T12:13:03Z",
+      "last_commit_sha": "b6ffe3afeaf89f61b697832365eb98202b43ddbd",
+      "schema_path": null,
+      "schema_files": 0,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "cerinoligutom/GraphQL-Starter",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "E1: fork, archived or template",
+      "url": "https://github.com/cerinoligutom/GraphQL-Starter",
+      "stars": 113,
+      "license": null,
+      "default_branch": "main",
+      "last_commit_date": null,
+      "last_commit_sha": null,
+      "schema_path": null,
+      "schema_files": 0,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "mouadhhhallem/postforge-ai",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "E1: fork, archived or template",
+      "url": "https://github.com/mouadhhhallem/postforge-ai",
+      "stars": 2,
+      "license": null,
+      "default_branch": "master",
+      "last_commit_date": null,
+      "last_commit_sha": null,
+      "schema_path": null,
+      "schema_files": 0,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "renderffx/random",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I1: no schema.prisma with a postgresql datasource",
+      "url": "https://github.com/renderffx/random",
+      "stars": 1,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-01-06T06:24:12Z",
+      "last_commit_sha": "ae8cce48690e1585da98b757a53a8241f356f675",
+      "schema_path": null,
+      "schema_files": 1,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "Shramkoweb/Portfolio",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/Shramkoweb/Portfolio",
+      "stars": 15,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-09-25T13:56:41Z",
+      "last_commit_sha": "d59380cedb5fa9a1b1903e049899d5ef77a425f4",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 2,
+      "typescript_loc": 12923
+    },
+    {
+      "repo": "zrosenbauer/fastify-prisma",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I2: 1 models and 339 TypeScript lines",
+      "url": "https://github.com/zrosenbauer/fastify-prisma",
+      "stars": 42,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-05-15T19:05:09Z",
+      "last_commit_sha": "f5ed4048bf56d10f5e37ea9c0f4d80cd9c21983a",
+      "schema_path": "examples/ts-basic-cjs/prisma/schema.prisma",
+      "schema_files": 3,
+      "models": 1,
+      "typescript_loc": 339
+    },
+    {
+      "repo": "tarun869/donor-identity-via-link",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I1: no schema.prisma with a postgresql datasource",
+      "url": "https://github.com/tarun869/donor-identity-via-link",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-05-18T04:36:42Z",
+      "last_commit_sha": "ccaf4d36341268394e40b785a9af8dacbd2b69d7",
+      "schema_path": null,
+      "schema_files": 1,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "JonathanSolvesProblems/bloom",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/JonathanSolvesProblems/bloom",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-08-15T13:26:52Z",
+      "last_commit_sha": "c27fecd86b950deb5c851b70a9b8f9168abc81c0",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 6,
+      "typescript_loc": 8362
+    },
+    {
+      "repo": "qisarazu/iroha-fansite",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/qisarazu/iroha-fansite",
+      "stars": 49,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-05-06T08:57:06Z",
+      "last_commit_sha": "0aad6c6ed1ee1f94f9094529c61106e55b8da864",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 6,
+      "typescript_loc": 8837
+    },
+    {
+      "repo": "mrkingsleyobi/researchhive",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I1: no schema.prisma with a postgresql datasource",
+      "url": "https://github.com/mrkingsleyobi/researchhive",
+      "stars": 1,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2025-11-23T06:53:46Z",
+      "last_commit_sha": "565c788b444cd48a8cafa24095c7075e48e96854",
+      "schema_path": null,
+      "schema_files": 1,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "AGachet/SaaSFoundry",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I3: last commit 2025-06-25 is older than 12 months",
+      "url": "https://github.com/AGachet/SaaSFoundry",
+      "stars": 8,
+      "license": "MIT",
+      "default_branch": "master",
+      "last_commit_date": "2025-06-25T09:46:15Z",
+      "last_commit_sha": "1a682d7ecfa76edcc20af0604da962b06a9c92a7",
+      "schema_path": null,
+      "schema_files": 0,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "VoxHash/qr-code-generator",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I2: 1 models and 243 TypeScript lines",
+      "url": "https://github.com/VoxHash/qr-code-generator",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-03-13T00:40:50Z",
+      "last_commit_sha": "57a3eb3ea2f26384239d1daaf9c4ed60aecb7274",
+      "schema_path": "backend/prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 1,
+      "typescript_loc": 243
+    },
+    {
+      "repo": "velobase/velobase-harness",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "E1: fork, archived or template",
+      "url": "https://github.com/velobase/velobase-harness",
+      "stars": 603,
+      "license": null,
+      "default_branch": "main",
+      "last_commit_date": null,
+      "last_commit_sha": null,
+      "schema_path": null,
+      "schema_files": 0,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "Kennypapa/nestjs-rbac-starter",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "E3: tutorial/starter word 'starter'",
+      "url": "https://github.com/Kennypapa/nestjs-rbac-starter",
+      "stars": 1,
+      "license": null,
+      "default_branch": "main",
+      "last_commit_date": null,
+      "last_commit_sha": null,
+      "schema_path": null,
+      "schema_files": 0,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "RaJharit77/Diamond-App-NextJS",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I2: 6 models and 3210 TypeScript lines",
+      "url": "https://github.com/RaJharit77/Diamond-App-NextJS",
+      "stars": 2,
+      "license": "MIT",
+      "default_branch": "master",
+      "last_commit_date": "2026-02-08T08:54:30Z",
+      "last_commit_sha": "4cbd3fb2ed5e6c14d248e7eac68131df06e60170",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 6,
+      "typescript_loc": 3210
+    },
+    {
+      "repo": "omar-dulaimi/prisma-custom-models-generator",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I1: no schema.prisma with a postgresql datasource",
+      "url": "https://github.com/omar-dulaimi/prisma-custom-models-generator",
+      "stars": 22,
+      "license": "MIT",
+      "default_branch": "master",
+      "last_commit_date": "2026-07-28T19:36:33Z",
+      "last_commit_sha": "b15459ffed1bbd17097b6f1f6114815173950f8b",
+      "schema_path": null,
+      "schema_files": 1,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "sairishitsunku/Spendr",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I1: no schema.prisma with a postgresql datasource",
+      "url": "https://github.com/sairishitsunku/Spendr",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-07-16T10:42:14Z",
+      "last_commit_sha": "083f1e6b674604642f0834384c8e4f1cce4f5b13",
+      "schema_path": null,
+      "schema_files": 1,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "Klemz-696/opensio",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "E3: tutorial/starter word 'learn'",
+      "url": "https://github.com/Klemz-696/opensio",
+      "stars": 1,
+      "license": null,
+      "default_branch": "main",
+      "last_commit_date": null,
+      "last_commit_sha": null,
+      "schema_path": null,
+      "schema_files": 0,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "ulixert/owl-the-social-media",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/ulixert/owl-the-social-media",
+      "stars": 1,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-06-09T00:55:04Z",
+      "last_commit_sha": "5aca9db5d75250087f97c705ed7b19defebf2e4a",
+      "schema_path": "server/prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 7,
+      "typescript_loc": 13287
+    },
+    {
+      "repo": "Hector0122/varo_backend",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I2: 7 models and 3020 TypeScript lines",
+      "url": "https://github.com/Hector0122/varo_backend",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-08-25T23:26:23Z",
+      "last_commit_sha": "8540496701b98246581d0ec410c8c2090ef0ea04",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 7,
+      "typescript_loc": 3020
+    },
+    {
+      "repo": "almuzahidseyam/cf-practice-ladder",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "E3: tutorial/starter word 'learn'",
+      "url": "https://github.com/almuzahidseyam/cf-practice-ladder",
+      "stars": 1,
+      "license": null,
+      "default_branch": "main",
+      "last_commit_date": null,
+      "last_commit_sha": null,
+      "schema_path": null,
+      "schema_files": 0,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "Felix-au/CognitoX-Unified-Intelligence",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I1: no schema.prisma with a postgresql datasource",
+      "url": "https://github.com/Felix-au/CognitoX-Unified-Intelligence",
+      "stars": 53,
+      "license": "MIT",
+      "default_branch": "master",
+      "last_commit_date": "2026-07-27T19:52:12Z",
+      "last_commit_sha": "3298f121db6fd1df71df0549519db2c84d233308",
+      "schema_path": null,
+      "schema_files": 1,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "salonyranjan/RxScan-AI",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I2: 5 models and 3636 TypeScript lines",
+      "url": "https://github.com/salonyranjan/RxScan-AI",
+      "stars": 2,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-05-21T13:34:05Z",
+      "last_commit_sha": "31c163d033029ff4c4542f9ba98c9cf8343a2b9d",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 5,
+      "typescript_loc": 3636
+    },
+    {
+      "repo": "alishehiryarniazi-collab/school-management",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I1: no schema.prisma with a postgresql datasource",
+      "url": "https://github.com/alishehiryarniazi-collab/school-management",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-08-19T13:22:12Z",
+      "last_commit_sha": "f269da96daf11af744d36d5c9cdf335a6ace86a9",
+      "schema_path": null,
+      "schema_files": 1,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "Shreyas-29/cura",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I1: no schema.prisma with a postgresql datasource",
+      "url": "https://github.com/Shreyas-29/cura",
+      "stars": 56,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-01-27T06:50:20Z",
+      "last_commit_sha": "8b32159876979a43255d40713db2932d4f2596dd",
+      "schema_path": null,
+      "schema_files": 1,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "ahmedabbas52233-a11y/NexMart",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/ahmedabbas52233-a11y/NexMart",
+      "stars": 1,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-07-10T12:27:14Z",
+      "last_commit_sha": "ce6b8f51c7dd2db813a8d7f267ee7119fab4f1c4",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 11,
+      "typescript_loc": 11270
+    },
+    {
+      "repo": "haakonhelmenrusas/Bueboka-website",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/haakonhelmenrusas/Bueboka-website",
+      "stars": 1,
+      "license": "MIT",
+      "default_branch": "dev",
+      "last_commit_date": "2026-08-28T19:54:33Z",
+      "last_commit_sha": "060b8e0a6558b198caf53a526aa749093f9438ef",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 14,
+      "typescript_loc": 26762
+    },
+    {
+      "repo": "guisilva10/bigfy",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I1: no schema.prisma with a postgresql datasource",
+      "url": "https://github.com/guisilva10/bigfy",
+      "stars": 1,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-08-27T16:09:00Z",
+      "last_commit_sha": "6436f98905a884a77091dc37e2fa4d3c386439dc",
+      "schema_path": null,
+      "schema_files": 1,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "bader2424/StayOps",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I1: no schema.prisma file",
+      "url": "https://github.com/bader2424/StayOps",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-07-15T06:44:48Z",
+      "last_commit_sha": "2148922d098ed7c5a3f09fa747afa7a178b8a5db",
+      "schema_path": null,
+      "schema_files": 0,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "webstonehq/webstone-plugins",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I3: last commit 2023-08-24 is older than 12 months",
+      "url": "https://github.com/webstonehq/webstone-plugins",
+      "stars": 81,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2023-08-24T07:37:32Z",
+      "last_commit_sha": "5296c66e4191ea32b09b70bf728fc023f0f1ccc4",
+      "schema_path": null,
+      "schema_files": 0,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "balloon-4/tracker-backend",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I3: last commit 2025-09-02 is older than 12 months",
+      "url": "https://github.com/balloon-4/tracker-backend",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2025-09-02T02:57:35Z",
+      "last_commit_sha": "b8fdc963bf2daf97da3e4ad3e01bb62cce6d0ca8",
+      "schema_path": null,
+      "schema_files": 0,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "baiwumm/vue3-admin",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/baiwumm/vue3-admin",
+      "stars": 372,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2025-11-18T05:57:13Z",
+      "last_commit_sha": "9dc1161eba8f36955bac83fd484a4dfc1b7b229d",
+      "schema_path": "server/prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 10,
+      "typescript_loc": 16938
+    },
+    {
+      "repo": "shahriar-ahmed-seam/autoresearch-ai",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I1: no schema.prisma with a postgresql datasource",
+      "url": "https://github.com/shahriar-ahmed-seam/autoresearch-ai",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-07-01T03:13:47Z",
+      "last_commit_sha": "f57164a571b7b6ced3a8d256d8f3541f0d476787",
+      "schema_path": null,
+      "schema_files": 2,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "ryaneggz/next-postgres-shadcn",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I2: 0 models and 4619 TypeScript lines",
+      "url": "https://github.com/ryaneggz/next-postgres-shadcn",
+      "stars": 1,
+      "license": "MIT",
+      "default_branch": "development",
+      "last_commit_date": "2026-04-11T15:17:10Z",
+      "last_commit_sha": "6361393e6d8c65e029d0e9fc67950bb8971105e7",
+      "schema_path": "workspace/projects/next-app/prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 0,
+      "typescript_loc": 4619
+    },
+    {
+      "repo": "sixP-NaraKa/chatty",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/sixP-NaraKa/chatty",
+      "stars": 2,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2025-10-04T00:42:02Z",
+      "last_commit_sha": "012eee3295e9dbb52e05c1110f38d7e8857ec59c",
+      "schema_path": "backend/prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 8,
+      "typescript_loc": 7460
+    },
+    {
+      "repo": "MDBossss/examium",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I1: no schema.prisma with a postgresql datasource",
+      "url": "https://github.com/MDBossss/examium",
+      "stars": 1,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2025-12-01T18:57:17Z",
+      "last_commit_sha": "0f21c8983d601eac75638d0c60684c1d06169597",
+      "schema_path": null,
+      "schema_files": 1,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "itabaselc/creative-intelligence",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I2: 6 models and 2058 TypeScript lines",
+      "url": "https://github.com/itabaselc/creative-intelligence",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-09-01T23:26:31Z",
+      "last_commit_sha": "e6b9bf4953857017ce7023750a874afb5a995836",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 6,
+      "typescript_loc": 2058
+    },
+    {
+      "repo": "fahadAziz44/hobby-drop",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I2: 2 models and 1803 TypeScript lines",
+      "url": "https://github.com/fahadAziz44/hobby-drop",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "master",
+      "last_commit_date": "2025-11-20T20:02:54Z",
+      "last_commit_sha": "9fc2b78fb1a7cbc5a112c54657ba3d539b0e2e42",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 2,
+      "typescript_loc": 1803
+    },
+    {
+      "repo": "khalidsaidi/a2abench",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/khalidsaidi/a2abench",
+      "stars": 2,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-08-27T23:27:01Z",
+      "last_commit_sha": "795fddad803ea51ff0ae25d9284d7d445febd540",
+      "schema_path": "apps/api/prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 20,
+      "typescript_loc": 3278
+    },
+    {
+      "repo": "mohammed-bahumaish/prisma-editor",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/mohammed-bahumaish/prisma-editor",
+      "stars": 1035,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-09-09T01:28:32Z",
+      "last_commit_sha": "fdd40d489403b8662ac75dcf30b208c35d606d38",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 6,
+      "typescript_loc": 8765
+    },
+    {
+      "repo": "osisdie/payment-integration-demos",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "E3: tutorial/starter word 'demo'",
+      "url": "https://github.com/osisdie/payment-integration-demos",
+      "stars": 0,
+      "license": null,
+      "default_branch": "main",
+      "last_commit_date": null,
+      "last_commit_sha": null,
+      "schema_path": null,
+      "schema_files": 0,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "mike840609/assets_tracker",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/mike840609/assets_tracker",
+      "stars": 26,
+      "license": "MIT",
+      "default_branch": "master",
+      "last_commit_date": "2026-09-23T02:43:41Z",
+      "last_commit_sha": "fec013a42b620dee31fcedb0fadb09f55fd71871",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 20,
+      "typescript_loc": 77051
+    },
+    {
+      "repo": "DS1003/baraka-shop",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/DS1003/baraka-shop",
+      "stars": 1,
+      "license": "MIT",
+      "default_branch": "master",
+      "last_commit_date": "2026-09-17T20:59:48Z",
+      "last_commit_sha": "a2d7586dd6228b5786b9218c0f12abe453a86631",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 26,
+      "typescript_loc": 40082
+    },
+    {
+      "repo": "fletchertyler914/food-delivery",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/fletchertyler914/food-delivery",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-06-08T15:15:02Z",
+      "last_commit_sha": "8108d416540285f05154dc27c9db146ca5dee676",
+      "schema_path": "apps/api/prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 9,
+      "typescript_loc": 20676
+    },
+    {
+      "repo": "luanfreitas8779/salao-saas",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I2: 6 models and 1395 TypeScript lines",
+      "url": "https://github.com/luanfreitas8779/salao-saas",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-08-02T22:24:56Z",
+      "last_commit_sha": "e32e6902047d6543648046ad8d9ac40fa04c10a9",
+      "schema_path": "backend/prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 6,
+      "typescript_loc": 1395
+    },
+    {
+      "repo": "bhanu87777/StockPilot-Inventory-Management-System",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/bhanu87777/StockPilot-Inventory-Management-System",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-07-16T08:02:56Z",
+      "last_commit_sha": "436e8abeadf4fa1815b9d636a6d2566510779210",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 17,
+      "typescript_loc": 8839
+    },
+    {
+      "repo": "lulabs-org/nove-api",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/lulabs-org/nove-api",
+      "stars": 3,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-09-26T03:16:13Z",
+      "last_commit_sha": "7f7a519e3610e44dc939c51a345394444cd636fd",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 0,
+      "typescript_loc": 96641
+    },
+    {
+      "repo": "JohnMata0427/EPN-Places-Information-RESTful-API",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I2: 1 models and 254 TypeScript lines",
+      "url": "https://github.com/JohnMata0427/EPN-Places-Information-RESTful-API",
+      "stars": 1,
+      "license": "MIT",
+      "default_branch": "master",
+      "last_commit_date": "2026-09-14T01:57:52Z",
+      "last_commit_sha": "f785e57eb2fe1041dc077798da6720d184b3b1b0",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 1,
+      "typescript_loc": 254
+    },
+    {
+      "repo": "adeeshperera/coursegenix-ai-learning-studio",
+      "found_by": [
+        "topic:apache-2.0"
+      ],
+      "decision": "excluded",
+      "reason": "E3: tutorial/starter word 'course'",
+      "url": "https://github.com/adeeshperera/coursegenix-ai-learning-studio",
+      "stars": 4,
+      "license": null,
+      "default_branch": "main",
+      "last_commit_date": null,
+      "last_commit_sha": null,
+      "schema_path": null,
+      "schema_files": 0,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "AstorisTheBrave/Rostra",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/AstorisTheBrave/Rostra",
+      "stars": 7,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-09-09T15:20:50Z",
+      "last_commit_sha": "6a7e5ecf03be068c3f3cb3cc4b14a45dae543925",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 65,
+      "typescript_loc": 23476
+    },
+    {
+      "repo": "rtivital/express-template",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "E1: fork, archived or template",
+      "url": "https://github.com/rtivital/express-template",
+      "stars": 23,
+      "license": null,
+      "default_branch": "master",
+      "last_commit_date": null,
+      "last_commit_sha": null,
+      "schema_path": null,
+      "schema_files": 0,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "DenGian/concord",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/DenGian/concord",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-09-18T12:07:09Z",
+      "last_commit_sha": "b9ba78142468dc5fd2ad6ea0e622fefacf98cde6",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 7,
+      "typescript_loc": 6908
+    },
+    {
+      "repo": "amanbairagi30/merged-n-share",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/amanbairagi30/merged-n-share",
+      "stars": 61,
+      "license": "MIT",
+      "default_branch": "master",
+      "last_commit_date": "2025-12-14T11:41:25Z",
+      "last_commit_sha": "546ae186fad94b32383f2a2c5ddddd474fb79313",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 7,
+      "typescript_loc": 8437
+    },
+    {
+      "repo": "ryan-heidema/essay-grader",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/ryan-heidema/essay-grader",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-02-06T02:29:32Z",
+      "last_commit_sha": "3365805999c8a3e1f887553ad5ab71d2b8f2011a",
+      "schema_path": "packages/database/prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 8,
+      "typescript_loc": 30417
+    },
+    {
+      "repo": "jawadall/codemancy-portfolio",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "E3: tutorial/starter word 'demo'",
+      "url": "https://github.com/jawadall/codemancy-portfolio",
+      "stars": 0,
+      "license": null,
+      "default_branch": "main",
+      "last_commit_date": null,
+      "last_commit_sha": null,
+      "schema_path": null,
+      "schema_files": 0,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "albertjin222/taskflow",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I1: no schema.prisma with a postgresql datasource",
+      "url": "https://github.com/albertjin222/taskflow",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-07-22T19:47:21Z",
+      "last_commit_sha": "ec6cadbd4e9d5dd512b591afcbbb485f464f9d89",
+      "schema_path": null,
+      "schema_files": 1,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "omar-dulaimi/prisma-orm-extension-zod-json",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I1: no schema.prisma file",
+      "url": "https://github.com/omar-dulaimi/prisma-orm-extension-zod-json",
+      "stars": 2,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-08-22T12:29:43Z",
+      "last_commit_sha": "bdd1f8e8f42ad7d0828bf6fc28a25368bd3e2745",
+      "schema_path": null,
+      "schema_files": 0,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "Piero24/airbnb-clone",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I2: 4 models and 4318 TypeScript lines",
+      "url": "https://github.com/Piero24/airbnb-clone",
+      "stars": 3,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-07-23T20:18:06Z",
+      "last_commit_sha": "2a41ed7db60b4b2a414ad9f85bbf1ce4ae4b9494",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 4,
+      "typescript_loc": 4318
+    },
+    {
+      "repo": "TrinaxCode/open-banking-sandbox",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I1: no schema.prisma with a postgresql datasource",
+      "url": "https://github.com/TrinaxCode/open-banking-sandbox",
+      "stars": 1,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-07-29T04:29:10Z",
+      "last_commit_sha": "622a4459d1b457283917311e98bdfeea012bd5c6",
+      "schema_path": null,
+      "schema_files": 1,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "drylikov/Crypto_Portfolio_Tracker_BackEnd",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I2: 3 models and 1750 TypeScript lines",
+      "url": "https://github.com/drylikov/Crypto_Portfolio_Tracker_BackEnd",
+      "stars": 8,
+      "license": "MIT",
+      "default_branch": "drylikov",
+      "last_commit_date": "2026-02-27T11:20:50Z",
+      "last_commit_sha": "9352a66236ce8c777adacd88787148d7d02b0ce6",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 3,
+      "typescript_loc": 1750
+    },
+    {
+      "repo": "devhenrico/econoapp",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I2: 5 models and 4877 TypeScript lines",
+      "url": "https://github.com/devhenrico/econoapp",
+      "stars": 3,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-04-30T23:38:53Z",
+      "last_commit_sha": "a085ca1e14be4152d7123737e3b80285036c37a1",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 5,
+      "typescript_loc": 4877
+    },
+    {
+      "repo": "MrSaikatS/open-exam-web",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I1: no schema.prisma with a postgresql datasource",
+      "url": "https://github.com/MrSaikatS/open-exam-web",
+      "stars": 3,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-07-13T07:59:57Z",
+      "last_commit_sha": "52a0ea18b2a41c0bb1a256faa9e94860d7f602de",
+      "schema_path": null,
+      "schema_files": 1,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "tiagogcastro/heat",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I1: no schema.prisma with a postgresql datasource",
+      "url": "https://github.com/tiagogcastro/heat",
+      "stars": 1,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-08-25T03:27:28Z",
+      "last_commit_sha": "f689a0f2e4bbc12b5285787b51bd5d145aa76bc1",
+      "schema_path": null,
+      "schema_files": 1,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "muhammadjufry/jamalipay",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I3: last commit 2024-04-17 is older than 12 months",
+      "url": "https://github.com/muhammadjufry/jamalipay",
+      "stars": 1,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2024-04-17T02:56:44Z",
+      "last_commit_sha": "36929ab1834b4435e351a199839b6461241f20cc",
+      "schema_path": null,
+      "schema_files": 0,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "hashmihamzah2002/InvestIQ-research-lab",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I1: no schema.prisma with a postgresql datasource",
+      "url": "https://github.com/hashmihamzah2002/InvestIQ-research-lab",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-07-23T03:47:12Z",
+      "last_commit_sha": "19b171ec7d6ae232b80ff67810bfcb59286921e0",
+      "schema_path": null,
+      "schema_files": 1,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "isabelle-bh/X-Drive",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I2: 7 models and 996 TypeScript lines",
+      "url": "https://github.com/isabelle-bh/X-Drive",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-04-20T20:38:10Z",
+      "last_commit_sha": "4dc3cbeee1317661ed9a4ba828744674a0ee38aa",
+      "schema_path": "x-drive-crm/prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 7,
+      "typescript_loc": 996
+    },
+    {
+      "repo": "Josenoelmarenco/foodlovers",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I2: 4 models and 3000 TypeScript lines",
+      "url": "https://github.com/Josenoelmarenco/foodlovers",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-05-14T08:59:12Z",
+      "last_commit_sha": "1271621cbd19348071d6bf11cb9566e7b5b77bcb",
+      "schema_path": "backend/prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 4,
+      "typescript_loc": 3000
+    },
+    {
+      "repo": "nagarajpandith/nagarajpandith.in",
+      "found_by": [
+        "topic:apache-2.0"
+      ],
+      "decision": "excluded",
+      "reason": "I3: last commit 2024-12-15 is older than 12 months",
+      "url": "https://github.com/nagarajpandith/nagarajpandith.in",
+      "stars": 13,
+      "license": "Apache-2.0",
+      "default_branch": "main",
+      "last_commit_date": "2024-12-15T10:17:35Z",
+      "last_commit_sha": "4ce04ea7b25c6c91c4e2c5a99bf476cfb3bac8a2",
+      "schema_path": null,
+      "schema_files": 0,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "MuratOfficial/pathlogs",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/MuratOfficial/pathlogs",
+      "stars": 1,
+      "license": "MIT",
+      "default_branch": "master",
+      "last_commit_date": "2026-09-19T16:52:19Z",
+      "last_commit_sha": "6f6e4ab0452dcf9bbe4e2a28f02d7035447203f8",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 31,
+      "typescript_loc": 25562
+    },
+    {
+      "repo": "krivoox/agent-stack-template",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "E1: fork, archived or template",
+      "url": "https://github.com/krivoox/agent-stack-template",
+      "stars": 31,
+      "license": null,
+      "default_branch": "main",
+      "last_commit_date": null,
+      "last_commit_sha": null,
+      "schema_path": null,
+      "schema_files": 0,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "luisdlopera/sellflow-system",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/luisdlopera/sellflow-system",
+      "stars": 2,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-05-12T23:28:59Z",
+      "last_commit_sha": "dc70a28c6b533121f84d60032af0397c77b207db",
+      "schema_path": "back/prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 20,
+      "typescript_loc": 32906
+    },
+    {
+      "repo": "prisma-flow/prisma-flow",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I1: no schema.prisma with a postgresql datasource",
+      "url": "https://github.com/prisma-flow/prisma-flow",
+      "stars": 3,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-08-28T00:05:02Z",
+      "last_commit_sha": "95705fb19fa7f3d30ad8854a5684c45b9cc8542f",
+      "schema_path": null,
+      "schema_files": 1,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "simongonzalezdc/tradesflow",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I2: 12 models and 3864 TypeScript lines",
+      "url": "https://github.com/simongonzalezdc/tradesflow",
+      "stars": 1,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-09-01T10:36:23Z",
+      "last_commit_sha": "ff6667f9c40c974ceccefac6793a7b75aff68edb",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 12,
+      "typescript_loc": 3864
+    },
+    {
+      "repo": "Zidans-Haare/beer-pong",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I1: no schema.prisma with a postgresql datasource",
+      "url": "https://github.com/Zidans-Haare/beer-pong",
+      "stars": 2,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-09-18T06:09:10Z",
+      "last_commit_sha": "d4b2f1cbefb4e88a98052369820f21e61c67956a",
+      "schema_path": null,
+      "schema_files": 1,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "nshorna/routehub",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I1: no schema.prisma with a postgresql datasource",
+      "url": "https://github.com/nshorna/routehub",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-09-18T08:30:21Z",
+      "last_commit_sha": "b1c82dfd09fab813b78cf9719eedb801eea97774",
+      "schema_path": null,
+      "schema_files": 1,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "riigait/ims",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/riigait/ims",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-06-24T13:50:15Z",
+      "last_commit_sha": "969256b3152d5505cb7d5a05c0756deb371e1214",
+      "schema_path": "backend/prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 25,
+      "typescript_loc": 33929
+    },
+    {
+      "repo": "ardakrg/smp-backend",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/ardakrg/smp-backend",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-05-23T01:03:00Z",
+      "last_commit_sha": "f3d0db12b5c6dfae7f258cd2af0112bdaf4c8bea",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 16,
+      "typescript_loc": 6528
+    },
+    {
+      "repo": "aurorascharff/next16-airline",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "E3: tutorial/starter word 'demo'",
+      "url": "https://github.com/aurorascharff/next16-airline",
+      "stars": 9,
+      "license": null,
+      "default_branch": "main",
+      "last_commit_date": null,
+      "last_commit_sha": null,
+      "schema_path": null,
+      "schema_files": 0,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "warlock277/chronostash",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I1: no schema.prisma with a postgresql datasource",
+      "url": "https://github.com/warlock277/chronostash",
+      "stars": 5,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-07-27T16:56:18Z",
+      "last_commit_sha": "428329c5c8b9910139c1d43faa105a41025121a0",
+      "schema_path": null,
+      "schema_files": 1,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "calcom/cal.diy",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/calcom/cal.diy",
+      "stars": 48651,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-09-20T08:17:32Z",
+      "last_commit_sha": "54343aa685ae8f33159d2f485ec4a57bad5c574a",
+      "schema_path": "packages/prisma/schema.prisma",
+      "schema_files": 2,
+      "models": 100,
+      "typescript_loc": 546362
+    },
+    {
+      "repo": "FurlPay/furlpay-bot",
+      "found_by": [
+        "topic:apache-2.0"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/FurlPay/furlpay-bot",
+      "stars": 0,
+      "license": "Apache-2.0",
+      "default_branch": "main",
+      "last_commit_date": "2026-09-03T09:17:55Z",
+      "last_commit_sha": "5c2034a9b2fce70c1f7c997991c39f3f97c2be1f",
+      "schema_path": "packages/db/prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 55,
+      "typescript_loc": 154741
+    },
+    {
+      "repo": "Ryokacchi/Haber",
+      "found_by": [
+        "topic:apache-2.0"
+      ],
+      "decision": "excluded",
+      "reason": "I3: last commit 2025-07-22 is older than 12 months",
+      "url": "https://github.com/Ryokacchi/Haber",
+      "stars": 10,
+      "license": "Apache-2.0",
+      "default_branch": "master",
+      "last_commit_date": "2025-07-22T17:23:16Z",
+      "last_commit_sha": "29cb93e11142f30146bc7b2b7d2fb9d77016673d",
+      "schema_path": null,
+      "schema_files": 0,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "Praashh/Helix",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/Praashh/Helix",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-07-01T18:44:54Z",
+      "last_commit_sha": "8ac6c22309f253ec3ee3720032c30c65ea65297b",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 4,
+      "typescript_loc": 8754
+    },
+    {
+      "repo": "darvelyokess7-cmyk/SmartStudy-AI",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "E3: tutorial/starter word 'learn'",
+      "url": "https://github.com/darvelyokess7-cmyk/SmartStudy-AI",
+      "stars": 1,
+      "license": null,
+      "default_branch": "main",
+      "last_commit_date": null,
+      "last_commit_sha": null,
+      "schema_path": null,
+      "schema_files": 0,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "pdovhomilja/nextcrm-app",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/pdovhomilja/nextcrm-app",
+      "stars": 700,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-08-10T16:05:05Z",
+      "last_commit_sha": "b46b563b61c948a07a9cc5a340032444db1f8188",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 84,
+      "typescript_loc": 119367
+    },
+    {
+      "repo": "kamenarov/krawlify-app",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/kamenarov/krawlify-app",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-08-04T10:28:58Z",
+      "last_commit_sha": "99283a145ba1737768f231418d5bf4075bc75448",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 9,
+      "typescript_loc": 9174
+    },
+    {
+      "repo": "JENILP07/srsm_service-request-management-system",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/JENILP07/srsm_service-request-management-system",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-03-10T07:48:12Z",
+      "last_commit_sha": "1f3ed2a942a5d4fd611d07261967f4aba4d427db",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 13,
+      "typescript_loc": 12437
+    },
+    {
+      "repo": "pphilfre/markup",
+      "found_by": [
+        "topic:apache-2.0"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/pphilfre/markup",
+      "stars": 4,
+      "license": "Apache-2.0",
+      "default_branch": "main",
+      "last_commit_date": "2026-09-07T17:27:07Z",
+      "last_commit_sha": "4f4000b17b5c80dafef5619ca19dbe9c2c11ddbe",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 8,
+      "typescript_loc": 34109
+    },
+    {
+      "repo": "KatkamKoushik/guardai",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/KatkamKoushik/guardai",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "master",
+      "last_commit_date": "2026-09-17T08:20:37Z",
+      "last_commit_sha": "75108e61434b6474f3b882aa988d91951fd612e9",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 8,
+      "typescript_loc": 6809
+    },
+    {
+      "repo": "mbdevlabs/nlw-spacetime",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I1: no schema.prisma with a postgresql datasource",
+      "url": "https://github.com/mbdevlabs/nlw-spacetime",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-03-03T02:58:53Z",
+      "last_commit_sha": "cd7395366a4000f20beacce5f8d5fee86f485302",
+      "schema_path": null,
+      "schema_files": 1,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "erarbazansari/strikes-community",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/erarbazansari/strikes-community",
+      "stars": 1,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-03-11T07:01:59Z",
+      "last_commit_sha": "034efa7947ec7fe96a8b22be2d2d26a6157b5247",
+      "schema_path": "packages/db/prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 7,
+      "typescript_loc": 11121
+    },
+    {
+      "repo": "bhavinvirani/habit-tracker-with-openclaw",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/bhavinvirani/habit-tracker-with-openclaw",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-02-22T20:50:56Z",
+      "last_commit_sha": "c9fff47a137c3c92e42d4a6b09dc87b5d5ebc850",
+      "schema_path": "backend/prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 19,
+      "typescript_loc": 39365
+    },
+    {
+      "repo": "ChrisDANG-data/Household-Finance-AI",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/ChrisDANG-data/Household-Finance-AI",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-07-17T01:32:17Z",
+      "last_commit_sha": "0ddf797321d066825635bb856a1280e2fbecc28d",
+      "schema_path": "apps/web/prisma/schema.prisma",
+      "schema_files": 2,
+      "models": 11,
+      "typescript_loc": 27900
+    },
+    {
+      "repo": "samwduncan/RowLab",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/samwduncan/RowLab",
+      "stars": 2,
+      "license": "MIT",
+      "default_branch": "master",
+      "last_commit_date": "2026-02-27T18:07:16Z",
+      "last_commit_sha": "2c8ecf65bbf0a91a043e1a684548eb7c2a0f7bee",
+      "schema_path": "prisma/schema.prisma",
+      "schema_files": 1,
+      "models": 74,
+      "typescript_loc": 142547
+    },
+    {
+      "repo": "OmarTemsah99/my-portfolio",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "excluded",
+      "reason": "I1: no schema.prisma with a postgresql datasource",
+      "url": "https://github.com/OmarTemsah99/my-portfolio",
+      "stars": 1,
+      "license": "MIT",
+      "default_branch": "master",
+      "last_commit_date": "2026-01-28T16:34:16Z",
+      "last_commit_sha": "0325bee541afd11eea579d43d0c2490128c7426a",
+      "schema_path": null,
+      "schema_files": 1,
+      "models": null,
+      "typescript_loc": null
+    },
+    {
+      "repo": "albincsergo/mentat-markets",
+      "found_by": [
+        "topic:mit"
+      ],
+      "decision": "eligible",
+      "reason": "meets all criteria",
+      "url": "https://github.com/albincsergo/mentat-markets",
+      "stars": 0,
+      "license": "MIT",
+      "default_branch": "main",
+      "last_commit_date": "2026-03-17T13:08:47Z",
+      "last_commit_sha": "cdec7699d5376ee0ccd140b7dac814fbe69cfeb5",
+      "schema_path": "packages/shared/data/schema.prisma",
+      "schema_files": 1,
+      "models": 31,
+      "typescript_loc": 8541
+    }
+  ]
+}
