@@ -17,7 +17,7 @@ from typing import Any
 from experiments.ablation.experiment import MANIFESTS, _urls
 from experiments.ablation.store import AblationStore
 
-from .compare import compare, summarize
+from .compare import compare, index_share, summarize
 from .data import load_dataset
 from .figures import all_figures
 
@@ -53,6 +53,7 @@ def analyze(experiment_id: str | None, out: Path) -> dict[str, Any]:
         "provenance": dataset.provenance,
         "configurations": summarize(dataset),
         "comparisons": compare(dataset),
+        "h5_index_share": index_share(dataset),
         "notes": {
             "confidence_intervals": "Mean over repetitions with a 95% Student-t interval; a "
             "metric whose n_distinct is 1 had no variance across repetitions, so its interval is "

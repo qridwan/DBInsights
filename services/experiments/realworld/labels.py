@@ -30,7 +30,6 @@ when the corrected p is below 0.05; the size of the gap is reported either way.
 """
 
 import csv
-import math
 import random
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -38,7 +37,7 @@ from typing import Any
 
 from scipy import stats as scipy_stats
 
-from experiments.analysis.stats import bootstrap_ci, holm
+from experiments.analysis.stats import bootstrap_ci, holm, wilson
 
 LABELS = ("TP", "FP", "UNSURE")
 FP_CAUSES = (
@@ -51,21 +50,10 @@ FP_CAUSES = (
 )
 INDEX_RULE = "MISSING_INDEX_ON_FILTERED_FIELD"
 SEED = 20261003
-Z95 = 1.959963984540054
 
 
 class LabelError(ValueError):
     """The worksheet does not follow the labelling protocol; the message lists every problem."""
-
-
-def wilson(successes: int, n: int, z: float = Z95) -> tuple[float | None, float | None]:
-    if n == 0:
-        return None, None
-    p = successes / n
-    denom = 1 + z * z / n
-    centre = (p + z * z / (2 * n)) / denom
-    half = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / denom
-    return max(centre - half, 0.0), min(centre + half, 1.0)
 
 
 def load(worksheet: Path, key: Path | None = None, allow_partial: bool = False) -> list[dict]:

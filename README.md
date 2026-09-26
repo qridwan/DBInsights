@@ -153,8 +153,12 @@ services/                 Python 3.12, uv
   experiments/ablation/   configurations as layer sets, one pipeline, results store, `run` command
   experiments/analysis/   CIs, significance tests, figures -> experiments/results/
   experiments/realworld/  repository selection, batch analysis, labelling worksheet
+  experiments/writeup/    results chapter generator (template + stored results)
+  api/dashboard/          scans, snapshots and read API for the dashboard
+  api/explain/            AI explanation layer (read-only projection in, two text fields out)
 apps/ecommerce/           test application 1 (Next.js + Prisma + Postgres)
 apps/blog/                test application 2
+apps/dashboard/           Next.js dashboard (M8)
 fixtures/                 synthetic inputs for analyzer tests; recorded Prisma SQL
 docker/postgres/init/     creates the ecommerce and blog databases
 ```
@@ -180,7 +184,10 @@ docker/postgres/init/     creates the ecommerce and blog databases
 | M6.1 | Repository selection protocol and candidate list | done |
 | M6.2 | Batch analysis at pinned commits, labelling worksheet | done |
 | M6.3 | Analysis of labels | tooling done; needs your labels |
-| M7–M8 | Adapter generalisation, dashboard, AI explanation layer | planned |
+| M7 | Adapter generalisation | not started (optional) |
+| M8.1 | Dashboard with evidence chains | done |
+| M8.2 | AI explanation layer | done (needs an API key to run) |
+| M8.3 | Results chapter | draft; real-world precision pending labels |
 
 Static rules implemented in the core:
 
@@ -728,7 +735,55 @@ uv run python -m experiments.realworld labels --worksheet <labelled.csv>   # M6.
 - [`LABELLING.md`](services/experiments/realworld/LABELLING.md) is a **draft** labelling protocol
   for the author to review. Nothing is labelled by the tooling.
 
-### 15. Run the test suites
+### 15. Dashboard, explanation layer and results chapter (M8)
+
+**Dashboard (M8.1).** Two processes: a host API that runs scans and serves them, and the Next.js app.
+
+```bash
+cd services
+DBINSIGHT_RESULTS_DATABASE_URL=postgresql://dbinsight:dbinsight@localhost:5432/dbinsight \
+  uv run uvicorn api.dashboard.app:app --port 8710       # scans + read API (needs node and the stack)
+pnpm --filter dashboard dev                              # http://localhost:3003
+```
+
+Open an application and press **Run scan** (about 10 s: the full hybrid pipeline, every layer, correlated).
+A scan stores its findings plus snapshots of the query analytics, data-quality and schema views, so
+every page describes one scan and the health page trends across scans.
+
+- **Health**: findings by severity per scan, by contributing layer, layer timings.
+- **Findings**: filter by severity, confidence, rule and evidence layer. Each finding shows its
+  **evidence chain**: every item labelled with the layer it came from, with the layers that
+  contributed nothing shown greyed out.
+- **Query analytics**: most repeated query shape within one request per endpoint, most frequent and slowest shapes.
+- **Data quality**: each column's current value drawn against the range each detector learned from its own history.
+- **Schema divergence**: declared (`schema.prisma`) and actual (database catalog) side by side, never merged.
+
+*N+1 in under five minutes:* start the two processes, **Run scan** on `ecommerce`, open
+**Findings**, filter rule `N_PLUS_ONE_IN_LOOP`, open the first finding: static source (a query in a loop over an
+ORM result), runtime (24 executions in one request), SQL (the query shape) and actual schema (the index that makes
+each execution cheap and the cost their number). Then **Query analytics** shows the same endpoint at 24 repeats.
+
+**AI explanation (M8.2).** `services/api/explain/`: a scored finding in, `{explanation, recommendation}` out.
+The layer never holds the finding: it works on a frozen read-only projection (no fingerprint, no path back
+to the finding) and returns a two-field model that rejects any other key, so it cannot change type,
+severity or confidence. A test asserts a finding serialises byte-identically before and after. Results are cached
+by (rule, hash of evidence), invalidated by prompt version and model. Evidence text comes from scanned code, so
+the prompt treats it strictly as data. It needs `ANTHROPIC_API_KEY` and `uv sync --extra explain`; without them the
+dashboard shows the explanation as not configured.
+
+**Results chapter (M8.3).**
+
+```bash
+cd services
+uv run python -m experiments.writeup.collect   # backtests, collector overhead, real-world summary and coverage
+uv run python -m experiments.writeup.build     # -> docs/thesis/results.md
+```
+
+The prose is a template; every number is a placeholder resolved against the stored results (an unknown one is
+an error) and listed with its source in the chapter's appendix. The M6 precision section says "not yet measured"
+until `labels_results.json` exists.
+
+### 16. Run the test suites
 
 ```bash
 pnpm typecheck && pnpm test              # TypeScript: core (parser, ORM location, data-flow, rules, CLI) + collector

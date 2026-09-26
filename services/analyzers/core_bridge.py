@@ -61,3 +61,13 @@ def analyze(
     if schema_path is not None:
         request["schemaPath"] = str(Path(schema_path).resolve())
     return call_core(request, timeout)
+
+
+def coverage(
+    source_dir: str | Path, schema_path: str | Path | None = None, timeout: float | None = None
+) -> Any:
+    """How much of a project the analyzer can see: files loaded and Prisma operations located."""
+    request: dict[str, Any] = {"command": "coverage", "sourceDir": str(Path(source_dir).resolve())}
+    if schema_path is not None:
+        request["schemaPath"] = str(Path(schema_path).resolve())
+    return call_core(request, timeout)

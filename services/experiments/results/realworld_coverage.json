@@ -1,0 +1,228 @@
+{
+  "note": "text_lookalike_operations is a heuristic yardstick, not analysis",
+  "repositories": [
+    {
+      "repo": "AstorisTheBrave/Rostra",
+      "commit": "6a7e5ecf03be068c3f3cb3cc4b14a45dae543925",
+      "source_files": 252,
+      "located_operations": 251,
+      "text_lookalike_operations": 308
+    },
+    {
+      "repo": "ChrisDANG-data/Household-Finance-AI",
+      "commit": "0ddf797321d066825635bb856a1280e2fbecc28d",
+      "source_files": 300,
+      "located_operations": 6,
+      "text_lookalike_operations": 67
+    },
+    {
+      "repo": "DenGian/concord",
+      "commit": "b9ba78142468dc5fd2ad6ea0e622fefacf98cde6",
+      "source_files": 101,
+      "located_operations": 46,
+      "text_lookalike_operations": 48
+    },
+    {
+      "repo": "FurlPay/furlpay-bot",
+      "commit": "5c2034a9b2fce70c1f7c997991c39f3f97c2be1f",
+      "source_files": 715,
+      "located_operations": 907,
+      "text_lookalike_operations": 1102
+    },
+    {
+      "repo": "Hereetria/shearcraft-booking",
+      "commit": "993dfa4e597a60f6b6c96d8a7ef021864b9c5407",
+      "source_files": 177,
+      "located_operations": 0,
+      "text_lookalike_operations": 74
+    },
+    {
+      "repo": "JENILP07/srsm_service-request-management-system",
+      "commit": "1f3ed2a942a5d4fd611d07261967f4aba4d427db",
+      "source_files": 115,
+      "located_operations": 26,
+      "text_lookalike_operations": 124
+    },
+    {
+      "repo": "JonathanSolvesProblems/bloom",
+      "commit": "c27fecd86b950deb5c851b70a9b8f9168abc81c0",
+      "source_files": 69,
+      "located_operations": 88,
+      "text_lookalike_operations": 94
+    },
+    {
+      "repo": "KatkamKoushik/guardai",
+      "commit": "75108e61434b6474f3b882aa988d91951fd612e9",
+      "source_files": 54,
+      "located_operations": 23,
+      "text_lookalike_operations": 31
+    },
+    {
+      "repo": "MuratOfficial/pathlogs",
+      "commit": "6f6e4ab0452dcf9bbe4e2a28f02d7035447203f8",
+      "source_files": 223,
+      "located_operations": 397,
+      "text_lookalike_operations": 392
+    },
+    {
+      "repo": "Praashh/Helix",
+      "commit": "8ac6c22309f253ec3ee3720032c30c65ea65297b",
+      "source_files": 59,
+      "located_operations": 31,
+      "text_lookalike_operations": 31
+    },
+    {
+      "repo": "Shramkoweb/Portfolio",
+      "commit": "d59380cedb5fa9a1b1903e049899d5ef77a425f4",
+      "source_files": 156,
+      "located_operations": 7,
+      "text_lookalike_operations": 7
+    },
+    {
+      "repo": "Yuceldayan/academix-2.0",
+      "commit": "1707604380b2e8b4527b950f0e4c439d0f445f95",
+      "source_files": 126,
+      "located_operations": 41,
+      "text_lookalike_operations": 82
+    },
+    {
+      "repo": "ahmedabbas52233-a11y/NexMart",
+      "commit": "ce6b8f51c7dd2db813a8d7f267ee7119fab4f1c4",
+      "source_files": 106,
+      "located_operations": 86,
+      "text_lookalike_operations": 97
+    },
+    {
+      "repo": "albincsergo/mentat-markets",
+      "commit": "cdec7699d5376ee0ccd140b7dac814fbe69cfeb5",
+      "source_files": 136,
+      "located_operations": 30,
+      "text_lookalike_operations": 66
+    },
+    {
+      "repo": "baiwumm/vue3-admin",
+      "commit": "9dc1161eba8f36955bac83fd484a4dfc1b7b229d",
+      "source_files": 204,
+      "located_operations": 0,
+      "text_lookalike_operations": 75
+    },
+    {
+      "repo": "bhanu87777/StockPilot-Inventory-Management-System",
+      "commit": "436e8abeadf4fa1815b9d636a6d2566510779210",
+      "source_files": 102,
+      "located_operations": 164,
+      "text_lookalike_operations": 179
+    },
+    {
+      "repo": "bhavinvirani/habit-tracker-with-openclaw",
+      "commit": "c9fff47a137c3c92e42d4a6b09dc87b5d5ebc850",
+      "source_files": 202,
+      "located_operations": 330,
+      "text_lookalike_operations": 351
+    },
+    {
+      "repo": "calcom/cal.diy",
+      "commit": "54343aa685ae8f33159d2f485ec4a57bad5c574a",
+      "source_files": 5012,
+      "located_operations": 488,
+      "text_lookalike_operations": 3234
+    },
+    {
+      "repo": "erarbazansari/strikes-community",
+      "commit": "034efa7947ec7fe96a8b22be2d2d26a6157b5247",
+      "source_files": 142,
+      "located_operations": 0,
+      "text_lookalike_operations": 52
+    },
+    {
+      "repo": "fletchertyler914/food-delivery",
+      "commit": "8108d416540285f05154dc27c9db146ca5dee676",
+      "source_files": 225,
+      "located_operations": 11,
+      "text_lookalike_operations": 86
+    },
+    {
+      "repo": "haakonhelmenrusas/Bueboka-website",
+      "commit": "060b8e0a6558b198caf53a526aa749093f9438ef",
+      "source_files": 235,
+      "located_operations": 104,
+      "text_lookalike_operations": 123
+    },
+    {
+      "repo": "ibam28/erp-automation-platform",
+      "commit": "08e2232e39b4cbccd7bb0c4fc2f0d28e2652ab25",
+      "source_files": 100,
+      "located_operations": 13,
+      "text_lookalike_operations": 183
+    },
+    {
+      "repo": "kamenarov/krawlify-app",
+      "commit": "99283a145ba1737768f231418d5bf4075bc75448",
+      "source_files": 106,
+      "located_operations": 77,
+      "text_lookalike_operations": 82
+    },
+    {
+      "repo": "mike840609/assets_tracker",
+      "commit": "fec013a42b620dee31fcedb0fadb09f55fd71871",
+      "source_files": 476,
+      "located_operations": 109,
+      "text_lookalike_operations": 350
+    },
+    {
+      "repo": "mohammed-bahumaish/prisma-editor",
+      "commit": "fdd40d489403b8662ac75dcf30b208c35d606d38",
+      "source_files": 119,
+      "located_operations": 6,
+      "text_lookalike_operations": 26
+    },
+    {
+      "repo": "pdovhomilja/nextcrm-app",
+      "commit": "b46b563b61c948a07a9cc5a340032444db1f8188",
+      "source_files": 1325,
+      "located_operations": 994,
+      "text_lookalike_operations": 1051
+    },
+    {
+      "repo": "pphilfre/markup",
+      "commit": "4f4000b17b5c80dafef5619ca19dbe9c2c11ddbe",
+      "source_files": 112,
+      "located_operations": 42,
+      "text_lookalike_operations": 54
+    },
+    {
+      "repo": "riigait/ims",
+      "commit": "969256b3152d5505cb7d5a05c0756deb371e1214",
+      "source_files": 118,
+      "located_operations": 439,
+      "text_lookalike_operations": 461
+    },
+    {
+      "repo": "samwduncan/RowLab",
+      "commit": "2c8ecf65bbf0a91a043e1a684548eb7c2a0f7bee",
+      "source_files": 1168,
+      "located_operations": 0,
+      "text_lookalike_operations": 0
+    },
+    {
+      "repo": "sixP-NaraKa/chatty",
+      "commit": "012eee3295e9dbb52e05c1110f38d7e8857ec59c",
+      "source_files": 87,
+      "located_operations": 0,
+      "text_lookalike_operations": 30
+    }
+  ],
+  "with_zero_located_operations": [
+    "Hereetria/shearcraft-booking",
+    "baiwumm/vue3-admin",
+    "erarbazansari/strikes-community",
+    "samwduncan/RowLab",
+    "sixP-NaraKa/chatty"
+  ],
+  "zero_located_but_text_lookalikes_ge_10": [
+    "Hereetria/shearcraft-booking",
+    "baiwumm/vue3-admin",
+    "erarbazansari/strikes-community",
+    "sixP-NaraKa/chatty"
+  ]
+}

@@ -1,0 +1,395 @@
+{
+  "rule": "every stored overhead session with >= 10 repetitions",
+  "sessions": [
+    {
+      "session": "b8a94355-1c28-4591-ae61-9e0b43ebe8df",
+      "app": "ecommerce",
+      "repetitions": 10,
+      "git_commit": "2164901-dirty",
+      "started_at": "2026-09-25T18:17:48.688701+00:00",
+      "median_overhead_ms": 0.37966699528624304,
+      "median_overhead_ratio": 0.09849435933911521,
+      "p95_overhead_ms": -0.6595038499654038,
+      "latency": {
+        "on": {
+          "n": 600,
+          "median_ms": 4.234374999214197,
+          "p95_ms": 22.91120480222161,
+          "mean_ms": 6.9655367364612175
+        },
+        "off": {
+          "n": 600,
+          "median_ms": 3.8547080039279535,
+          "p95_ms": 23.570708652187015,
+          "mean_ms": 7.1735666833410505
+        }
+      },
+      "cost": {
+        "collector": {
+          "on": {
+            "runs": 4,
+            "cpu_ms_per_request_mean": 10.593436666666667,
+            "cpu_ms_per_request_runs": [
+              10.83842,
+              10.306733333333334,
+              10.849440000000001,
+              10.379153333333333
+            ],
+            "memory_mib_end_mean": 118.2294921875,
+            "memory_mib_peak_max": 147.25390625
+          },
+          "off": {
+            "runs": 4,
+            "cpu_ms_per_request_mean": 0.31381333333333333,
+            "cpu_ms_per_request_runs": [
+              0.11207333333333334,
+              0.5086866666666666,
+              0.11483333333333333,
+              0.51966
+            ],
+            "memory_mib_end_mean": 118.9296875,
+            "memory_mib_peak_max": 147.25390625
+          }
+        },
+        "ecommerce": {
+          "on": {
+            "runs": 4,
+            "cpu_ms_per_request_mean": 7.645676666666667,
+            "cpu_ms_per_request_runs": [
+              8.01928,
+              7.5676733333333335,
+              6.8636,
+              8.132153333333333
+            ],
+            "memory_mib_end_mean": 240.7314453125,
+            "memory_mib_peak_max": 325.66015625
+          },
+          "off": {
+            "runs": 4,
+            "cpu_ms_per_request_mean": 7.1557933333333335,
+            "cpu_ms_per_request_runs": [
+              9.056253333333334,
+              6.31244,
+              7.875006666666667,
+              5.379473333333333
+            ],
+            "memory_mib_end_mean": 272.607421875,
+            "memory_mib_peak_max": 333.734375
+          }
+        }
+      }
+    },
+    {
+      "session": "fd39aa1a-bb7f-4336-a85e-8409db67f3fb",
+      "app": "blog",
+      "repetitions": 10,
+      "git_commit": "a7a6025",
+      "started_at": "2026-09-25T18:19:11.727692+00:00",
+      "median_overhead_ms": 0.1845010010583792,
+      "median_overhead_ratio": 0.04607078887348037,
+      "p95_overhead_ms": -2.113567302148965,
+      "latency": {
+        "on": {
+          "n": 600,
+          "median_ms": 4.189229497569613,
+          "p95_ms": 127.68709759729973,
+          "mean_ms": 15.679630021707757
+        },
+        "off": {
+          "n": 600,
+          "median_ms": 4.004728496511234,
+          "p95_ms": 129.8006648994487,
+          "mean_ms": 15.1231097000588
+        }
+      },
+      "cost": {
+        "blog": {
+          "on": {
+            "runs": 4,
+            "cpu_ms_per_request_mean": 14.956423333333333,
+            "cpu_ms_per_request_runs": [
+              17.760046666666664,
+              14.236273333333333,
+              12.918686666666666,
+              14.910686666666667
+            ],
+            "memory_mib_end_mean": 363.7509765625,
+            "memory_mib_peak_max": 402.64453125
+          },
+          "off": {
+            "runs": 4,
+            "cpu_ms_per_request_mean": 14.437196666666667,
+            "cpu_ms_per_request_runs": [
+              14.866520000000001,
+              13.002040000000001,
+              15.275993333333334,
+              14.604233333333333
+            ],
+            "memory_mib_end_mean": 370.2724609375,
+            "memory_mib_peak_max": 402.87890625
+          }
+        },
+        "collector": {
+          "on": {
+            "runs": 4,
+            "cpu_ms_per_request_mean": 25.639838333333334,
+            "cpu_ms_per_request_runs": [
+              27.720366666666663,
+              27.094060000000002,
+              27.17316,
+              20.571766666666665
+            ],
+            "memory_mib_end_mean": 192.1875,
+            "memory_mib_peak_max": 248.03515625
+          },
+          "off": {
+            "runs": 4,
+            "cpu_ms_per_request_mean": 0.41414333333333336,
+            "cpu_ms_per_request_runs": [
+              0.49212666666666666,
+              0.4708,
+              0.11505333333333333,
+              0.5785933333333334
+            ],
+            "memory_mib_end_mean": 195.228515625,
+            "memory_mib_peak_max": 248.03515625
+          }
+        }
+      }
+    },
+    {
+      "session": "12181824-ea50-492a-9a6c-893b33ff25b9",
+      "app": "ecommerce",
+      "repetitions": 10,
+      "git_commit": "49fbbc1-dirty",
+      "started_at": "2026-09-25T18:22:02.826033+00:00",
+      "median_overhead_ms": 0.5718539978261106,
+      "median_overhead_ratio": 0.1635007462945881,
+      "p95_overhead_ms": 0.3029149011126684,
+      "latency": {
+        "on": {
+          "n": 600,
+          "median_ms": 4.069416001584614,
+          "p95_ms": 22.742326799561845,
+          "mean_ms": 6.801055988313844
+        },
+        "off": {
+          "n": 600,
+          "median_ms": 3.497562003758503,
+          "p95_ms": 22.439411898449176,
+          "mean_ms": 6.285409060001257
+        }
+      },
+      "cost": {
+        "collector": {
+          "on": {
+            "runs": 4,
+            "cpu_ms_per_request_mean": 11.966386666666667,
+            "cpu_ms_per_request_runs": [
+              12.357853333333333,
+              12.706326666666666,
+              10.393873333333334,
+              12.407493333333333
+            ],
+            "memory_mib_end_mean": 193.0625,
+            "memory_mib_peak_max": 248.03515625
+          },
+          "off": {
+            "runs": 4,
+            "cpu_ms_per_request_mean": 0.137635,
+            "cpu_ms_per_request_runs": [
+              0.14280666666666667,
+              0.10142,
+              0.09181333333333333,
+              0.2145
+            ],
+            "memory_mib_end_mean": 195.1650390625,
+            "memory_mib_peak_max": 248.03515625
+          }
+        },
+        "ecommerce": {
+          "on": {
+            "runs": 4,
+            "cpu_ms_per_request_mean": 7.200221666666667,
+            "cpu_ms_per_request_runs": [
+              7.900226666666667,
+              7.8175333333333334,
+              5.713473333333333,
+              7.369653333333334
+            ],
+            "memory_mib_end_mean": 270.4931640625,
+            "memory_mib_peak_max": 359.609375
+          },
+          "off": {
+            "runs": 4,
+            "cpu_ms_per_request_mean": 6.1538466666666665,
+            "cpu_ms_per_request_runs": [
+              7.2122,
+              5.361793333333333,
+              6.8171333333333335,
+              5.22426
+            ],
+            "memory_mib_end_mean": 274.1396484375,
+            "memory_mib_peak_max": 324.93359375
+          }
+        }
+      }
+    },
+    {
+      "session": "2738215a-c195-4d1b-a46b-785bae2a1fa3",
+      "app": "blog",
+      "repetitions": 10,
+      "git_commit": "49fbbc1-dirty",
+      "started_at": "2026-09-25T18:22:53.865302+00:00",
+      "median_overhead_ms": 0.26008299755631015,
+      "median_overhead_ratio": 0.07328647436841251,
+      "p95_overhead_ms": 0.9398898982908577,
+      "latency": {
+        "on": {
+          "n": 600,
+          "median_ms": 3.8089369954832364,
+          "p95_ms": 127.34224760279176,
+          "mean_ms": 14.521270431760058
+        },
+        "off": {
+          "n": 600,
+          "median_ms": 3.5488539979269262,
+          "p95_ms": 126.4023577045009,
+          "mean_ms": 14.00637049520204
+        }
+      },
+      "cost": {
+        "blog": {
+          "on": {
+            "runs": 4,
+            "cpu_ms_per_request_mean": 14.042988333333334,
+            "cpu_ms_per_request_runs": [
+              14.793299999999999,
+              13.86192,
+              13.00318,
+              14.513553333333332
+            ],
+            "memory_mib_end_mean": 381.2333984375,
+            "memory_mib_peak_max": 400.484375
+          },
+          "off": {
+            "runs": 4,
+            "cpu_ms_per_request_mean": 12.949896666666667,
+            "cpu_ms_per_request_runs": [
+              12.824440000000001,
+              12.593053333333334,
+              13.399453333333334,
+              12.98264
+            ],
+            "memory_mib_end_mean": 374.0087890625,
+            "memory_mib_peak_max": 400.02734375
+          }
+        },
+        "collector": {
+          "on": {
+            "runs": 4,
+            "cpu_ms_per_request_mean": 25.751753333333333,
+            "cpu_ms_per_request_runs": [
+              27.55300666666667,
+              27.134373333333333,
+              27.353606666666668,
+              20.966026666666668
+            ],
+            "memory_mib_end_mean": 223.244140625,
+            "memory_mib_peak_max": 259.6015625
+          },
+          "off": {
+            "runs": 4,
+            "cpu_ms_per_request_mean": 0.528765,
+            "cpu_ms_per_request_runs": [
+              0.4805466666666667,
+              0.5552,
+              0.5717000000000001,
+              0.5076133333333334
+            ],
+            "memory_mib_end_mean": 236.9638671875,
+            "memory_mib_peak_max": 259.6015625
+          }
+        }
+      }
+    },
+    {
+      "session": "401bc8a2-92b6-4ea6-9c7f-5c6a83cc0326",
+      "app": "ecommerce",
+      "repetitions": 10,
+      "git_commit": "092c3b1",
+      "started_at": "2026-09-26T04:00:48.588316+00:00",
+      "median_overhead_ms": 0.44829149919678457,
+      "median_overhead_ratio": 0.13156907658211936,
+      "p95_overhead_ms": 0.46179790188034175,
+      "latency": {
+        "on": {
+          "n": 600,
+          "median_ms": 3.855562499666121,
+          "p95_ms": 22.494354798982382,
+          "mean_ms": 6.633997998311922
+        },
+        "off": {
+          "n": 600,
+          "median_ms": 3.4072710004693363,
+          "p95_ms": 22.03255689710204,
+          "mean_ms": 6.142918548199911
+        }
+      },
+      "cost": {
+        "collector": {
+          "on": {
+            "runs": 4,
+            "cpu_ms_per_request_mean": 9.306651666666667,
+            "cpu_ms_per_request_runs": [
+              11.331353333333333,
+              6.799706666666667,
+              11.652993333333335,
+              7.442553333333334
+            ],
+            "memory_mib_end_mean": 208.2958984375,
+            "memory_mib_peak_max": 299.28125
+          },
+          "off": {
+            "runs": 4,
+            "cpu_ms_per_request_mean": 0.248,
+            "cpu_ms_per_request_runs": [
+              0.09983333333333333,
+              0.09160666666666667,
+              0.4232533333333333,
+              0.3773066666666667
+            ],
+            "memory_mib_end_mean": 207.8564453125,
+            "memory_mib_peak_max": 299.28125
+          }
+        },
+        "ecommerce": {
+          "on": {
+            "runs": 4,
+            "cpu_ms_per_request_mean": 7.043793333333333,
+            "cpu_ms_per_request_runs": [
+              8.394933333333332,
+              6.878913333333333,
+              5.753913333333333,
+              7.147413333333333
+            ],
+            "memory_mib_end_mean": 257.994140625,
+            "memory_mib_peak_max": 326.84765625
+          },
+          "off": {
+            "runs": 4,
+            "cpu_ms_per_request_mean": 6.27151,
+            "cpu_ms_per_request_runs": [
+              6.846433333333334,
+              5.854293333333333,
+              6.66352,
+              5.721793333333333
+            ],
+            "memory_mib_end_mean": 249.248046875,
+            "memory_mib_peak_max": 332.25
+          }
+        }
+      }
+    }
+  ]
+}

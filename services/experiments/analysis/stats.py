@@ -197,3 +197,18 @@ def holm(p_values: Sequence[float]) -> list[float]:
         running = max(running, min(1.0, (len(p_values) - rank) * p_values[index]))
         adjusted[index] = running
     return adjusted
+
+
+Z95 = 1.959963984540054
+
+
+def wilson(successes: int, n: int, z: float = Z95) -> tuple[float | None, float | None]:
+    """Wilson score interval for a proportion: stays inside [0, 1] and behaves at small n and at
+    0% or 100%, where the normal approximation does not."""
+    if n == 0:
+        return None, None
+    p = successes / n
+    denom = 1 + z * z / n
+    centre = (p + z * z / (2 * n)) / denom
+    half = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / denom
+    return max(centre - half, 0.0), min(centre + half, 1.0)

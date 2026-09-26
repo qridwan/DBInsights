@@ -851,6 +851,218 @@
     {
       "accuracy_difference_bootstrap": {
         "f1": {
+          "ci_high": null,
+          "ci_low": null,
+          "difference": null,
+          "excludes_zero": false,
+          "first": null,
+          "second": 0.41379310344827586
+        },
+        "precision": {
+          "ci_high": null,
+          "ci_low": null,
+          "difference": null,
+          "excludes_zero": false,
+          "first": null,
+          "second": 1.0
+        },
+        "recall": {
+          "ci_high": 0.391304347826087,
+          "ci_low": 0.13043478260869565,
+          "difference": 0.2608695652173913,
+          "excludes_zero": true,
+          "first": 0.0,
+          "second": 0.2608695652173913
+        }
+      },
+      "confidence_wilcoxon": {
+        "cliffs_delta": null,
+        "first_mean": null,
+        "median_difference": null,
+        "n": 0,
+        "n_nonzero": 0,
+        "p_value": null,
+        "restricted_to": "0 problems detected by both configurations",
+        "scale": "confidence rank of the matching finding: 1 LOW, 2 MEDIUM, 3 HIGH",
+        "second_mean": null,
+        "statistic": null
+      },
+      "detection_mcnemar_exact": {
+        "both": 0,
+        "discordant_odds_ratio": "inf",
+        "neither": 34,
+        "only_first": 0,
+        "only_second": 12,
+        "p_value": 0.00048828125,
+        "risk_difference": 0.2608695652173913
+      },
+      "detection_p_holm": null,
+      "detection_per_app": {
+        "blog": {
+          "both": 0,
+          "discordant_odds_ratio": "inf",
+          "neither": 14,
+          "only_first": 0,
+          "only_second": 6,
+          "p_value": 0.03125,
+          "risk_difference": 0.3
+        },
+        "ecommerce": {
+          "both": 0,
+          "discordant_odds_ratio": "inf",
+          "neither": 20,
+          "only_first": 0,
+          "only_second": 6,
+          "p_value": 0.03125,
+          "risk_difference": 0.23076923076923078
+        }
+      },
+      "detection_per_problem_type": {
+        "declared_index_not_applied": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 2,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "distribution_shift": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 3,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "duplicate_spike": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 3,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "excessive_relation_loading": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 6,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "index_not_declared": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 2,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "missing_index": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 6,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "n_plus_one": {
+          "both": 0,
+          "discordant_odds_ratio": "inf",
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 6,
+          "p_value": 0.03125,
+          "risk_difference": 1.0
+        },
+        "null_spike": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 3,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "orphaned_foreign_key": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 3,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "repeated_identical_query": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 6,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "unpaginated_find_many": {
+          "both": 0,
+          "discordant_odds_ratio": "inf",
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 6,
+          "p_value": 0.03125,
+          "risk_difference": 1.0
+        }
+      },
+      "first": "A",
+      "hypothesis": "H2, RQ2",
+      "id": "H2_A_vs_B1",
+      "primary": false,
+      "problems": 46,
+      "question": "Does ORM-aware source analysis find what SQL analysis alone misses?",
+      "second": "B1",
+      "timing_wilcoxon": {
+        "cpu_s": {
+          "cliffs_delta": 1.0,
+          "first_mean": 0.006265350000001302,
+          "median_difference": 1.9426859999999948,
+          "n": 20,
+          "n_nonzero": 20,
+          "p_value": 1.9073486328125e-06,
+          "second_mean": 1.971060099999994,
+          "statistic": 0.0
+        },
+        "detection_latency_s": {
+          "cliffs_delta": null,
+          "first_mean": null,
+          "median_difference": null,
+          "n": 0,
+          "n_nonzero": 0,
+          "p_value": null,
+          "restricted_to": "0 problems detected by both configurations",
+          "second_mean": null,
+          "statistic": null
+        },
+        "wall_s": {
+          "cliffs_delta": 1.0,
+          "first_mean": 0.006426095899951178,
+          "median_difference": 1.0441008745001454,
+          "n": 20,
+          "n_nonzero": 20,
+          "p_value": 1.9073486328125e-06,
+          "second_mean": 1.0711547666502157,
+          "statistic": 0.0
+        }
+      },
+      "verdict": "not part of the corrected family"
+    },
+    {
+      "accuracy_difference_bootstrap": {
+        "f1": {
           "ci_high": 0.7782816830435879,
           "ci_low": 0.5429828850855747,
           "difference": 0.6548148148148147,
@@ -5789,6 +6001,35 @@
     }
   },
   "experiment": "2555ec98-a2ce-4048-ac94-6d1ffaffdb1c",
+  "h5_index_share": {
+    "also_from_declared_schema_alone": 5,
+    "broad": "C1",
+    "index_problems_in_benchmark": 10,
+    "narrow": "B2",
+    "obtainable_with_database": 9,
+    "per_type": {
+      "declared_index_not_applied": {
+        "also_from_declared_schema_alone": 0,
+        "in_benchmark": 2,
+        "obtainable_with_database": 2
+      },
+      "index_not_declared": {
+        "also_from_declared_schema_alone": 0,
+        "in_benchmark": 2,
+        "obtainable_with_database": 2
+      },
+      "missing_index": {
+        "also_from_declared_schema_alone": 5,
+        "in_benchmark": 6,
+        "obtainable_with_database": 5
+      }
+    },
+    "share": 0.5555555555555556,
+    "wilson_95": {
+      "high": 0.8112214789023355,
+      "low": 0.26665129349549305
+    }
+  },
   "notes": {
     "confidence_intervals": "Mean over repetitions with a 95% Student-t interval; a metric whose n_distinct is 1 had no variance across repetitions, so its interval is a point. problem_bootstrap gives the 95% percentile interval over the benchmark's problems, which is where accuracy uncertainty lives.",
     "tests": "See experiments/analysis/stats.py for why each test was chosen."

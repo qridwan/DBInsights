@@ -19,11 +19,7 @@ export type * from "./schema/types.js";
 export type * from "./analyze/types.js";
 export { RULES, runRules } from "./rules/index.js";
 
-/**
- * Static analysis of a Prisma project: application source plus the declared
- * schema. Needs no database connection.
- */
-export async function analyze(input: AnalyzeInput): Promise<Finding[]> {
+async function buildContext(input: AnalyzeInput) {
   const sourceDir = resolve(input.sourceDir);
   const schemaPath = input.schemaPath ? resolve(input.schemaPath) : undefined;
   const schema = schemaPath ? parseSchema(await readFile(schemaPath, "utf8")) : undefined;
@@ -34,6 +30,35 @@ export async function analyze(input: AnalyzeInput): Promise<Finding[]> {
   );
   const project = loadSourceProject(sourceDir, generatedDirs);
   const schemaFile = schemaPath ? relative(sourceDir, schemaPath).split(sep).join("/") : "";
+  return { project, context: buildAnalysisContext(project, schema, { rootDir: sourceDir, schemaFile }) };
+}
 
-  return runRules(buildAnalysisContext(project, schema, { rootDir: sourceDir, schemaFile }));
+/**
+ * Static analysis of a Prisma project: application source plus the declared
+ * schema. Needs no database connection.
+ */
+export async function analyze(input: AnalyzeInput): Promise<Finding[]> {
+  return runRules((await buildContext(input)).context);
+}
+
+export interface Coverage {
+  /** Source files the analyzer loaded. */
+  sourceFiles: number;
+  /** Prisma model operations it located (each is something a rule can judge). */
+  ormOperations: number;
+  byOperation: Record<string, number>;
+}
+
+/**
+ * How much of a project the analyzer can see, independent of any rule: files loaded and Prisma
+ * operations located. Zero operations in a project that plainly uses Prisma means the analyzer
+ * did not recognise its client, so an absence of findings there is not evidence of clean code.
+ */
+export async function coverage(input: AnalyzeInput): Promise<Coverage> {
+  const { project, context } = await buildContext(input);
+  const byOperation: Record<string, number> = {};
+  for (const operation of context.operations) {
+    byOperation[operation.operation] = (byOperation[operation.operation] ?? 0) + 1;
+  }
+  return { sourceFiles: project.getSourceFiles().length, ormOperations: context.operations.length, byOperation };
 }

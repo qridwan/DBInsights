@@ -1,0 +1,93 @@
+{
+  "by_metric": {
+    "distribution_shift": {
+      "alarms_above": 3,
+      "evaluations": 28
+    },
+    "duplicate_rate": {
+      "alarms_above": 0,
+      "evaluations": 119
+    },
+    "null_rate": {
+      "alarms_above": 0,
+      "evaluations": 147
+    }
+  },
+  "false_alarms": [
+    {
+      "column": "status",
+      "direction": "above",
+      "evaluated": 3,
+      "fired": 3,
+      "metric": "distribution_shift",
+      "observation": 0.015970029154586323,
+      "table": "Order",
+      "window_start": "2026-02-03T00:00:00+00:00"
+    },
+    {
+      "column": "status",
+      "direction": "above",
+      "evaluated": 3,
+      "fired": 3,
+      "metric": "distribution_shift",
+      "observation": 0.4537481242944005,
+      "table": "Order",
+      "window_start": "2026-08-02T00:00:00+00:00"
+    },
+    {
+      "column": "productId",
+      "direction": "below",
+      "evaluated": 3,
+      "fired": 3,
+      "metric": "duplicate_rate",
+      "observation": 0.09674861221252974,
+      "table": "Review",
+      "window_start": "2026-02-03T00:00:00+00:00"
+    },
+    {
+      "column": "rating",
+      "direction": "above",
+      "evaluated": 3,
+      "fired": 2,
+      "metric": "distribution_shift",
+      "observation": 0.03847267630341249,
+      "table": "Review",
+      "window_start": "2026-05-04T00:00:00+00:00"
+    },
+    {
+      "column": "title",
+      "direction": "below",
+      "evaluated": 3,
+      "fired": 3,
+      "metric": "duplicate_rate",
+      "observation": 0.01563721657544957,
+      "table": "Review",
+      "window_start": "2026-03-05T00:00:00+00:00"
+    }
+  ],
+  "min_history": 5,
+  "per_detector": {
+    "iqr": {
+      "alarms": 10,
+      "alarms_above": 7,
+      "evaluations": 294
+    },
+    "moving_average": {
+      "alarms": 5,
+      "alarms_above": 2,
+      "evaluations": 294
+    },
+    "zscore": {
+      "alarms": 5,
+      "alarms_above": 3,
+      "evaluations": 294
+    }
+  },
+  "series": 34,
+  "vote": "majority",
+  "vote_result": {
+    "alarms": 5,
+    "alarms_above": 3,
+    "evaluations": 294
+  }
+}

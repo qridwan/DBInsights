@@ -1,0 +1,63 @@
+{
+  "by_metric": {
+    "distribution_shift": {
+      "alarms_above": 0,
+      "evaluations": 18
+    },
+    "duplicate_rate": {
+      "alarms_above": 2,
+      "evaluations": 91
+    },
+    "null_rate": {
+      "alarms_above": 0,
+      "evaluations": 112
+    }
+  },
+  "false_alarms": [
+    {
+      "column": "postId",
+      "direction": "above",
+      "evaluated": 3,
+      "fired": 3,
+      "metric": "duplicate_rate",
+      "observation": 0.5486725663716814,
+      "table": "Comment",
+      "window_start": "2026-08-02T00:00:00+00:00"
+    },
+    {
+      "column": "title",
+      "direction": "above",
+      "evaluated": 3,
+      "fired": 3,
+      "metric": "duplicate_rate",
+      "observation": 0.018518518518518517,
+      "table": "Post",
+      "window_start": "2026-05-04T00:00:00+00:00"
+    }
+  ],
+  "min_history": 5,
+  "per_detector": {
+    "iqr": {
+      "alarms": 6,
+      "alarms_above": 6,
+      "evaluations": 221
+    },
+    "moving_average": {
+      "alarms": 2,
+      "alarms_above": 2,
+      "evaluations": 221
+    },
+    "zscore": {
+      "alarms": 2,
+      "alarms_above": 2,
+      "evaluations": 221
+    }
+  },
+  "series": 21,
+  "vote": "majority",
+  "vote_result": {
+    "alarms": 2,
+    "alarms_above": 2,
+    "evaluations": 221
+  }
+}

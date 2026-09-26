@@ -22,6 +22,14 @@ describe.skipIf(!existsSync(CLI))("JSON stdio contract (dist/cli.js)", () => {
     expect((response.result as { models: { name: string }[] }).models.map((m) => m.name)).toContain("Invoice");
   });
 
+  it("reports coverage", () => {
+    const response = call({ command: "coverage", sourceDir: sourceDir("rules/unbounded-mutation"), schemaPath: SOURCE_SCHEMA_PATH });
+    expect(response.ok).toBe(true);
+    const result = response.result as { sourceFiles: number; ormOperations: number };
+    expect(result.sourceFiles).toBeGreaterThan(0);
+    expect(result.ormOperations).toBeGreaterThan(0);
+  });
+
   it("analyzes a project", () => {
     const response = call({ command: "analyze", sourceDir: sourceDir("rules/unbounded-mutation"), schemaPath: SOURCE_SCHEMA_PATH });
     expect(response.ok).toBe(true);

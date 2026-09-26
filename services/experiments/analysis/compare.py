@@ -14,6 +14,7 @@ from .stats import (
     mcnemar_exact,
     mean_ci,
     wilcoxon_paired,
+    wilson,
 )
 
 SEED = 20260930
@@ -43,6 +44,14 @@ COMPARISONS = (
     ),
     Comparison("H3_C1_vs_C2", "H3, RQ3", "Does runtime evidence strengthen detection?", "C1", "C2"),
     Comparison("H1_A_vs_C3", "H1", "Does the full hybrid beat SQL analysis alone?", "A", "C3"),
+    Comparison(
+        "H2_A_vs_B1",
+        "H2, RQ2",
+        "Does ORM-aware source analysis find what SQL analysis alone misses?",
+        "A",
+        "B1",
+        primary=False,
+    ),
     Comparison(
         "S_Alog_vs_C3",
         "sensitivity",
@@ -447,3 +456,40 @@ def compare(dataset: Dataset) -> list[dict[str, Any]]:
             result["primary"],
         )
     return results
+
+
+INDEX_TYPES = ("missing_index", "index_not_declared", "declared_index_not_applied")
+
+
+def index_share(dataset: Dataset, narrow: str = "B2", broad: str = "C1") -> dict[str, Any] | None:
+    """H5: of the index problems obtainable with the live database (`broad`), what share is also
+    obtainable from source plus the declared schema alone (`narrow`, no database)?
+
+    The denominator is fixed by which index problems the benchmark contains, so this is a property
+    of the benchmark's composition, not an estimate of any real population.
+    """
+    if narrow not in dataset.configs() or broad not in dataset.configs():
+        return None
+    d_narrow, d_broad = canonical_detection(dataset, narrow), canonical_detection(dataset, broad)
+    keys = sorted(k for k in d_broad if dataset.problem_types[k[1]] in INDEX_TYPES)
+    obtainable = [k for k in keys if d_broad[k]]
+    also = [k for k in obtainable if d_narrow.get(k)]
+    per_type = {}
+    for name in INDEX_TYPES:
+        of_type = [k for k in obtainable if dataset.problem_types[k[1]] == name]
+        per_type[name] = {
+            "in_benchmark": sum(dataset.problem_types[k[1]] == name for k in keys),
+            "obtainable_with_database": len(of_type),
+            "also_from_declared_schema_alone": sum(bool(d_narrow.get(k)) for k in of_type),
+        }
+    low, high = wilson(len(also), len(obtainable))
+    return {
+        "narrow": narrow,
+        "broad": broad,
+        "index_problems_in_benchmark": len(keys),
+        "obtainable_with_database": len(obtainable),
+        "also_from_declared_schema_alone": len(also),
+        "share": len(also) / len(obtainable) if obtainable else None,
+        "wilson_95": {"low": low, "high": high},
+        "per_type": per_type,
+    }

@@ -1,0 +1,30 @@
+{
+  "eligible": 40,
+  "evaluated": 104,
+  "excluded_by_first_failing_test": {
+    "E1": 5,
+    "E3": 10,
+    "I1": 25,
+    "I2": 17,
+    "I3": 7
+  },
+  "findings": 1221,
+  "findings_by_confidence": {
+    "HIGH": 238,
+    "LOW": 41,
+    "MEDIUM": 942
+  },
+  "findings_by_rule": {
+    "MISSING_INDEX_ON_FILTERED_FIELD": 154,
+    "MISSING_PAGINATION": 720,
+    "N_PLUS_ONE_IN_LOOP": 249,
+    "SEQUENTIAL_INDEPENDENT_AWAITS": 49,
+    "UNBOUNDED_MUTATION": 49
+  },
+  "pool_size": 2496,
+  "repositories_analyzed_ok": 30,
+  "repositories_failed": 0,
+  "repositories_with_zero_findings": 8,
+  "selection_date": "2026-09-26",
+  "study_repositories": 30
+}
