@@ -757,7 +757,7 @@ every page describes one scan and the health page trends across scans.
   built-in apps are open to every signed-in user; a project you scan is private to you, and scanning a
   server folder is administrator-only. The first verified account is the administrator and inherits
   earlier scans. In development, emails land in Mailpit at http://localhost:8025 (in `docker compose`).
-- **Scan a project**: the sidebar button opens a dialog to scan any Prisma project from a local folder or an https Git URL,
+- **Scan a project**: the sidebar button opens a dialog to scan any Prisma project from a Git URL or (administrators) a folder chosen with an in-app folder browser from a local folder or an https Git URL,
   with the analysis that needs no database (static source, SQL text, declared schema). It warns when the
   analyzer located no Prisma operations, since zero findings then means nothing. See the guide.
 - **Overview**: counts with the change since the previous scan, new and resolved findings, trend, severity mix, findings by rule, layer coverage. A sidebar shows every app and project with a health dot; light and dark themes.

@@ -271,7 +271,13 @@ Press **Scan a project** (sidebar, or the Overview page) to open a dialog. Give 
 
 - **Git URL**: an `https://host/owner/repository` address (public repositories; only plain https is accepted).
   It is cloned shallowly into `services/experiments/realworld/work/projects/`.
-- **Local folder**: an absolute path on the machine running the dashboard API.
+- **Local folder** (administrators only): press **Browse...** to walk the folders of the machine running
+  the dashboard, then **Choose this folder**. Folders that contain a `schema.prisma` are tagged
+  **Prisma project** and Git repositories **Git**; a filter box, breadcrumbs, an up button, a home button
+  and a *Show hidden folders* switch help you get there. You can also paste a path into the field, and
+  **Browse...** then opens at that path. (A web page cannot read the real path from your operating
+  system's own file dialog, so the dashboard lists the folders itself. Only folder names are listed,
+  never files.)
 
 Under **Options** you can set the **schema path** (default: the `schema.prisma` with the most models, skipping
 `node_modules`) and a **name**. Then press **Scan project**. A small repository takes seconds; a large

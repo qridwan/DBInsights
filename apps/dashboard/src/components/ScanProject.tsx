@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { FolderBrowser, type Picked } from "@/components/FolderBrowser";
 import { Icon } from "@/components/ui/icons";
 
 const field = "mt-1.5 block w-full rounded-lg border border-line-strong bg-surface px-3 py-2 text-sm text-ink placeholder:text-faint focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/25";
@@ -15,10 +16,13 @@ export function ScanProjectDialog({ open, onClose, canScanLocal = false }: { ope
   const [schema, setSchema] = useState("");
   const [name, setName] = useState("");
   const [advanced, setAdvanced] = useState(false);
+  const [browsing, setBrowsing] = useState(false);
+  const [picked, setPicked] = useState<Picked | null>(null);
   const [state, setState] = useState<"idle" | "running" | "error">("idle");
   const [message, setMessage] = useState("");
 
   useEffect(() => {
+    if (!open) setBrowsing(false);
     const d = dialog.current;
     if (!d) return;
     if (open && !d.open) d.showModal();
@@ -59,7 +63,14 @@ export function ScanProjectDialog({ open, onClose, canScanLocal = false }: { ope
       onClick={(e) => { if (e.target === dialog.current && !busy) onClose(); }}
       className="m-auto w-[min(560px,92vw)] rounded-2xl border border-line bg-surface p-0 text-ink shadow-2xl backdrop:bg-black/50 backdrop:backdrop-blur-sm"
     >
-      <form onSubmit={submit} className="p-6">
+      {browsing && (
+        <FolderBrowser
+          start={origin.trim().startsWith("/") ? origin.trim() : undefined}
+          onCancel={() => setBrowsing(false)}
+          onChoose={(p) => { setOrigin(p.path); setPicked(p); setBrowsing(false); }}
+        />
+      )}
+      <form onSubmit={submit} className="p-6" hidden={browsing}>
         <div className="flex items-start justify-between gap-4">
           <div>
             <h2 className="text-lg font-semibold tracking-tight">Scan a project</h2>
@@ -77,10 +88,19 @@ export function ScanProjectDialog({ open, onClose, canScanLocal = false }: { ope
         </div>
 
         <label className="mt-4 block text-sm font-medium">
-          {mode === "git" ? "Repository URL" : "Folder path"}
-          <input required autoFocus value={origin} onChange={(e) => setOrigin(e.target.value)} className={field}
-            placeholder={mode === "git" ? "https://github.com/owner/repository" : "/Users/you/projects/my-app"} />
-          <span className="mt-1 block text-xs font-normal text-muted">{mode === "git" ? "Public repositories over plain https only." : "An absolute path on the machine running the dashboard API."}</span>
+          {mode === "git" ? "Repository URL" : "Project folder"}
+          <div className={mode === "local" ? "mt-1.5 flex gap-2" : ""}>
+            <input required autoFocus value={origin} onChange={(e) => { setOrigin(e.target.value); setPicked(null); }} className={mode === "local" ? field.replace("mt-1.5 ", "") : field}
+              placeholder={mode === "git" ? "https://github.com/owner/repository" : "Choose a folder, or paste its path"} />
+            {mode === "local" && (
+              <button type="button" onClick={() => setBrowsing(true)} className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-line-strong bg-surface px-3.5 py-2 text-sm font-medium text-ink hover:bg-sunken">
+                <Icon name="folder" className="h-4 w-4" /> Browse...
+              </button>
+            )}
+          </div>
+          <span className="mt-1 block text-xs font-normal text-muted">
+            {mode === "git" ? "Public repositories over plain https only." : picked ? (picked.isProject ? "A Prisma project. Ready to scan." : "No schema.prisma directly in this folder; the schema is searched for inside it.") : "A folder on the machine running the dashboard."}
+          </span>
         </label>
 
         <button type="button" onClick={() => setAdvanced(!advanced)} className="mt-4 flex items-center gap-1 text-sm text-muted hover:text-ink">

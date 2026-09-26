@@ -22,6 +22,7 @@ from analyzers.finding import Finding
 from api.explain import AnthropicLLM, Explainer, ExplainError, PostgresCache
 from experiments.ablation.experiment import REPO_ROOT
 
+from . import fsbrowse
 from . import project as projects
 from .auth.mailer import mailer_from_env
 from .auth.routes import CurrentUser, admin_emails, auth_error_response
@@ -205,6 +206,20 @@ def rescan_project(name: str, store: StoreDep, user: CurrentUser) -> dict[str, A
         schema_path=source.get("schema_path"),
         name=name,
     )
+
+
+@app.get("/v1/fs/browse")
+def browse_folders(
+    user: CurrentUser, path: str | None = None, hidden: bool = False
+) -> dict[str, Any]:
+    """Directories inside a folder on this machine, for choosing a project to scan. Administrators
+    only: the same people who may scan a server folder."""
+    if not user["can_scan_local"]:
+        raise HTTPException(403, "browsing folders on the server is limited to administrators")
+    try:
+        return fsbrowse.browse(path, hidden)
+    except fsbrowse.BrowseError as error:
+        raise HTTPException(error.status, str(error)) from error
 
 
 @app.delete("/v1/projects/{name}", status_code=204)
