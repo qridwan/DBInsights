@@ -17,8 +17,9 @@ DBInsight is a hybrid static and runtime analysis framework that detects databas
   6. [Watch runtime queries](#6-watch-runtime-queries)
   7. [Load harness, runtime N+1 and collector overhead](#7-load-harness-runtime-n1-and-collector-overhead)
   8. [Profile data quality](#8-profile-data-quality)
-  9. [Score findings against the ground truth](#9-score-findings-against-the-ground-truth)
-  10. [Run the test suites](#10-run-the-test-suites)
+  9. [Detect anomalies against a learned baseline](#9-detect-anomalies-against-a-learned-baseline)
+  10. [Score findings against the ground truth](#10-score-findings-against-the-ground-truth)
+  11. [Run the test suites](#11-run-the-test-suites)
 - [Resetting](#resetting)
 
 ---
@@ -53,6 +54,7 @@ flowchart LR
     FP["SQL fingerprinting<br/>(SQLGlot AST)"]
     RES[("results DB<br/>runtime.* · experiments.* · dataquality.*")]
     DQ["data-quality profiler<br/>(windowed history ·<br/>referential integrity)"]
+    AN["anomaly detector<br/>(z-score · IQR · moving average,<br/>ranges learned from history)"]
     RT["runtime N+1 detector"]
     LOAD["load harness<br/>(fixed seed, ABBA overhead)"]
   end
@@ -71,6 +73,7 @@ flowchart LR
   RES --> RT -->|Findings| GT
   DB -->|rows, read-only| DQ -->|profiles: one run per window| RES
   DQ -->|orphan findings| GT
+  RES -->|profile history| AN -->|Findings| GT
 ```
 
 ### Evidence layers
@@ -82,7 +85,7 @@ flowchart LR
 | Actual schema | `information_schema`, `pg_catalog` | `services/analyzers/schema` | yes | done (M3.1) |
 | Runtime | Prisma client extension + driver-adapter wrapper, per-request SQL | `packages/collector`, `services/api`, `services/analyzers/runtime` | yes | done (M3.2–M3.3) |
 | SQL | generated SQL (SQLGlot) | `services/analyzers` | yes | planned |
-| Data quality | windowed profiles, referential integrity; learned-baseline anomaly detection | `services/analyzers/dataquality` | yes | profiler done (M4.1); anomaly detection M4.2 |
+| Data quality | windowed profiles, referential integrity, learned-baseline anomaly detection | `services/analyzers/dataquality`, `services/analyzers/anomaly` | yes | done (M4.1–M4.2) |
 
 **Approach B** = static ORM analysis + declared schema. It runs with no database at all, and it is what the TypeScript core delivers on its own.
 
@@ -134,6 +137,7 @@ services/                 Python 3.12, uv
   analyzers/sql/          query fingerprinting (SQLGlot AST normalization)
   analyzers/runtime/      runtime N+1 detection over collected requests
   analyzers/dataquality/  data-quality profiler: windowed history, referential integrity
+  analyzers/anomaly/      interpretable detectors (z-score, IQR, moving average), no fixed thresholds
   api/                    collector service (FastAPI) + runtime event storage
   experiments/groundtruth/  manifests, data-quality injection, scorer
   experiments/load/       load harness: fixed sequences, repeatability, collector overhead
@@ -155,7 +159,8 @@ docker/postgres/init/     creates the ecommerce and blog databases
 | M3.3 | Load harness, runtime N+1 detection, collector overhead (RQ5) | done |
 | M3.4 | M3 exit check | done |
 | M4.1 | Data-quality profiler: windowed history, referential integrity | done |
-| M4.2–M4.4 | Anomaly detector (learned baselines), correlation engine, M4 exit check | next |
+| M4.2 | Anomaly detectors with ranges learned from each column's own history | done |
+| M4.3–M4.4 | Correlation engine, M4 exit check | next |
 | M5–M8 | Ablation, real-world validation, dashboard, AI explanation layer | planned |
 
 Static rules implemented in the core:
@@ -440,21 +445,67 @@ uv run python -m analyzers.dataquality integrity --app ecommerce \
 # Order.customer 339 orphans, OrderItem.order 645, OrderItem.product 309: exactly the injected ones
 ```
 
-Without `--report` the same command prints `Finding[]` (rule `ORPHANED_FOREIGN_KEY`), which step 9 scores against the manifest.
+Without `--report` the same command prints `Finding[]` (rule `ORPHANED_FOREIGN_KEY`), which step 10 scores against the manifest.
 
-**Seeding a clean baseline for M4.2** needs the data *before* injection, so the order matters:
-
-```bash
-docker compose down -v && docker compose up -d                     # clean seed
-cd services
-uv run python -m analyzers.dataquality profile --app ecommerce --label clean-seed --windows 12 --end 2026-09-01
-uv run python -m experiments.groundtruth.inject ecommerce          # apply the problems
-uv run python -m analyzers.dataquality profile --app ecommerce --label injected --windows 12 --end 2026-09-01
-```
+**A clean baseline** must be profiled from data that never had the problems applied. Step 9 does that without touching the running databases.
 
 Two knobs: `--max-categories N` (default 50) only caps how many distinct values are *stored* per column; statistics are unaffected, and a column whose values are all unique stores no distribution. `--time-column TABLE=COLUMN` names the window column for a table where it cannot be detected.
 
-### 9. Score findings against the ground truth
+### 9. Detect anomalies against a learned baseline
+
+Three interpretable detectors, each given a metric's history and the current value:
+
+| Detector | Expected range, learned from the history |
+|---|---|
+| `zscore` | mean ± k sample standard deviations |
+| `iqr` | Tukey's fences, `[Q1 − m·IQR, Q3 + m·IQR]` (robust to outliers in the history) |
+| `moving_average` | moving average ± k moving standard deviations over the latest points (follows a drifting level) |
+
+**There are no fixed thresholds.** No range or limit is ever written in terms of the metric: "NULL rate > 10%" cannot be expressed. The bounds are computed from each column's own history, so the same value can be normal for one column and a spike for another. This is tested directly: every verdict is invariant when history and observation are shifted or rescaled together, which no limit on the metric's value could satisfy, and a scan of the source allows only named method parameters. Those are `k = 3` (the 3-sigma convention), `m = 1.5` (Tukey's), the moving-window length (6) and the minimum history (5) below which a detector declines to judge. They set a method's sensitivity, are constructor arguments, and are printed in every finding's evidence.
+
+What is analysed per column: **NULL rate** (every column); **duplicate rate** for near-unique columns; and for columns with few distinct values, whose repeats are normal, the **distribution shift**: the total-variation distance between a window's category shares and the mean of the baseline windows (how much of the mix moved), judged against how far each historical window sits from the others. A finding needs a **majority** of the detectors that could judge (`--vote any|majority|all`), and its confidence rises with agreement. Only *increases* become findings (`NULL_SPIKE`, `DUPLICATE_SPIKE`, `DISTRIBUTION_SHIFT`); decreases stay visible in `--report`.
+
+**1. Seed a clean baseline** next to the running databases. The seed is deterministic, so a fresh database equals the data before injection; nothing is dropped:
+
+```bash
+docker compose exec postgres psql -U dbinsight -d postgres -c "CREATE DATABASE ecommerce_clean"
+docker compose run --rm --no-deps \
+  -e DATABASE_URL=postgresql://dbinsight:dbinsight@postgres:5432/ecommerce_clean \
+  ecommerce sh -c "pnpm db:migrate && pnpm db:seed"
+```
+
+**2. Profile both**: the clean copy as the baseline series, the live (injected) database as the current one:
+
+```bash
+cd services
+uv run python -m analyzers.dataquality profile --app ecommerce --label clean-seed \
+  --database-url postgresql://dbinsight:dbinsight@localhost:5432/ecommerce_clean \
+  --windows 12 --window-days 30 --end 2026-09-01
+uv run python -m analyzers.dataquality profile --app ecommerce --label injected \
+  --windows 12 --window-days 30 --end 2026-09-01
+```
+
+**3. Measure false alarms on the clean history.** A walk-forward backtest judges each window only against the windows before it; on data known to be clean, every alarm is a false alarm:
+
+```bash
+uv run python -m analyzers.anomaly backtest --app ecommerce --label clean-seed \
+  | jq '{per_detector, vote_result, false_alarms: [.false_alarms[] | {table, column, metric, window_start}]}'
+```
+
+**4. Detect** in the latest window of the injected series, using the range learned from the clean one:
+
+```bash
+uv run python -m analyzers.anomaly detect --app ecommerce \
+  --baseline-label clean-seed --current-label injected > /tmp/anomalies.json
+jq -c '.[] | {rule: .ruleId, column: "\(.evidence[0].data.table).\(.evidence[0].data.column)", observation: .evidence[0].data.observation, confidence}' /tmp/anomalies.json
+jq '.[0].evidence[] | select(.data.detector) | {detector: .data.detector, expected: [.data.expectedLower, .data.expectedUpper], observation: .data.observation}' /tmp/anomalies.json
+```
+
+Each finding carries one piece of evidence per detector: the learned range, the observation, the history size and the parameters used. Score them like any other findings (step 10). `--detectors zscore,iqr` and `--vote` compare configurations; `--report` lists every anomaly including decreases; leaving out `--current-label` judges a series against its own earlier windows.
+
+Two behaviours to know about. A history with no spread (a column that has always been exactly 0) collapses to a single-value range, so any change is flagged; the evidence marks these `degenerate`. And a metric that trends or depends on volume (an order-status mix that depends on order age, a foreign-key duplicate rate that rises with row count) will look anomalous to any method that learns only from its own past; the backtest is how to see which columns do that.
+
+### 10. Score findings against the ground truth
 
 Any `Finding[]`, from any layer, is scored the same way:
 
@@ -487,9 +538,17 @@ uv run python -m experiments.groundtruth \
 # {"tp":3,"fp":0,"fn":0}
 ```
 
+And the anomaly findings from step 9:
+
+```bash
+uv run python -m experiments.groundtruth \
+  --manifest experiments/groundtruth/manifests/ecommerce.json --findings /tmp/anomalies.json \
+  | jq -c '.perProblemType[] | select(.problemType | IN("null_spike","duplicate_spike","distribution_shift")) | {problemType, tp, fp, fn}'
+```
+
 Matching is by **problem type and location**: code findings must overlap the manifest entry's lines; data and schema findings match on the `table`/`column` named in their evidence; runtime findings match on the `route` in their evidence against the entry's endpoint. See the module docstring of [`scorer.py`](services/experiments/groundtruth/scorer.py) for the exact rules.
 
-### 10. Run the test suites
+### 11. Run the test suites
 
 ```bash
 pnpm typecheck && pnpm test              # TypeScript: core (parser, ORM location, data-flow, rules, CLI) + collector
@@ -499,8 +558,9 @@ uv run ruff check . && uv run ruff format --check .
 uv run pytest                            # unit tests; database tests skip
 DBINSIGHT_TEST_DATABASE_URL=postgresql://dbinsight:dbinsight@localhost:5432/dbinsight \
 DBINSIGHT_ECOMMERCE_DATABASE_URL=postgresql://dbinsight:dbinsight@localhost:5432/ecommerce \
-  uv run pytest                          # + catalog reader, event storage, data-quality profiler
-                                         #   and integrity checks on a scratch schema, and a live run
+  uv run pytest                          # + catalog reader, event storage, data-quality profiler,
+                                         #   integrity checks and anomaly-series loading on a
+                                         #   scratch schema, and a live run
                                          #   that regenerates Prisma IN-list SQL (1/5/50 ids) and
                                          #   checks it collapses to one fingerprint
 ```

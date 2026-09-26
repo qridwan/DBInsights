@@ -135,3 +135,16 @@ def temp_schema():
             yield SimpleNamespace(url=TEST_DATABASE_URL, name=name, conn=conn)
         finally:
             conn.execute(f'DROP SCHEMA "{name}" CASCADE')
+
+
+@pytest.fixture
+def profile_store(temp_schema):
+    """A ProfileStore in its own scratch schema of the test database."""
+    from analyzers.dataquality import ProfileStore
+
+    store = ProfileStore(temp_schema.url, schema=f"{temp_schema.name}_store")
+    try:
+        yield store
+    finally:
+        store.conn.execute(f'DROP SCHEMA "{store.schema}" CASCADE')
+        store.close()

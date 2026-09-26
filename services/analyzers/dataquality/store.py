@@ -214,6 +214,27 @@ class ProfileStore:
             entry["distribution"][row["value"]] = row["count"]
         return list(history.values())
 
+    def windowed_columns(self, app: str, label: str) -> list[dict[str, Any]]:
+        """Every windowed column profile of one labelled series, oldest window first."""
+        return self.conn.execute(
+            """SELECT c.table_name, c.column_name, r.window_start, r.window_end,
+                      c.row_count, c.null_count, c.null_rate, c.distinct_count, c.duplicate_rate
+               FROM profile_run r JOIN column_profile c USING (run_id)
+               WHERE r.app = %s AND r.label = %s AND r.window_start IS NOT NULL
+               ORDER BY c.table_name, c.column_name, r.window_start""",
+            (app, label),
+        ).fetchall()
+
+    def windowed_categories(self, app: str, label: str) -> list[dict[str, Any]]:
+        """Every stored category frequency of one labelled windowed series."""
+        return self.conn.execute(
+            """SELECT f.table_name, f.column_name, r.window_start, f.value, f.count
+               FROM profile_run r JOIN category_frequency f USING (run_id)
+               WHERE r.app = %s AND r.label = %s AND r.window_start IS NOT NULL
+               ORDER BY f.table_name, f.column_name, r.window_start, f.value""",
+            (app, label),
+        ).fetchall()
+
     def integrity(self, run_id: str) -> list[dict[str, Any]]:
         return self.conn.execute(
             "SELECT * FROM integrity_check WHERE run_id = %s ORDER BY table_name, relation",
