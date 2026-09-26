@@ -24,6 +24,7 @@ from fractions import Fraction
 from typing import Any
 
 from ..dataquality.models import Window
+from ..dataquality.profile import DataProfile
 from ..dataquality.store import ProfileStore
 
 NULL_RATE = "null_rate"
@@ -97,6 +98,27 @@ def load_series(store: ProfileStore, app: str, label: str) -> dict[tuple[str, st
             distributions=tuple(categories.get((table, column, r["window_start"])) for r in rows),
         )
     return series
+
+
+def series_from_profile(
+    profile: "DataProfile", window: Window
+) -> dict[tuple[str, str], ColumnSeries]:
+    """One-window series from an in-memory profile, keyed like `load_series`; no store."""
+    distributions: dict[tuple[str, str], dict[str, int]] = defaultdict(dict)
+    for category in profile.categories:
+        distributions[(category.table, category.column)][category.value] = category.count
+    return {
+        (c.table, c.column): ColumnSeries(
+            table=c.table,
+            column=c.column,
+            windows=(window,),
+            row_counts=(c.row_count,),
+            null_rates=(c.null_rate,),
+            duplicate_rates=(c.duplicate_rate,),
+            distributions=(distributions.get((c.table, c.column)),),
+        )
+        for c in profile.columns
+    }
 
 
 # ---- distribution distance ------------------------------------------------------------------

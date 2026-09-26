@@ -91,8 +91,11 @@ class MetricAnalysis:
 
 def _explain(current: Mapping[str, int], history: Sequence[Mapping[str, int]]) -> dict[str, Any]:
     baseline, now = mean_shares(history), shares(current)
+    # Most-moved first; ties (a two-valued column moves both values equally) broken by name, so the
+    # order never depends on set iteration and hence on the process's hash seed.
     moved = sorted(
-        baseline.keys() | now.keys(), key=lambda v: -abs(now.get(v, 0) - baseline.get(v, 0))
+        baseline.keys() | now.keys(),
+        key=lambda v: (-abs(now.get(v, 0) - baseline.get(v, 0)), v),
     )
     return {
         "categories": [

@@ -25,15 +25,15 @@ export { RULES, runRules } from "./rules/index.js";
  */
 export async function analyze(input: AnalyzeInput): Promise<Finding[]> {
   const sourceDir = resolve(input.sourceDir);
-  const schemaPath = resolve(input.schemaPath);
-  const schema = parseSchema(await readFile(schemaPath, "utf8"));
+  const schemaPath = input.schemaPath ? resolve(input.schemaPath) : undefined;
+  const schema = schemaPath ? parseSchema(await readFile(schemaPath, "utf8")) : undefined;
 
   // Generated Prisma client code is not application code.
-  const generatedDirs = schema.generators.flatMap((generator) =>
-    generator.output ? [resolve(dirname(schemaPath), generator.output)] : [],
+  const generatedDirs = (schema?.generators ?? []).flatMap((generator) =>
+    generator.output && schemaPath ? [resolve(dirname(schemaPath), generator.output)] : [],
   );
   const project = loadSourceProject(sourceDir, generatedDirs);
-  const schemaFile = relative(sourceDir, schemaPath).split(sep).join("/");
+  const schemaFile = schemaPath ? relative(sourceDir, schemaPath).split(sep).join("/") : "";
 
   return runRules(buildAnalysisContext(project, schema, { rootDir: sourceDir, schemaFile }));
 }

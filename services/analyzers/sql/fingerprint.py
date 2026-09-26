@@ -68,6 +68,11 @@ def _normalize_node(node: exp.Expression) -> exp.Expression:
     return node
 
 
+def parse(sql: str) -> exp.Expression:
+    """Parses one PostgreSQL statement, including Prisma's `IN ($1,$2)` parameter lists."""
+    return sqlglot.parse_one(_ADJACENT_PARAMETER.sub(", ", sql), read=_DIALECT)
+
+
 def normalize(sql: str) -> tuple[str, bool]:
     """Returns (normalized SQL, parsed-by-SQLGlot)."""
     try:

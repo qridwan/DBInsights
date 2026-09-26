@@ -142,7 +142,7 @@ services/                 Python 3.12, uv
   analyzers/finding.py    Finding contract (Python mirror)
   analyzers/core_bridge.py  calls packages/core as a subprocess
   analyzers/schema/       declared + actual schema, divergence comparator
-  analyzers/sql/          query fingerprinting (SQLGlot AST normalization)
+  analyzers/sql/          query fingerprinting (SQLGlot) + SQL rules (Config A's analyzer)
   analyzers/runtime/      runtime N+1 detection over collected requests
   analyzers/dataquality/  data-quality profiler: windowed history, referential integrity
   analyzers/anomaly/      interpretable detectors (z-score, IQR, moving average), no fixed thresholds
@@ -150,6 +150,8 @@ services/                 Python 3.12, uv
   api/                    collector service (FastAPI) + runtime event storage
   experiments/groundtruth/  manifests, data-quality injection, scorer
   experiments/load/       load harness: fixed sequences, repeatability, collector overhead
+  experiments/ablation/   configurations as layer sets, one pipeline, results store, `run` command
+  experiments/analysis/   CIs, significance tests, figures -> experiments/results/
 apps/ecommerce/           test application 1 (Next.js + Prisma + Postgres)
 apps/blog/                test application 2
 fixtures/                 synthetic inputs for analyzer tests; recorded Prisma SQL
@@ -170,8 +172,11 @@ docker/postgres/init/     creates the ecommerce and blog databases
 | M4.1 | Data-quality profiler: windowed history, referential integrity | done |
 | M4.2 | Anomaly detectors with ranges learned from each column's own history | done |
 | M4.3 | Correlation engine: competing hypotheses, corroboration and contradiction, reproducible scores | done |
-| M4.4 | M4 exit check | next |
-| M5–M8 | Ablation, real-world validation, dashboard, AI explanation layer | planned |
+| M4.4 | M4 exit check | done |
+| M5.1 | Ablation harness: 6 configurations + sensitivity arm, raw results in Postgres | done |
+| M5.2 | Statistical analysis: CIs, four named tests, figures | done |
+| M5.3 | M5 exit check | next |
+| M6–M8 | Real-world validation, dashboard, AI explanation layer | planned |
 
 Static rules implemented in the core:
 
@@ -622,7 +627,70 @@ uv run python -m experiments.groundtruth \
 
 Matching is by **problem type and location**: code findings must overlap the manifest entry's lines; data and schema findings match on the `table`/`column` named in their evidence; runtime findings match on the `route` in their evidence against the entry's endpoint. See the module docstring of [`scorer.py`](services/experiments/groundtruth/scorer.py) for the exact rules.
 
-### 12. Run the test suites
+### 12. Run the ablation experiment (M5.1)
+
+The experiment asks how much each evidence layer adds. A *configuration* is a declarative set of
+enabled layers, not a code path: [`layers.py`](services/experiments/ablation/layers.py) lists them,
+and one pipeline ([`pipeline.py`](services/experiments/ablation/pipeline.py)) runs whichever
+layers a configuration names, correlates their findings and scores them against the manifest.
+
+| Config | Layers enabled |
+|---|---|
+| A | SQL analysis only |
+| B1 | + static ORM analysis |
+| B2 | + declared schema (`schema.prisma`) |
+| C1 | + actual schema (the live database catalog) |
+| C2 | + runtime queries |
+| C3 | + data-quality statistics: the full hybrid |
+| A-log | sensitivity arm: SQL analysis over the SQL the application actually issues |
+
+```bash
+cd services
+uv run python -m experiments.ablation list                    # the configurations and layers
+uv run python -m experiments.ablation run                     # everything: setup + 7 configs x 2 apps x 10 reps
+uv run python -m experiments.ablation run --repetitions 3 --apps blog --configs B1,B2   # a small run
+uv run python -m experiments.ablation show                    # mean TP/FP/FN per configuration
+```
+
+`run` is the single reproduction command. It first runs an idempotent, additive setup (stack up,
+core built, ground-truth problems injected, a never-injected `<app>_clean` database created and
+profiled as the data layer's baseline; nothing is ever dropped), then stores **raw rows** in the
+`ablation` schema of the results database: one `result` row per (config, app, repetition, problem
+type), plus each run's timings and the findings it produced. Nothing is aggregated at write time.
+Each experiment records the git commit, whether the tree was dirty and a hash of the uncommitted
+changes, so a result can be tied to the exact code that produced it.
+
+Per run it records precision, recall, F1, false-positive rate (against a fixed negative universe
+per problem type, the same for every configuration), detection latency (seconds until the first
+layer whose findings matched the problem) and analysis overhead (wall and CPU seconds).
+
+### 13. Analyze the results (M5.2)
+
+```bash
+cd services
+uv run python -m experiments.analysis                         # latest experiment -> experiments/results/
+uv run python -m experiments.analysis --experiment <id> --out /tmp/results
+```
+
+Writes `results.json` (every reported number) and four figures: accuracy per configuration,
+recall by problem type, latency and overhead, and where configurations disagree. It contains:
+mean with 95% CI per metric per configuration, a per-problem-type breakdown, and four named tests
+with effect sizes, Holm-corrected as one family:
+
+| Test | Compares | Question |
+|---|---|---|
+| H5, RQ6 | B1 vs B2 | does the declared schema help? |
+| RQ6 (core) | B2 vs C1 | does the actual schema add to the declared one? |
+| H3, RQ3 | C1 vs C2 | does runtime evidence strengthen detection? |
+| H1 | A vs C3 | does the full hybrid beat SQL analysis alone? |
+
+The system under test is deterministic, so accuracy does not vary between repetitions; the
+repetitions show that, and vary only in timing. Accuracy is therefore compared on the benchmark's
+*problems* (exact McNemar test on paired per-problem outcomes; bootstrap intervals for precision
+and F1), and timing across repetitions (Wilcoxon signed-rank with Cliff's delta). The reasoning is
+in the module docstring of [`stats.py`](services/experiments/analysis/stats.py).
+
+### 14. Run the test suites
 
 ```bash
 pnpm typecheck && pnpm test              # TypeScript: core (parser, ORM location, data-flow, rules, CLI) + collector

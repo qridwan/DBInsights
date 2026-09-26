@@ -59,7 +59,7 @@ def judge(baseline, current, index=-1, **kw):
 CALM = [0.04, 0.05, 0.06, 0.04, 0.05, 0.05, 0.06, 0.04, 0.05, 0.05]
 
 
-# ---- distances -------------------------------------------------------------------------------
+# ---- distances ----------------------------------------------------------------------------------
 
 
 def test_total_variation_is_the_share_of_the_distribution_that_moved():
@@ -103,7 +103,7 @@ def test_shares_of_an_empty_distribution_is_empty():
     assert shares({}) == {}
 
 
-# ---- which metrics apply ---------------------------------------------------------------------
+# ---- which metrics apply ------------------------------------------------------------------------
 
 
 def test_duplicate_rate_is_for_near_unique_columns_and_distribution_for_categorical_ones():
@@ -113,7 +113,7 @@ def test_duplicate_rate_is_for_near_unique_columns_and_distribution_for_categori
     assert metrics_for(categorical) == [NULL_RATE, DISTRIBUTION_SHIFT]
 
 
-# ---- null and duplicate spikes ----------------------------------------------------------------
+# ---- null and duplicate spikes ------------------------------------------------------------------
 
 
 def test_a_null_spike_is_flagged_by_the_learned_range():
@@ -165,7 +165,7 @@ def test_too_little_history_means_no_judgement_and_no_finding():
     assert to_findings(analyses) == []
 
 
-# ---- distribution shift -----------------------------------------------------------------------
+# ---- distribution shift -------------------------------------------------------------------------
 
 BASE_DISTRIBUTIONS = [
     {"CARD": 69, "PAYPAL": 25, "BANK": 5},
@@ -229,7 +229,7 @@ def test_a_window_without_a_stored_distribution_is_not_judged():
     assert [a for a in judge(baseline, current) if a.metric == DISTRIBUTION_SHIFT] == []
 
 
-# ---- the vote --------------------------------------------------------------------------------
+# ---- the vote -----------------------------------------------------------------------------------
 
 
 @pytest.mark.parametrize(
@@ -351,7 +351,7 @@ def test_findings_score_against_ground_truth_entries():
     assert (result.aggregate.tp, result.aggregate.fp, result.aggregate.fn) == (1, 0, 0)
 
 
-# ---- choosing baseline and current windows ---------------------------------------------------
+# ---- choosing baseline and current windows ------------------------------------------------------
 
 
 def test_the_latest_window_is_judged_by_default_and_a_series_can_be_judged_against_its_own_past():
@@ -389,7 +389,7 @@ def test_only_columns_present_in_both_series_are_analyzed():
     assert detect_anomalies(baseline, current) == []
 
 
-# ---- backtest --------------------------------------------------------------------------------
+# ---- backtest -----------------------------------------------------------------------------------
 
 
 def test_backtest_judges_each_window_only_against_earlier_ones():
@@ -414,7 +414,7 @@ def test_backtest_of_a_series_shorter_than_min_history_evaluates_nothing():
     assert backtest({short.key: short})["vote_result"]["evaluations"] == 0
 
 
-# ---- loading from the profile store ----------------------------------------------------------
+# ---- loading from the profile store -------------------------------------------------------------
 
 
 def test_series_are_loaded_aligned_and_ordered_from_stored_profiles(profile_store):
@@ -435,3 +435,92 @@ def test_series_are_loaded_aligned_and_ordered_from_stored_profiles(profile_stor
     tier = series[("Customer", "tier")] if ("Customer", "tier") in series else None
     assert tier is None, "category rows without a column profile do not create a series"
     assert load_series(profile_store, "shop", "other-label") == {}
+
+
+# ---- hash-seed independence (found by the M4.4 exit check) --------------------------------------
+
+
+def test_tied_categories_are_ordered_the_same_whatever_the_hash_seed():
+    """A two-valued column moves both values by exactly the same amount, so 'most moved first' is a
+    tie. Breaking it by set-iteration order made the output depend on PYTHONHASHSEED."""
+    import os
+    import subprocess
+    import sys
+    from pathlib import Path
+
+    script = (
+        "from analyzers.anomaly.pipeline import _explain\n"
+        "history = [{'true': 3, 'false': 7}] * 5\n"
+        "print([c['value'] for c in _explain({'true': 11, 'false': 1}, history)['categories']])\n"
+    )
+    cwd = Path(__file__).parents[2]
+
+    def order(seed: str) -> str:
+        return subprocess.run(
+            [sys.executable, "-c", script],
+            cwd=cwd,
+            env={**os.environ, "PYTHONHASHSEED": seed},
+            capture_output=True,
+            text=True,
+            check=True,
+        ).stdout
+
+    assert len({order(str(seed)) for seed in range(12)}) == 1
+
+
+def test_ties_in_movement_are_broken_by_category_name():
+    baseline = [{"a": 5, "b": 5}] * 5
+    (shift,) = [
+        a
+        for a in judge(
+            make_series([0.0] * 5, distributions=baseline, table="T", column="c"),
+            make_series(
+                [0.0] * 6, distributions=[*baseline, {"a": 9, "b": 1}], table="T", column="c"
+            ),
+        )
+        if a.metric == DISTRIBUTION_SHIFT
+    ]
+    assert [c["value"] for c in shift.explanation["categories"]] == ["a", "b"]
+
+
+# ---- one in-memory window as a series -----------------------------------------------------------
+
+
+def test_a_profile_becomes_a_single_window_series_without_the_store():
+    from analyzers.anomaly.series import series_from_profile
+    from analyzers.dataquality import CategoryFrequency, ColumnProfile
+    from analyzers.dataquality.profile import DataProfile
+
+    profile = DataProfile()
+    profile.columns = [
+        ColumnProfile(
+            table="T",
+            column="tier",
+            data_type="text",
+            row_count=10,
+            null_count=1,
+            null_rate=0.1,
+            distinct_count=2,
+            duplicate_rate=0.8,
+        ),
+        ColumnProfile(
+            table="T",
+            column="email",
+            data_type="text",
+            row_count=10,
+            null_count=0,
+            null_rate=0.0,
+            distinct_count=10,
+            duplicate_rate=0.0,
+        ),
+    ]
+    profile.categories = [
+        CategoryFrequency(table="T", column="tier", value="gold", count=6),
+        CategoryFrequency(table="T", column="tier", value="silver", count=3),
+    ]
+    window = windows(1)[0]
+    series = series_from_profile(profile, window)
+    tier, email = series[("T", "tier")], series[("T", "email")]
+    assert (tier.windows, tier.null_rates, tier.duplicate_rates) == ((window,), (0.1,), (0.8,))
+    assert tier.distributions == ({"gold": 6, "silver": 3},) and tier.is_categorical
+    assert email.distributions == (None,) and not email.is_categorical

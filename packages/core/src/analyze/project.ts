@@ -3,7 +3,8 @@ import { join, resolve } from "node:path";
 import { Project, ts } from "ts-morph";
 
 const SOURCE_EXTENSIONS = [".ts", ".tsx", ".mts", ".cts", ".js", ".jsx", ".mjs", ".cjs"];
-const SKIPPED_DIRECTORIES = new Set(["node_modules", "dist", "build", "out", "coverage"]);
+// `generated` is where ORM clients are emitted by convention; it is never application code.
+const SKIPPED_DIRECTORIES = new Set(["node_modules", "dist", "build", "out", "coverage", "generated"]);
 
 function isSourceFile(name: string): boolean {
   return !name.endsWith(".d.ts") && SOURCE_EXTENSIONS.some((ext) => name.endsWith(ext));

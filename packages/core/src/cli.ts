@@ -5,6 +5,7 @@
 //
 //   {"command": "parseSchema", "schemaPath": "prisma/schema.prisma"}
 //   {"command": "analyze", "sourceDir": ".", "schemaPath": "prisma/schema.prisma"}
+//   {"command": "analyze", "sourceDir": "."}            (no declared schema)
 //
 // Response: {"ok": true, "result": ...} or {"ok": false, "error": "..."}.
 
@@ -14,7 +15,7 @@ import { parseSchema } from "./schema/parse.js";
 
 type Request =
   | { command: "parseSchema"; schemaPath: string }
-  | { command: "analyze"; sourceDir: string; schemaPath: string };
+  | { command: "analyze"; sourceDir: string; schemaPath?: string };
 
 async function readStdin(): Promise<string> {
   const chunks: Buffer[] = [];
@@ -26,7 +27,9 @@ function isRequest(value: unknown): value is Request {
   if (typeof value !== "object" || value === null) return false;
   const request = value as Record<string, unknown>;
   if (request.command === "parseSchema") return typeof request.schemaPath === "string";
-  if (request.command === "analyze") return typeof request.sourceDir === "string" && typeof request.schemaPath === "string";
+  if (request.command === "analyze") {
+    return typeof request.sourceDir === "string" && (request.schemaPath === undefined || typeof request.schemaPath === "string");
+  }
   return false;
 }
 
@@ -35,7 +38,7 @@ async function handle(request: Request): Promise<unknown> {
     case "parseSchema":
       return parseSchema(await readFile(request.schemaPath, "utf8"));
     case "analyze":
-      return analyze({ sourceDir: request.sourceDir, schemaPath: request.schemaPath });
+      return analyze({ sourceDir: request.sourceDir, ...(request.schemaPath ? { schemaPath: request.schemaPath } : {}) });
   }
 }
 

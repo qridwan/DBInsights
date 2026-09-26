@@ -1,0 +1,5918 @@
+{
+  "comparisons": [
+    {
+      "accuracy_difference_bootstrap": {
+        "f1": {
+          "ci_high": 0.2358974358974359,
+          "ci_low": 0.027828191167574068,
+          "difference": 0.1258894362342638,
+          "excludes_zero": true,
+          "first": 0.41379310344827586,
+          "second": 0.5396825396825397
+        },
+        "precision": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "difference": 0.0,
+          "excludes_zero": false,
+          "first": 1.0,
+          "second": 1.0
+        },
+        "recall": {
+          "ci_high": 0.21739130434782605,
+          "ci_low": 0.021739130434782622,
+          "difference": 0.10869565217391303,
+          "excludes_zero": true,
+          "first": 0.2608695652173913,
+          "second": 0.3695652173913043
+        }
+      },
+      "confidence_wilcoxon": {
+        "cliffs_delta": 0.0,
+        "first_mean": 2.75,
+        "median_difference": 0.0,
+        "n": 12,
+        "n_nonzero": 0,
+        "p_value": 1.0,
+        "restricted_to": "12 problems detected by both configurations",
+        "scale": "confidence rank of the matching finding: 1 LOW, 2 MEDIUM, 3 HIGH",
+        "second_mean": 2.75,
+        "statistic": null
+      },
+      "detection_mcnemar_exact": {
+        "both": 12,
+        "discordant_odds_ratio": "inf",
+        "neither": 29,
+        "only_first": 0,
+        "only_second": 5,
+        "p_value": 0.0625,
+        "risk_difference": 0.10869565217391304
+      },
+      "detection_p_holm": 0.1875,
+      "detection_per_app": {
+        "blog": {
+          "both": 6,
+          "discordant_odds_ratio": "inf",
+          "neither": 11,
+          "only_first": 0,
+          "only_second": 3,
+          "p_value": 0.25,
+          "risk_difference": 0.15
+        },
+        "ecommerce": {
+          "both": 6,
+          "discordant_odds_ratio": "inf",
+          "neither": 18,
+          "only_first": 0,
+          "only_second": 2,
+          "p_value": 0.5,
+          "risk_difference": 0.07692307692307693
+        }
+      },
+      "detection_per_problem_type": {
+        "declared_index_not_applied": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 2,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "distribution_shift": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 3,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "duplicate_spike": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 3,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "excessive_relation_loading": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 6,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "index_not_declared": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 2,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "missing_index": {
+          "both": 0,
+          "discordant_odds_ratio": "inf",
+          "neither": 1,
+          "only_first": 0,
+          "only_second": 5,
+          "p_value": 0.0625,
+          "risk_difference": 0.8333333333333334
+        },
+        "n_plus_one": {
+          "both": 6,
+          "discordant_odds_ratio": null,
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "null_spike": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 3,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "orphaned_foreign_key": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 3,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "repeated_identical_query": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 6,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "unpaginated_find_many": {
+          "both": 6,
+          "discordant_odds_ratio": null,
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        }
+      },
+      "first": "B1",
+      "hypothesis": "H5, RQ6",
+      "id": "H5_B1_vs_B2",
+      "primary": true,
+      "problems": 46,
+      "question": "Does the declared schema improve on source alone?",
+      "second": "B2",
+      "timing_wilcoxon": {
+        "cpu_s": {
+          "cliffs_delta": 0.965,
+          "first_mean": 1.971060099999994,
+          "median_difference": 0.20527300000002668,
+          "n": 20,
+          "n_nonzero": 20,
+          "p_value": 1.9073486328125e-06,
+          "second_mean": 2.195330750000001,
+          "statistic": 0.0
+        },
+        "detection_latency_s": {
+          "cliffs_delta": -0.51,
+          "first_mean": 1.0635979727994709,
+          "median_difference": -0.0511322710008244,
+          "n": 20,
+          "n_nonzero": 20,
+          "p_value": 0.03276824951171875,
+          "restricted_to": "12 problems detected by both configurations",
+          "second_mean": 1.0168018227504945,
+          "statistic": 48.0
+        },
+        "wall_s": {
+          "cliffs_delta": 0.835,
+          "first_mean": 1.0711547666502157,
+          "median_difference": 0.13881010399927618,
+          "n": 20,
+          "n_nonzero": 20,
+          "p_value": 3.814697265625e-06,
+          "second_mean": 1.2211242437504553,
+          "statistic": 1.0
+        }
+      },
+      "verdict": "not supported: no significant difference in detection"
+    },
+    {
+      "accuracy_difference_bootstrap": {
+        "f1": {
+          "ci_high": 0.18039215686274512,
+          "ci_low": 0.019607843137254832,
+          "difference": 0.08718313195925131,
+          "excludes_zero": true,
+          "first": 0.5396825396825397,
+          "second": 0.626865671641791
+        },
+        "precision": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "difference": 0.0,
+          "excludes_zero": false,
+          "first": 1.0,
+          "second": 1.0
+        },
+        "recall": {
+          "ci_high": 0.17391304347826086,
+          "ci_low": 0.021739130434782594,
+          "difference": 0.08695652173913043,
+          "excludes_zero": true,
+          "first": 0.3695652173913043,
+          "second": 0.45652173913043476
+        }
+      },
+      "confidence_wilcoxon": {
+        "cliffs_delta": 0.29411764705882354,
+        "first_mean": 2.5294117647058822,
+        "median_difference": 0.0,
+        "n": 17,
+        "n_nonzero": 5,
+        "p_value": 0.0625,
+        "restricted_to": "17 problems detected by both configurations",
+        "scale": "confidence rank of the matching finding: 1 LOW, 2 MEDIUM, 3 HIGH",
+        "second_mean": 2.823529411764706,
+        "statistic": 0.0
+      },
+      "detection_mcnemar_exact": {
+        "both": 17,
+        "discordant_odds_ratio": "inf",
+        "neither": 25,
+        "only_first": 0,
+        "only_second": 4,
+        "p_value": 0.125,
+        "risk_difference": 0.08695652173913043
+      },
+      "detection_p_holm": 0.25,
+      "detection_per_app": {
+        "blog": {
+          "both": 9,
+          "discordant_odds_ratio": "inf",
+          "neither": 9,
+          "only_first": 0,
+          "only_second": 2,
+          "p_value": 0.5,
+          "risk_difference": 0.1
+        },
+        "ecommerce": {
+          "both": 8,
+          "discordant_odds_ratio": "inf",
+          "neither": 16,
+          "only_first": 0,
+          "only_second": 2,
+          "p_value": 0.5,
+          "risk_difference": 0.07692307692307693
+        }
+      },
+      "detection_per_problem_type": {
+        "declared_index_not_applied": {
+          "both": 0,
+          "discordant_odds_ratio": "inf",
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 2,
+          "p_value": 0.5,
+          "risk_difference": 1.0
+        },
+        "distribution_shift": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 3,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "duplicate_spike": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 3,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "excessive_relation_loading": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 6,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "index_not_declared": {
+          "both": 0,
+          "discordant_odds_ratio": "inf",
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 2,
+          "p_value": 0.5,
+          "risk_difference": 1.0
+        },
+        "missing_index": {
+          "both": 5,
+          "discordant_odds_ratio": null,
+          "neither": 1,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "n_plus_one": {
+          "both": 6,
+          "discordant_odds_ratio": null,
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "null_spike": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 3,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "orphaned_foreign_key": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 3,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "repeated_identical_query": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 6,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "unpaginated_find_many": {
+          "both": 6,
+          "discordant_odds_ratio": null,
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        }
+      },
+      "first": "B2",
+      "hypothesis": "RQ6 (core)",
+      "id": "RQ6_B2_vs_C1",
+      "primary": true,
+      "problems": 46,
+      "question": "Does the live database's schema add to the declared one?",
+      "second": "C1",
+      "timing_wilcoxon": {
+        "cpu_s": {
+          "cliffs_delta": 0.13,
+          "first_mean": 2.195330750000001,
+          "median_difference": 0.024531500000023243,
+          "n": 20,
+          "n_nonzero": 20,
+          "p_value": 0.3117942810058594,
+          "second_mean": 2.2187591500000003,
+          "statistic": 77.0
+        },
+        "detection_latency_s": {
+          "cliffs_delta": 0.085,
+          "first_mean": 1.0168018227504945,
+          "median_difference": 0.00525897899933625,
+          "n": 20,
+          "n_nonzero": 20,
+          "p_value": 0.5705966949462891,
+          "restricted_to": "17 problems detected by both configurations",
+          "second_mean": 1.0203475062502547,
+          "statistic": 89.0
+        },
+        "wall_s": {
+          "cliffs_delta": 0.225,
+          "first_mean": 1.2211242437504553,
+          "median_difference": 0.023529062498710118,
+          "n": 20,
+          "n_nonzero": 20,
+          "p_value": 0.09730720520019531,
+          "second_mean": 1.247797681100201,
+          "statistic": 60.0
+        }
+      },
+      "verdict": "not supported: no significant difference in detection"
+    },
+    {
+      "accuracy_difference_bootstrap": {
+        "f1": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "difference": 0.0,
+          "excludes_zero": false,
+          "first": 0.626865671641791,
+          "second": 0.626865671641791
+        },
+        "precision": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "difference": 0.0,
+          "excludes_zero": false,
+          "first": 1.0,
+          "second": 1.0
+        },
+        "recall": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "difference": 0.0,
+          "excludes_zero": false,
+          "first": 0.45652173913043476,
+          "second": 0.45652173913043476
+        }
+      },
+      "confidence_wilcoxon": {
+        "cliffs_delta": 0.0,
+        "first_mean": 2.857142857142857,
+        "median_difference": 0.0,
+        "n": 21,
+        "n_nonzero": 0,
+        "p_value": 1.0,
+        "restricted_to": "21 problems detected by both configurations",
+        "scale": "confidence rank of the matching finding: 1 LOW, 2 MEDIUM, 3 HIGH",
+        "second_mean": 2.857142857142857,
+        "statistic": null
+      },
+      "detection_mcnemar_exact": {
+        "both": 21,
+        "discordant_odds_ratio": null,
+        "neither": 25,
+        "only_first": 0,
+        "only_second": 0,
+        "p_value": 1.0,
+        "risk_difference": 0.0
+      },
+      "detection_p_holm": 1.0,
+      "detection_per_app": {
+        "blog": {
+          "both": 11,
+          "discordant_odds_ratio": null,
+          "neither": 9,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "ecommerce": {
+          "both": 10,
+          "discordant_odds_ratio": null,
+          "neither": 16,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        }
+      },
+      "detection_per_problem_type": {
+        "declared_index_not_applied": {
+          "both": 2,
+          "discordant_odds_ratio": null,
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "distribution_shift": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 3,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "duplicate_spike": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 3,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "excessive_relation_loading": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 6,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "index_not_declared": {
+          "both": 2,
+          "discordant_odds_ratio": null,
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "missing_index": {
+          "both": 5,
+          "discordant_odds_ratio": null,
+          "neither": 1,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "n_plus_one": {
+          "both": 6,
+          "discordant_odds_ratio": null,
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "null_spike": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 3,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "orphaned_foreign_key": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 3,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "repeated_identical_query": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 6,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "unpaginated_find_many": {
+          "both": 6,
+          "discordant_odds_ratio": null,
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        }
+      },
+      "first": "C1",
+      "hypothesis": "H3, RQ3",
+      "id": "H3_C1_vs_C2",
+      "primary": true,
+      "problems": 46,
+      "question": "Does runtime evidence strengthen detection?",
+      "second": "C2",
+      "timing_wilcoxon": {
+        "cpu_s": {
+          "cliffs_delta": 0.7,
+          "first_mean": 2.2187591500000003,
+          "median_difference": 0.1342594999999962,
+          "n": 20,
+          "n_nonzero": 20,
+          "p_value": 5.7220458984375e-06,
+          "second_mean": 2.3551780000000067,
+          "statistic": 2.0
+        },
+        "detection_latency_s": {
+          "cliffs_delta": -0.21,
+          "first_mean": 1.0637311667049059,
+          "median_difference": 3.832889997279487e-05,
+          "n": 20,
+          "n_nonzero": 20,
+          "p_value": 0.34881019592285156,
+          "restricted_to": "21 problems detected by both configurations",
+          "second_mean": 1.05493094409685,
+          "statistic": 79.0
+        },
+        "wall_s": {
+          "cliffs_delta": 1.0,
+          "first_mean": 1.247797681100201,
+          "median_difference": 3.860248250501172,
+          "n": 20,
+          "n_nonzero": 20,
+          "p_value": 1.9073486328125e-06,
+          "second_mean": 4.901852331349801,
+          "statistic": 0.0
+        }
+      },
+      "verdict": "not supported: no significant difference in detection"
+    },
+    {
+      "accuracy_difference_bootstrap": {
+        "f1": {
+          "ci_high": null,
+          "ci_low": null,
+          "difference": null,
+          "excludes_zero": false,
+          "first": null,
+          "second": 0.8148148148148148
+        },
+        "precision": {
+          "ci_high": null,
+          "ci_low": null,
+          "difference": null,
+          "excludes_zero": false,
+          "first": null,
+          "second": 0.9428571428571428
+        },
+        "recall": {
+          "ci_high": 0.8478260869565217,
+          "ci_low": 0.5869565217391305,
+          "difference": 0.717391304347826,
+          "excludes_zero": true,
+          "first": 0.0,
+          "second": 0.717391304347826
+        }
+      },
+      "confidence_wilcoxon": {
+        "cliffs_delta": null,
+        "first_mean": null,
+        "median_difference": null,
+        "n": 0,
+        "n_nonzero": 0,
+        "p_value": null,
+        "restricted_to": "0 problems detected by both configurations",
+        "scale": "confidence rank of the matching finding: 1 LOW, 2 MEDIUM, 3 HIGH",
+        "second_mean": null,
+        "statistic": null
+      },
+      "detection_mcnemar_exact": {
+        "both": 0,
+        "discordant_odds_ratio": "inf",
+        "neither": 13,
+        "only_first": 0,
+        "only_second": 33,
+        "p_value": 2.3283064365386963e-10,
+        "risk_difference": 0.717391304347826
+      },
+      "detection_p_holm": 9.313225746154785e-10,
+      "detection_per_app": {
+        "blog": {
+          "both": 0,
+          "discordant_odds_ratio": "inf",
+          "neither": 6,
+          "only_first": 0,
+          "only_second": 14,
+          "p_value": 0.0001220703125,
+          "risk_difference": 0.7
+        },
+        "ecommerce": {
+          "both": 0,
+          "discordant_odds_ratio": "inf",
+          "neither": 7,
+          "only_first": 0,
+          "only_second": 19,
+          "p_value": 3.814697265625e-06,
+          "risk_difference": 0.7307692307692307
+        }
+      },
+      "detection_per_problem_type": {
+        "declared_index_not_applied": {
+          "both": 0,
+          "discordant_odds_ratio": "inf",
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 2,
+          "p_value": 0.5,
+          "risk_difference": 1.0
+        },
+        "distribution_shift": {
+          "both": 0,
+          "discordant_odds_ratio": "inf",
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 3,
+          "p_value": 0.25,
+          "risk_difference": 1.0
+        },
+        "duplicate_spike": {
+          "both": 0,
+          "discordant_odds_ratio": "inf",
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 3,
+          "p_value": 0.25,
+          "risk_difference": 1.0
+        },
+        "excessive_relation_loading": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 6,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "index_not_declared": {
+          "both": 0,
+          "discordant_odds_ratio": "inf",
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 2,
+          "p_value": 0.5,
+          "risk_difference": 1.0
+        },
+        "missing_index": {
+          "both": 0,
+          "discordant_odds_ratio": "inf",
+          "neither": 1,
+          "only_first": 0,
+          "only_second": 5,
+          "p_value": 0.0625,
+          "risk_difference": 0.8333333333333334
+        },
+        "n_plus_one": {
+          "both": 0,
+          "discordant_odds_ratio": "inf",
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 6,
+          "p_value": 0.03125,
+          "risk_difference": 1.0
+        },
+        "null_spike": {
+          "both": 0,
+          "discordant_odds_ratio": "inf",
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 3,
+          "p_value": 0.25,
+          "risk_difference": 1.0
+        },
+        "orphaned_foreign_key": {
+          "both": 0,
+          "discordant_odds_ratio": "inf",
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 3,
+          "p_value": 0.25,
+          "risk_difference": 1.0
+        },
+        "repeated_identical_query": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 6,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "unpaginated_find_many": {
+          "both": 0,
+          "discordant_odds_ratio": "inf",
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 6,
+          "p_value": 0.03125,
+          "risk_difference": 1.0
+        }
+      },
+      "first": "A",
+      "hypothesis": "H1",
+      "id": "H1_A_vs_C3",
+      "primary": true,
+      "problems": 46,
+      "question": "Does the full hybrid beat SQL analysis alone?",
+      "second": "C3",
+      "timing_wilcoxon": {
+        "cpu_s": {
+          "cliffs_delta": 1.0,
+          "first_mean": 0.006265350000001302,
+          "median_difference": 2.399855500000001,
+          "n": 20,
+          "n_nonzero": 20,
+          "p_value": 1.9073486328125e-06,
+          "second_mean": 2.4081082999999994,
+          "statistic": 0.0
+        },
+        "detection_latency_s": {
+          "cliffs_delta": null,
+          "first_mean": null,
+          "median_difference": null,
+          "n": 0,
+          "n_nonzero": 0,
+          "p_value": null,
+          "restricted_to": "0 problems detected by both configurations",
+          "second_mean": null,
+          "statistic": null
+        },
+        "wall_s": {
+          "cliffs_delta": 1.0,
+          "first_mean": 0.006426095899951178,
+          "median_difference": 4.815684895500453,
+          "n": 20,
+          "n_nonzero": 20,
+          "p_value": 1.9073486328125e-06,
+          "second_mean": 4.908547691700005,
+          "statistic": 0.0
+        }
+      },
+      "verdict": "supported: significantly more problems detected"
+    },
+    {
+      "accuracy_difference_bootstrap": {
+        "f1": {
+          "ci_high": 0.7782816830435879,
+          "ci_low": 0.5429828850855747,
+          "difference": 0.6548148148148147,
+          "excludes_zero": true,
+          "first": 0.16,
+          "second": 0.8148148148148148
+        },
+        "precision": {
+          "ci_high": 0.896551724137931,
+          "ci_low": 0.5635467980295567,
+          "difference": 0.7359605911330049,
+          "excludes_zero": true,
+          "first": 0.20689655172413793,
+          "second": 0.9428571428571428
+        },
+        "recall": {
+          "ci_high": 0.7173913043478262,
+          "ci_low": 0.4347826086956522,
+          "difference": 0.5869565217391304,
+          "excludes_zero": true,
+          "first": 0.13043478260869565,
+          "second": 0.717391304347826
+        }
+      },
+      "confidence_wilcoxon": {
+        "cliffs_delta": 1.0,
+        "first_mean": 1.0,
+        "median_difference": 1.5,
+        "n": 6,
+        "n_nonzero": 6,
+        "p_value": 0.03125,
+        "restricted_to": "6 problems detected by both configurations",
+        "scale": "confidence rank of the matching finding: 1 LOW, 2 MEDIUM, 3 HIGH",
+        "second_mean": 2.5,
+        "statistic": 0.0
+      },
+      "detection_mcnemar_exact": {
+        "both": 6,
+        "discordant_odds_ratio": "inf",
+        "neither": 13,
+        "only_first": 0,
+        "only_second": 27,
+        "p_value": 1.4901161193847656e-08,
+        "risk_difference": 0.5869565217391305
+      },
+      "detection_p_holm": null,
+      "detection_per_app": {
+        "blog": {
+          "both": 3,
+          "discordant_odds_ratio": "inf",
+          "neither": 6,
+          "only_first": 0,
+          "only_second": 11,
+          "p_value": 0.0009765625,
+          "risk_difference": 0.55
+        },
+        "ecommerce": {
+          "both": 3,
+          "discordant_odds_ratio": "inf",
+          "neither": 7,
+          "only_first": 0,
+          "only_second": 16,
+          "p_value": 3.0517578125e-05,
+          "risk_difference": 0.6153846153846154
+        }
+      },
+      "detection_per_problem_type": {
+        "declared_index_not_applied": {
+          "both": 0,
+          "discordant_odds_ratio": "inf",
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 2,
+          "p_value": 0.5,
+          "risk_difference": 1.0
+        },
+        "distribution_shift": {
+          "both": 0,
+          "discordant_odds_ratio": "inf",
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 3,
+          "p_value": 0.25,
+          "risk_difference": 1.0
+        },
+        "duplicate_spike": {
+          "both": 0,
+          "discordant_odds_ratio": "inf",
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 3,
+          "p_value": 0.25,
+          "risk_difference": 1.0
+        },
+        "excessive_relation_loading": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 6,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "index_not_declared": {
+          "both": 0,
+          "discordant_odds_ratio": "inf",
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 2,
+          "p_value": 0.5,
+          "risk_difference": 1.0
+        },
+        "missing_index": {
+          "both": 0,
+          "discordant_odds_ratio": "inf",
+          "neither": 1,
+          "only_first": 0,
+          "only_second": 5,
+          "p_value": 0.0625,
+          "risk_difference": 0.8333333333333334
+        },
+        "n_plus_one": {
+          "both": 0,
+          "discordant_odds_ratio": "inf",
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 6,
+          "p_value": 0.03125,
+          "risk_difference": 1.0
+        },
+        "null_spike": {
+          "both": 0,
+          "discordant_odds_ratio": "inf",
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 3,
+          "p_value": 0.25,
+          "risk_difference": 1.0
+        },
+        "orphaned_foreign_key": {
+          "both": 0,
+          "discordant_odds_ratio": "inf",
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 3,
+          "p_value": 0.25,
+          "risk_difference": 1.0
+        },
+        "repeated_identical_query": {
+          "both": 0,
+          "discordant_odds_ratio": null,
+          "neither": 6,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        },
+        "unpaginated_find_many": {
+          "both": 6,
+          "discordant_odds_ratio": null,
+          "neither": 0,
+          "only_first": 0,
+          "only_second": 0,
+          "p_value": 1.0,
+          "risk_difference": 0.0
+        }
+      },
+      "first": "A-log",
+      "hypothesis": "sensitivity",
+      "id": "S_Alog_vs_C3",
+      "primary": false,
+      "problems": 46,
+      "question": "Does the hybrid still win against the SQL baseline given the application's captured SQL?",
+      "second": "C3",
+      "timing_wilcoxon": {
+        "cpu_s": {
+          "cliffs_delta": 1.0,
+          "first_mean": 0.2670778000000015,
+          "median_difference": 2.1318930000000123,
+          "n": 20,
+          "n_nonzero": 20,
+          "p_value": 1.9073486328125e-06,
+          "second_mean": 2.4081082999999994,
+          "statistic": 0.0
+        },
+        "detection_latency_s": {
+          "cliffs_delta": -1.0,
+          "first_mean": 3.694622024900309,
+          "median_difference": -2.526837458000955,
+          "n": 20,
+          "n_nonzero": 20,
+          "p_value": 1.9073486328125e-06,
+          "restricted_to": "6 problems detected by both configurations",
+          "second_mean": 1.036690083349822,
+          "statistic": 0.0
+        },
+        "wall_s": {
+          "cliffs_delta": 0.595,
+          "first_mean": 3.694802248000633,
+          "median_difference": 1.2530558744947484,
+          "n": 20,
+          "n_nonzero": 20,
+          "p_value": 1.9073486328125e-06,
+          "second_mean": 4.908547691700005,
+          "statistic": 0.0
+        }
+      },
+      "verdict": "not part of the corrected family"
+    }
+  ],
+  "configurations": {
+    "A": {
+      "per_app": {
+        "blog": {
+          "cpu_s": {
+            "high": 0.0054347569547600555,
+            "low": 0.005028043045243315,
+            "mean": 0.005231400000001685,
+            "n": 10,
+            "n_distinct": 10
+          },
+          "detection_latency_s": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "f1": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "wall_s": {
+            "high": 0.005604732044138799,
+            "low": 0.005132026354568226,
+            "mean": 0.005368379199353512,
+            "n": 10,
+            "n_distinct": 10
+          }
+        },
+        "ecommerce": {
+          "cpu_s": {
+            "high": 0.007629582184935781,
+            "low": 0.006969017815066057,
+            "mean": 0.007299300000000919,
+            "n": 10,
+            "n_distinct": 10
+          },
+          "detection_latency_s": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "f1": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "wall_s": {
+            "high": 0.007851008292679432,
+            "low": 0.0071166169084182565,
+            "mean": 0.0074838126005488444,
+            "n": 10,
+            "n_distinct": 10
+          }
+        }
+      },
+      "per_problem_type": {
+        "declared_index_not_applied": {
+          "entries": 2,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 2.0,
+            "low": 2.0,
+            "mean": 2.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "distribution_shift": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "duplicate_spike": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "excessive_relation_loading": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "index_not_declared": {
+          "entries": 2,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 2.0,
+            "low": 2.0,
+            "mean": 2.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "missing_index": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "n_plus_one": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "null_spike": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "orphaned_foreign_key": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "repeated_identical_query": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "unpaginated_find_many": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        }
+      },
+      "pooled_over_apps": {
+        "cpu_s": {
+          "high": 0.012922073100584052,
+          "low": 0.012139326899421156,
+          "mean": 0.012530700000002604,
+          "n": 10,
+          "n_distinct": 10
+        },
+        "detection_latency_s": {
+          "high": null,
+          "low": null,
+          "mean": null,
+          "n": 0,
+          "n_distinct": 0
+        },
+        "f1": {
+          "high": null,
+          "low": null,
+          "mean": null,
+          "n": 0,
+          "n_distinct": 0
+        },
+        "false_positive_rate": {
+          "high": 0.0,
+          "low": 0.0,
+          "mean": 0.0,
+          "n": 10,
+          "n_distinct": 1
+        },
+        "precision": {
+          "high": null,
+          "low": null,
+          "mean": null,
+          "n": 0,
+          "n_distinct": 0
+        },
+        "recall": {
+          "high": 0.0,
+          "low": 0.0,
+          "mean": 0.0,
+          "n": 10,
+          "n_distinct": 1
+        },
+        "wall_s": {
+          "high": 0.01334729578562841,
+          "low": 0.012357087814176304,
+          "mean": 0.012852191799902357,
+          "n": 10,
+          "n_distinct": 10
+        }
+      },
+      "problem_bootstrap": {
+        "f1": {
+          "high": null,
+          "low": null
+        },
+        "precision": {
+          "high": null,
+          "low": null
+        },
+        "problems": 46,
+        "recall": {
+          "high": 0.0,
+          "low": 0.0
+        },
+        "scored_findings": 0
+      },
+      "repetitions": 10,
+      "stability": {
+        "identical_detections_across_repetitions": true,
+        "identical_false_positive_counts_across_repetitions": true
+      }
+    },
+    "A-log": {
+      "per_app": {
+        "blog": {
+          "cpu_s": {
+            "high": 0.3352676073058931,
+            "low": 0.31985279269411526,
+            "mean": 0.3275602000000042,
+            "n": 10,
+            "n_distinct": 10
+          },
+          "detection_latency_s": {
+            "high": 4.719860499143389,
+            "low": 4.306086100654655,
+            "mean": 4.512973299899022,
+            "n": 10,
+            "n_distinct": 10
+          },
+          "f1": {
+            "high": 0.17142857142857143,
+            "low": 0.17142857142857143,
+            "mean": 0.17142857142857143,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "false_positive_rate": {
+            "high": 0.07317073170731707,
+            "low": 0.07317073170731707,
+            "mean": 0.07317073170731707,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 0.2,
+            "low": 0.2,
+            "mean": 0.2,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 0.15,
+            "low": 0.15,
+            "mean": 0.15,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "wall_s": {
+            "high": 4.720047713510089,
+            "low": 4.306263703090858,
+            "mean": 4.513155708300474,
+            "n": 10,
+            "n_distinct": 10
+          }
+        },
+        "ecommerce": {
+          "cpu_s": {
+            "high": 0.21326378209588298,
+            "low": 0.19992701790411443,
+            "mean": 0.2065953999999987,
+            "n": 10,
+            "n_distinct": 10
+          },
+          "detection_latency_s": {
+            "high": 2.9337281674833187,
+            "low": 2.818813332319873,
+            "mean": 2.876270749901596,
+            "n": 10,
+            "n_distinct": 10
+          },
+          "f1": {
+            "high": 0.15,
+            "low": 0.15,
+            "mean": 0.15,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "false_positive_rate": {
+            "high": 0.054726368159203974,
+            "low": 0.054726368159203974,
+            "mean": 0.054726368159203974,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 0.21428571428571427,
+            "low": 0.21428571428571427,
+            "mean": 0.21428571428571427,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 0.11538461538461539,
+            "low": 0.11538461538461539,
+            "mean": 0.11538461538461539,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "wall_s": {
+            "high": 2.9339089848244293,
+            "low": 2.8189885905771557,
+            "mean": 2.8764487877007925,
+            "n": 10,
+            "n_distinct": 10
+          }
+        }
+      },
+      "per_problem_type": {
+        "declared_index_not_applied": {
+          "entries": 2,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 2.0,
+            "low": 2.0,
+            "mean": 2.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "distribution_shift": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "duplicate_spike": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "excessive_relation_loading": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "index_not_declared": {
+          "entries": 2,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 2.0,
+            "low": 2.0,
+            "mean": 2.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "missing_index": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "n_plus_one": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "null_spike": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "orphaned_foreign_key": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "repeated_identical_query": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "unpaginated_find_many": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.5897435897435898,
+            "low": 0.5897435897435898,
+            "mean": 0.5897435897435898,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 23.0,
+            "low": 23.0,
+            "mean": 23.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 0.20689655172413796,
+            "low": 0.20689655172413796,
+            "mean": 0.20689655172413796,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        }
+      },
+      "pooled_over_apps": {
+        "cpu_s": {
+          "high": 0.545012915342833,
+          "low": 0.5232982846571729,
+          "mean": 0.534155600000003,
+          "n": 10,
+          "n_distinct": 10
+        },
+        "detection_latency_s": {
+          "high": 3.8185885393690873,
+          "low": 3.570655510431531,
+          "mean": 3.694622024900309,
+          "n": 10,
+          "n_distinct": 10
+        },
+        "f1": {
+          "high": 0.16,
+          "low": 0.16,
+          "mean": 0.16,
+          "n": 10,
+          "n_distinct": 1
+        },
+        "false_positive_rate": {
+          "high": 0.06301369863013699,
+          "low": 0.06301369863013699,
+          "mean": 0.06301369863013699,
+          "n": 10,
+          "n_distinct": 1
+        },
+        "precision": {
+          "high": 0.20689655172413796,
+          "low": 0.20689655172413796,
+          "mean": 0.20689655172413796,
+          "n": 10,
+          "n_distinct": 1
+        },
+        "recall": {
+          "high": 0.13043478260869565,
+          "low": 0.13043478260869565,
+          "mean": 0.13043478260869565,
+          "n": 10,
+          "n_distinct": 1
+        },
+        "wall_s": {
+          "high": 7.637548192866356,
+          "low": 7.141660799136177,
+          "mean": 7.389604496001266,
+          "n": 10,
+          "n_distinct": 10
+        }
+      },
+      "problem_bootstrap": {
+        "f1": {
+          "high": 0.2402496099843994,
+          "low": 0.06122448979591836
+        },
+        "precision": {
+          "high": 0.3793103448275862,
+          "low": 0.06896551724137931
+        },
+        "problems": 46,
+        "recall": {
+          "high": 0.2391304347826087,
+          "low": 0.043478260869565216
+        },
+        "scored_findings": 29
+      },
+      "repetitions": 10,
+      "stability": {
+        "identical_detections_across_repetitions": true,
+        "identical_false_positive_counts_across_repetitions": true
+      }
+    },
+    "B1": {
+      "per_app": {
+        "blog": {
+          "cpu_s": {
+            "high": 1.9899532742487915,
+            "low": 1.9317663257511857,
+            "mean": 1.9608597999999886,
+            "n": 10,
+            "n_distinct": 10
+          },
+          "detection_latency_s": {
+            "high": 1.1139229020974288,
+            "low": 1.023276456100839,
+            "mean": 1.068599679099134,
+            "n": 10,
+            "n_distinct": 10
+          },
+          "f1": {
+            "high": 0.4615384615384615,
+            "low": 0.4615384615384615,
+            "mean": 0.4615384615384615,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 0.3,
+            "low": 0.3,
+            "mean": 0.3,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "wall_s": {
+            "high": 1.1199357367835208,
+            "low": 1.0291014550164959,
+            "mean": 1.0745185959000083,
+            "n": 10,
+            "n_distinct": 10
+          }
+        },
+        "ecommerce": {
+          "cpu_s": {
+            "high": 2.0295436431833562,
+            "low": 1.9329771568166425,
+            "mean": 1.9812603999999994,
+            "n": 10,
+            "n_distinct": 10
+          },
+          "detection_latency_s": {
+            "high": 1.1070356763974407,
+            "low": 1.010156856602175,
+            "mean": 1.0585962664998079,
+            "n": 10,
+            "n_distinct": 10
+          },
+          "f1": {
+            "high": 0.375,
+            "low": 0.375,
+            "mean": 0.375,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 0.23076923076923078,
+            "low": 0.23076923076923078,
+            "mean": 0.23076923076923078,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "wall_s": {
+            "high": 1.118760383771325,
+            "low": 1.0168214910295212,
+            "mean": 1.067790937400423,
+            "n": 10,
+            "n_distinct": 10
+          }
+        }
+      },
+      "per_problem_type": {
+        "declared_index_not_applied": {
+          "entries": 2,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 2.0,
+            "low": 2.0,
+            "mean": 2.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "distribution_shift": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "duplicate_spike": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "excessive_relation_loading": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "index_not_declared": {
+          "entries": 2,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 2.0,
+            "low": 2.0,
+            "mean": 2.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "missing_index": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "n_plus_one": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "null_spike": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "orphaned_foreign_key": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "repeated_identical_query": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "unpaginated_find_many": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        }
+      },
+      "pooled_over_apps": {
+        "cpu_s": {
+          "high": 4.01337175941543,
+          "low": 3.870868640584546,
+          "mean": 3.942120199999988,
+          "n": 10,
+          "n_distinct": 10
+        },
+        "detection_latency_s": {
+          "high": 1.1050362874783066,
+          "low": 1.0221596581206351,
+          "mean": 1.0635979727994709,
+          "n": 10,
+          "n_distinct": 10
+        },
+        "f1": {
+          "high": 0.4137931034482759,
+          "low": 0.4137931034482759,
+          "mean": 0.4137931034482759,
+          "n": 10,
+          "n_distinct": 1
+        },
+        "false_positive_rate": {
+          "high": 0.0,
+          "low": 0.0,
+          "mean": 0.0,
+          "n": 10,
+          "n_distinct": 1
+        },
+        "precision": {
+          "high": 1.0,
+          "low": 1.0,
+          "mean": 1.0,
+          "n": 10,
+          "n_distinct": 1
+        },
+        "recall": {
+          "high": 0.2608695652173913,
+          "low": 0.2608695652173913,
+          "mean": 0.2608695652173913,
+          "n": 10,
+          "n_distinct": 1
+        },
+        "wall_s": {
+          "high": 2.227509353625871,
+          "low": 2.0571097129749916,
+          "mean": 2.1423095333004314,
+          "n": 10,
+          "n_distinct": 10
+        }
+      },
+      "problem_bootstrap": {
+        "f1": {
+          "high": 0.5625,
+          "low": 0.23076923076923078
+        },
+        "precision": {
+          "high": 1.0,
+          "low": 1.0
+        },
+        "problems": 46,
+        "recall": {
+          "high": 0.391304347826087,
+          "low": 0.13043478260869565
+        },
+        "scored_findings": 12
+      },
+      "repetitions": 10,
+      "stability": {
+        "identical_detections_across_repetitions": true,
+        "identical_false_positive_counts_across_repetitions": true
+      }
+    },
+    "B2": {
+      "per_app": {
+        "blog": {
+          "cpu_s": {
+            "high": 2.2551465531536516,
+            "low": 2.13631704684635,
+            "mean": 2.195731800000001,
+            "n": 10,
+            "n_distinct": 10
+          },
+          "detection_latency_s": {
+            "high": 1.0452602345128976,
+            "low": 0.9582559316873815,
+            "mean": 1.0017580831001396,
+            "n": 10,
+            "n_distinct": 10
+          },
+          "f1": {
+            "high": 0.6206896551724138,
+            "low": 0.6206896551724138,
+            "mean": 0.6206896551724138,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 0.45,
+            "low": 0.45,
+            "mean": 0.45,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "wall_s": {
+            "high": 1.256472598598836,
+            "low": 1.1580410430013701,
+            "mean": 1.207256820800103,
+            "n": 10,
+            "n_distinct": 10
+          }
+        },
+        "ecommerce": {
+          "cpu_s": {
+            "high": 2.25067464505776,
+            "low": 2.1391847549422423,
+            "mean": 2.194929700000001,
+            "n": 10,
+            "n_distinct": 10
+          },
+          "detection_latency_s": {
+            "high": 1.0880429177781978,
+            "low": 0.9756482070235007,
+            "mean": 1.0318455624008493,
+            "n": 10,
+            "n_distinct": 10
+          },
+          "f1": {
+            "high": 0.47058823529411764,
+            "low": 0.47058823529411764,
+            "mean": 0.47058823529411764,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 0.3076923076923077,
+            "low": 0.3076923076923077,
+            "mean": 0.3076923076923077,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "wall_s": {
+            "high": 1.297170749785813,
+            "low": 1.1728125836158019,
+            "mean": 1.2349916667008074,
+            "n": 10,
+            "n_distinct": 10
+          }
+        }
+      },
+      "per_problem_type": {
+        "declared_index_not_applied": {
+          "entries": 2,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 2.0,
+            "low": 2.0,
+            "mean": 2.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "distribution_shift": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "duplicate_spike": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "excessive_relation_loading": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "index_not_declared": {
+          "entries": 2,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 2.0,
+            "low": 2.0,
+            "mean": 2.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "missing_index": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 0.8333333333333334,
+            "low": 0.8333333333333334,
+            "mean": 0.8333333333333334,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 5.0,
+            "low": 5.0,
+            "mean": 5.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "n_plus_one": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "null_spike": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "orphaned_foreign_key": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "repeated_identical_query": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "unpaginated_find_many": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        }
+      },
+      "pooled_over_apps": {
+        "cpu_s": {
+          "high": 4.4612912294333364,
+          "low": 4.3200317705666675,
+          "mean": 4.390661500000002,
+          "n": 10,
+          "n_distinct": 10
+        },
+        "detection_latency_s": {
+          "high": 1.0458556544907953,
+          "low": 0.9859781392866226,
+          "mean": 1.015916896888709,
+          "n": 10,
+          "n_distinct": 10
+        },
+        "f1": {
+          "high": 0.5396825396825397,
+          "low": 0.5396825396825397,
+          "mean": 0.5396825396825397,
+          "n": 10,
+          "n_distinct": 1
+        },
+        "false_positive_rate": {
+          "high": 0.0,
+          "low": 0.0,
+          "mean": 0.0,
+          "n": 10,
+          "n_distinct": 1
+        },
+        "precision": {
+          "high": 1.0,
+          "low": 1.0,
+          "mean": 1.0,
+          "n": 10,
+          "n_distinct": 1
+        },
+        "recall": {
+          "high": 0.3695652173913043,
+          "low": 0.3695652173913043,
+          "mean": 0.3695652173913043,
+          "n": 10,
+          "n_distinct": 1
+        },
+        "wall_s": {
+          "high": 2.508339832430643,
+          "low": 2.376157142571178,
+          "mean": 2.4422484875009105,
+          "n": 10,
+          "n_distinct": 10
+        }
+      },
+      "problem_bootstrap": {
+        "f1": {
+          "high": 0.6666666666666666,
+          "low": 0.3859649122807018
+        },
+        "precision": {
+          "high": 1.0,
+          "low": 1.0
+        },
+        "problems": 46,
+        "recall": {
+          "high": 0.5,
+          "low": 0.2391304347826087
+        },
+        "scored_findings": 17
+      },
+      "repetitions": 10,
+      "stability": {
+        "identical_detections_across_repetitions": true,
+        "identical_false_positive_counts_across_repetitions": true
+      }
+    },
+    "C1": {
+      "per_app": {
+        "blog": {
+          "cpu_s": {
+            "high": 2.2650746772218415,
+            "low": 2.1439477227781616,
+            "mean": 2.2045112000000016,
+            "n": 10,
+            "n_distinct": 10
+          },
+          "detection_latency_s": {
+            "high": 1.0900913693002106,
+            "low": 1.0146710709177338,
+            "mean": 1.0523812201089722,
+            "n": 10,
+            "n_distinct": 10
+          },
+          "f1": {
+            "high": 0.7096774193548387,
+            "low": 0.7096774193548387,
+            "mean": 0.7096774193548387,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 0.55,
+            "low": 0.55,
+            "mean": 0.55,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "wall_s": {
+            "high": 1.2763248548827053,
+            "low": 1.192642211316115,
+            "mean": 1.2344835330994102,
+            "n": 10,
+            "n_distinct": 10
+          }
+        },
+        "ecommerce": {
+          "cpu_s": {
+            "high": 2.337055545979986,
+            "low": 2.1289586540200123,
+            "mean": 2.233007099999999,
+            "n": 10,
+            "n_distinct": 10
+          },
+          "detection_latency_s": {
+            "high": 1.1424359353130022,
+            "low": 1.0077262912886764,
+            "mean": 1.0750811133008393,
+            "n": 10,
+            "n_distinct": 10
+          },
+          "f1": {
+            "high": 0.5555555555555556,
+            "low": 0.5555555555555556,
+            "mean": 0.5555555555555556,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 0.38461538461538464,
+            "low": 0.38461538461538464,
+            "mean": 0.38461538461538464,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "wall_s": {
+            "high": 1.3423651699807628,
+            "low": 1.1798584882212202,
+            "mean": 1.2611118291009915,
+            "n": 10,
+            "n_distinct": 10
+          }
+        }
+      },
+      "per_problem_type": {
+        "declared_index_not_applied": {
+          "entries": 2,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 2.0,
+            "low": 2.0,
+            "mean": 2.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "distribution_shift": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "duplicate_spike": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "excessive_relation_loading": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "index_not_declared": {
+          "entries": 2,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 2.0,
+            "low": 2.0,
+            "mean": 2.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "missing_index": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 0.8333333333333334,
+            "low": 0.8333333333333334,
+            "mean": 0.8333333333333334,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 5.0,
+            "low": 5.0,
+            "mean": 5.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "n_plus_one": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "null_spike": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "orphaned_foreign_key": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "repeated_identical_query": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "unpaginated_find_many": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        }
+      },
+      "pooled_over_apps": {
+        "cpu_s": {
+          "high": 4.562648809842749,
+          "low": 4.312387790157253,
+          "mean": 4.437518300000001,
+          "n": 10,
+          "n_distinct": 10
+        },
+        "detection_latency_s": {
+          "high": 1.1005038676615642,
+          "low": 1.0258775184533966,
+          "mean": 1.0631906930574804,
+          "n": 10,
+          "n_distinct": 10
+        },
+        "f1": {
+          "high": 0.626865671641791,
+          "low": 0.626865671641791,
+          "mean": 0.626865671641791,
+          "n": 10,
+          "n_distinct": 1
+        },
+        "false_positive_rate": {
+          "high": 0.0,
+          "low": 0.0,
+          "mean": 0.0,
+          "n": 10,
+          "n_distinct": 1
+        },
+        "precision": {
+          "high": 1.0,
+          "low": 1.0,
+          "mean": 1.0,
+          "n": 10,
+          "n_distinct": 1
+        },
+        "recall": {
+          "high": 0.45652173913043476,
+          "low": 0.45652173913043476,
+          "mean": 0.45652173913043476,
+          "n": 10,
+          "n_distinct": 1
+        },
+        "wall_s": {
+          "high": 2.5865569341348422,
+          "low": 2.4046337902659616,
+          "mean": 2.495595362200402,
+          "n": 10,
+          "n_distinct": 10
+        }
+      },
+      "problem_bootstrap": {
+        "f1": {
+          "high": 0.7567567567567568,
+          "low": 0.4666666666666667
+        },
+        "precision": {
+          "high": 1.0,
+          "low": 1.0
+        },
+        "problems": 46,
+        "recall": {
+          "high": 0.6086956521739131,
+          "low": 0.30434782608695654
+        },
+        "scored_findings": 21
+      },
+      "repetitions": 10,
+      "stability": {
+        "identical_detections_across_repetitions": true,
+        "identical_false_positive_counts_across_repetitions": true
+      }
+    },
+    "C2": {
+      "per_app": {
+        "blog": {
+          "cpu_s": {
+            "high": 2.374579510560442,
+            "low": 2.2979488894395694,
+            "mean": 2.336264200000006,
+            "n": 10,
+            "n_distinct": 10
+          },
+          "detection_latency_s": {
+            "high": 1.0385598107598222,
+            "low": 0.9928709491861202,
+            "mean": 1.0157153799729712,
+            "n": 10,
+            "n_distinct": 10
+          },
+          "f1": {
+            "high": 0.7096774193548387,
+            "low": 0.7096774193548387,
+            "mean": 0.7096774193548387,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 0.55,
+            "low": 0.55,
+            "mean": 0.55,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "wall_s": {
+            "high": 5.658004050532018,
+            "low": 5.243591649867758,
+            "mean": 5.450797850199888,
+            "n": 10,
+            "n_distinct": 10
+          }
+        },
+        "ecommerce": {
+          "cpu_s": {
+            "high": 2.4864375924614484,
+            "low": 2.2617460075385676,
+            "mean": 2.374091800000008,
+            "n": 10,
+            "n_distinct": 10
+          },
+          "detection_latency_s": {
+            "high": 1.2032280476964694,
+            "low": 0.9850649687449878,
+            "mean": 1.0941465082207287,
+            "n": 10,
+            "n_distinct": 10
+          },
+          "f1": {
+            "high": 0.5555555555555556,
+            "low": 0.5555555555555556,
+            "mean": 0.5555555555555556,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 0.38461538461538464,
+            "low": 0.38461538461538464,
+            "mean": 0.38461538461538464,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "wall_s": {
+            "high": 4.7879953408632465,
+            "low": 3.9178182841361813,
+            "mean": 4.352906812499714,
+            "n": 10,
+            "n_distinct": 10
+          }
+        }
+      },
+      "per_problem_type": {
+        "declared_index_not_applied": {
+          "entries": 2,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 2.0,
+            "low": 2.0,
+            "mean": 2.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "distribution_shift": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "duplicate_spike": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "excessive_relation_loading": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "index_not_declared": {
+          "entries": 2,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 2.0,
+            "low": 2.0,
+            "mean": 2.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "missing_index": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 0.8333333333333334,
+            "low": 0.8333333333333334,
+            "mean": 0.8333333333333334,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 5.0,
+            "low": 5.0,
+            "mean": 5.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "n_plus_one": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "null_spike": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "orphaned_foreign_key": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "repeated_identical_query": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "unpaginated_find_many": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        }
+      },
+      "pooled_over_apps": {
+        "cpu_s": {
+          "high": 4.835724468974279,
+          "low": 4.584987531025748,
+          "mean": 4.710356000000013,
+          "n": 10,
+          "n_distinct": 10
+        },
+        "detection_latency_s": {
+          "high": 1.1070697062858115,
+          "low": 0.9990573662770432,
+          "mean": 1.0530635362814273,
+          "n": 10,
+          "n_distinct": 10
+        },
+        "f1": {
+          "high": 0.626865671641791,
+          "low": 0.626865671641791,
+          "mean": 0.626865671641791,
+          "n": 10,
+          "n_distinct": 1
+        },
+        "false_positive_rate": {
+          "high": 0.0,
+          "low": 0.0,
+          "mean": 0.0,
+          "n": 10,
+          "n_distinct": 1
+        },
+        "precision": {
+          "high": 1.0,
+          "low": 1.0,
+          "mean": 1.0,
+          "n": 10,
+          "n_distinct": 1
+        },
+        "recall": {
+          "high": 0.45652173913043476,
+          "low": 0.45652173913043476,
+          "mean": 0.45652173913043476,
+          "n": 10,
+          "n_distinct": 1
+        },
+        "wall_s": {
+          "high": 10.322721321012013,
+          "low": 9.28468800438719,
+          "mean": 9.803704662699602,
+          "n": 10,
+          "n_distinct": 10
+        }
+      },
+      "problem_bootstrap": {
+        "f1": {
+          "high": 0.7567567567567568,
+          "low": 0.4666666666666667
+        },
+        "precision": {
+          "high": 1.0,
+          "low": 1.0
+        },
+        "problems": 46,
+        "recall": {
+          "high": 0.6086956521739131,
+          "low": 0.30434782608695654
+        },
+        "scored_findings": 21
+      },
+      "repetitions": 10,
+      "stability": {
+        "identical_detections_across_repetitions": true,
+        "identical_false_positive_counts_across_repetitions": true
+      }
+    },
+    "C3": {
+      "per_app": {
+        "blog": {
+          "cpu_s": {
+            "high": 2.4430387912151734,
+            "low": 2.390243008784823,
+            "mean": 2.416640899999998,
+            "n": 10,
+            "n_distinct": 10
+          },
+          "detection_latency_s": {
+            "high": 2.0703190460640757,
+            "low": 1.9758985460633254,
+            "mean": 2.0231087960637004,
+            "n": 10,
+            "n_distinct": 10
+          },
+          "f1": {
+            "high": 0.7777777777777777,
+            "low": 0.7777777777777777,
+            "mean": 0.7777777777777777,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "false_positive_rate": {
+            "high": 0.012195121951219513,
+            "low": 0.012195121951219513,
+            "mean": 0.012195121951219513,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 0.875,
+            "low": 0.875,
+            "mean": 0.875,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 0.7,
+            "low": 0.7,
+            "mean": 0.7,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "wall_s": {
+            "high": 5.719957610218816,
+            "low": 5.3404611231811865,
+            "mean": 5.530209366700001,
+            "n": 10,
+            "n_distinct": 10
+          }
+        },
+        "ecommerce": {
+          "cpu_s": {
+            "high": 2.444807510624879,
+            "low": 2.354343889375122,
+            "mean": 2.3995757000000006,
+            "n": 10,
+            "n_distinct": 10
+          },
+          "detection_latency_s": {
+            "high": 2.658697392128447,
+            "low": 2.549615230850714,
+            "mean": 2.6041563114895805,
+            "n": 10,
+            "n_distinct": 10
+          },
+          "f1": {
+            "high": 0.8444444444444443,
+            "low": 0.8444444444444443,
+            "mean": 0.8444444444444443,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 0.7307692307692307,
+            "low": 0.7307692307692307,
+            "mean": 0.7307692307692307,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "wall_s": {
+            "high": 4.357758938991295,
+            "low": 4.216013094408724,
+            "mean": 4.286886016700009,
+            "n": 10,
+            "n_distinct": 10
+          }
+        }
+      },
+      "per_problem_type": {
+        "declared_index_not_applied": {
+          "entries": 2,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 2.0,
+            "low": 2.0,
+            "mean": 2.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "distribution_shift": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "duplicate_spike": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.044444444444444446,
+            "low": 0.044444444444444446,
+            "mean": 0.044444444444444446,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 2.0,
+            "low": 2.0,
+            "mean": 2.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 0.6,
+            "low": 0.6,
+            "mean": 0.6,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "excessive_relation_loading": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "index_not_declared": {
+          "entries": 2,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 2.0,
+            "low": 2.0,
+            "mean": 2.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "missing_index": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 0.8333333333333334,
+            "low": 0.8333333333333334,
+            "mean": 0.8333333333333334,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 5.0,
+            "low": 5.0,
+            "mean": 5.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "n_plus_one": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "null_spike": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "orphaned_foreign_key": {
+          "entries": 3,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 3.0,
+            "low": 3.0,
+            "mean": 3.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "repeated_identical_query": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": null,
+            "low": null,
+            "mean": null,
+            "n": 0,
+            "n_distinct": 0
+          },
+          "recall": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        },
+        "unpaginated_find_many": {
+          "entries": 6,
+          "false_positive_rate": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fn": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "fp": {
+            "high": 0.0,
+            "low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "precision": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "recall": {
+            "high": 1.0,
+            "low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "n_distinct": 1
+          },
+          "tp": {
+            "high": 6.0,
+            "low": 6.0,
+            "mean": 6.0,
+            "n": 10,
+            "n_distinct": 1
+          }
+        }
+      },
+      "pooled_over_apps": {
+        "cpu_s": {
+          "high": 4.863675638124784,
+          "low": 4.768757561875214,
+          "mean": 4.816216599999999,
+          "n": 10,
+          "n_distinct": 10
+        },
+        "detection_latency_s": {
+          "high": 2.3977295271703745,
+          "low": 2.3175730827201604,
+          "mean": 2.3576513049452674,
+          "n": 10,
+          "n_distinct": 10
+        },
+        "f1": {
+          "high": 0.8148148148148147,
+          "low": 0.8148148148148147,
+          "mean": 0.8148148148148147,
+          "n": 10,
+          "n_distinct": 1
+        },
+        "false_positive_rate": {
+          "high": 0.005479452054794521,
+          "low": 0.005479452054794521,
+          "mean": 0.005479452054794521,
+          "n": 10,
+          "n_distinct": 1
+        },
+        "precision": {
+          "high": 0.9428571428571428,
+          "low": 0.9428571428571428,
+          "mean": 0.9428571428571428,
+          "n": 10,
+          "n_distinct": 1
+        },
+        "recall": {
+          "high": 0.717391304347826,
+          "low": 0.717391304347826,
+          "mean": 0.717391304347826,
+          "n": 10,
+          "n_distinct": 1
+        },
+        "wall_s": {
+          "high": 10.02973990195179,
+          "low": 9.60445086484823,
+          "mean": 9.81709538340001,
+          "n": 10,
+          "n_distinct": 10
+        }
+      },
+      "problem_bootstrap": {
+        "f1": {
+          "high": 0.8928818244644091,
+          "low": 0.7149358709143567
+        },
+        "precision": {
+          "high": 1.0,
+          "low": 0.8571428571428571
+        },
+        "problems": 46,
+        "recall": {
+          "high": 0.8478260869565217,
+          "low": 0.5869565217391305
+        },
+        "scored_findings": 35
+      },
+      "repetitions": 10,
+      "stability": {
+        "identical_detections_across_repetitions": true,
+        "identical_false_positive_counts_across_repetitions": true
+      }
+    }
+  },
+  "experiment": "2555ec98-a2ce-4048-ac94-6d1ffaffdb1c",
+  "notes": {
+    "confidence_intervals": "Mean over repetitions with a 95% Student-t interval; a metric whose n_distinct is 1 had no variance across repetitions, so its interval is a point. problem_bootstrap gives the 95% percentile interval over the benchmark's problems, which is where accuracy uncertainty lives.",
+    "tests": "See experiments/analysis/stats.py for why each test was chosen."
+  },
+  "provenance": {
+    "apps": [
+      "ecommerce",
+      "blog"
+    ],
+    "code_sha256": "26a53e46f8be75fd21ef4664d988f1505d20d9f33a15a0d9060ead21cb7c87d3",
+    "configurations": {
+      "A": {
+        "description": "Static SQL analysis alone: no ORM source, no schema, no database",
+        "layers": [
+          "sql"
+        ],
+        "sensitivity": false,
+        "sql_source": "repository"
+      },
+      "A-log": {
+        "description": "Static SQL analysis over the application's captured SQL",
+        "layers": [
+          "sql"
+        ],
+        "sensitivity": true,
+        "sql_source": "captured"
+      },
+      "B1": {
+        "description": "ORM-aware source analysis, no schema",
+        "layers": [
+          "static_orm",
+          "sql"
+        ],
+        "sensitivity": false,
+        "sql_source": "repository"
+      },
+      "B2": {
+        "description": "+ the declared schema (schema.prisma)",
+        "layers": [
+          "static_orm",
+          "sql",
+          "declared"
+        ],
+        "sensitivity": false,
+        "sql_source": "repository"
+      },
+      "C1": {
+        "description": "+ the live database's schema",
+        "layers": [
+          "static_orm",
+          "sql",
+          "declared",
+          "actual"
+        ],
+        "sensitivity": false,
+        "sql_source": "repository"
+      },
+      "C2": {
+        "description": "+ runtime behaviour",
+        "layers": [
+          "static_orm",
+          "sql",
+          "declared",
+          "actual",
+          "runtime"
+        ],
+        "sensitivity": false,
+        "sql_source": "repository"
+      },
+      "C3": {
+        "description": "+ data-quality statistics: the full hybrid",
+        "layers": [
+          "static_orm",
+          "sql",
+          "declared",
+          "actual",
+          "runtime",
+          "data"
+        ],
+        "sensitivity": false,
+        "sql_source": "repository"
+      }
+    },
+    "finished_at": "2026-09-26 05:18:04.109084+00:00",
+    "git_commit": "4a2a347",
+    "git_dirty": true,
+    "parameters": {
+      "baseline_label": "ablation-baseline",
+      "baseline_windows": 12,
+      "data_end": "2026-09-01T00:00:00+00:00",
+      "load_repetitions": 3,
+      "seed_per_repetition": "seed + repetition, drives the runtime workload only",
+      "window_days": 30
+    },
+    "repetitions": 10,
+    "seed": 20260928,
+    "started_at": "2026-09-26 05:12:22.235437+00:00",
+    "universe": {
+      "blog": {
+        "declared_index_not_applied": 14,
+        "distribution_shift": 3,
+        "duplicate_spike": 18,
+        "excessive_relation_loading": 22,
+        "index_not_declared": 14,
+        "missing_index": 22,
+        "n_plus_one": 22,
+        "null_spike": 21,
+        "orphaned_foreign_key": 4,
+        "repeated_identical_query": 22,
+        "unpaginated_find_many": 22
+      },
+      "ecommerce": {
+        "declared_index_not_applied": 19,
+        "distribution_shift": 4,
+        "duplicate_spike": 30,
+        "excessive_relation_loading": 23,
+        "index_not_declared": 19,
+        "missing_index": 23,
+        "n_plus_one": 23,
+        "null_spike": 34,
+        "orphaned_foreign_key": 6,
+        "repeated_identical_query": 23,
+        "unpaginated_find_many": 23
+      }
+    }
+  }
+}

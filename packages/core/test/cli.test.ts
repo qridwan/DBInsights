@@ -28,6 +28,12 @@ describe.skipIf(!existsSync(CLI))("JSON stdio contract (dist/cli.js)", () => {
     expect((response.result as { ruleId: string }[]).some((f) => f.ruleId === "UNBOUNDED_MUTATION")).toBe(true);
   });
 
+  it("analyzes a project without a schema", () => {
+    const response = call({ command: "analyze", sourceDir: sourceDir("no-schema") });
+    expect(response.ok).toBe(true);
+    expect((response.result as { ruleId: string }[]).some((f) => f.ruleId === "N_PLUS_ONE_IN_LOOP")).toBe(true);
+  });
+
   it("reports malformed requests as ok: false", () => {
     expect(call({ command: "nope" })).toMatchObject({ ok: false });
     expect(call({ command: "parseSchema", schemaPath: "/does/not/exist.prisma" })).toMatchObject({ ok: false });

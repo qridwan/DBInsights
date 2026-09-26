@@ -140,6 +140,30 @@ describe("structured evidence for cross-layer joins", async () => {
   });
 });
 
+describe("analysis without a declared schema", async () => {
+  const withSchema = await analyze({ sourceDir: sourceDir("no-schema"), schemaPath: SOURCE_SCHEMA_PATH });
+  const without = await analyze({ sourceDir: sourceDir("no-schema") });
+  const ruleIds = (findings: Finding[]) => findings.map((f) => f.ruleId).sort();
+
+  it("still finds what needs no schema", () => {
+    expect(ruleIds(without)).toEqual(["MISSING_PAGINATION", "N_PLUS_ONE_IN_LOOP", "UNBOUNDED_MUTATION"]);
+  });
+
+  it("cannot judge indexes, so the missing-index rule is silent", () => {
+    expect(ruleIds(withSchema)).toContain("MISSING_INDEX_ON_FILTERED_FIELD");
+    expect(ruleIds(without)).not.toContain("MISSING_INDEX_ON_FILTERED_FIELD");
+  });
+
+  it("agrees with the schema-aware run on every finding it does report", () => {
+    const shared = new Set(withSchema.map((f) => f.fingerprint));
+    expect(without.every((f) => shared.has(f.fingerprint))).toBe(true);
+  });
+
+  it("does not analyse generated client code", () => {
+    expect(without.some((f) => f.file.startsWith("generated/"))).toBe(false);
+  });
+});
+
 describe("every finding", async () => {
   const all = (
     await Promise.all(

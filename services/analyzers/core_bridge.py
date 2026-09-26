@@ -45,11 +45,9 @@ def parse_schema(schema_path: str | Path) -> Any:
     return call_core({"command": "parseSchema", "schemaPath": str(Path(schema_path).resolve())})
 
 
-def analyze(source_dir: str | Path, schema_path: str | Path) -> Any:
-    return call_core(
-        {
-            "command": "analyze",
-            "sourceDir": str(Path(source_dir).resolve()),
-            "schemaPath": str(Path(schema_path).resolve()),
-        }
-    )
+def analyze(source_dir: str | Path, schema_path: str | Path | None = None) -> Any:
+    """Static analysis. Without a schema path, rules that need the declared schema are silent."""
+    request: dict[str, Any] = {"command": "analyze", "sourceDir": str(Path(source_dir).resolve())}
+    if schema_path is not None:
+        request["schemaPath"] = str(Path(schema_path).resolve())
+    return call_core(request)

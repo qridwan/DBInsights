@@ -44,5 +44,10 @@ export interface Finding {
 
 export interface AnalyzeInput {
   sourceDir: string;
-  schemaPath: string;
+  /**
+   * The declared schema (schema.prisma). Optional: without it the analyzer still runs every
+   * rule that needs no schema, and rules that need one (index coverage) report nothing rather
+   * than guess. This exists so that what the declared schema contributes can be measured.
+   */
+  schemaPath?: string;
 }
