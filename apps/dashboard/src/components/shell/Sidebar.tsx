@@ -8,6 +8,8 @@ import { ThemeToggle } from "./ThemeToggle";
 import { Icon } from "@/components/ui/icons";
 import { ScanDialogContext } from "./ScanDialogContext";
 import { ScanProjectDialog } from "@/components/ScanProject";
+import { UserMenu } from "./UserMenu";
+import type { User } from "@/lib/api";
 
 export interface NavItem {
   app: string;
@@ -46,7 +48,7 @@ function Group({ title, items, path }: { title: string; items: NavItem[]; path: 
   );
 }
 
-function Content({ items, apiOk, onNewProject }: { items: NavItem[]; apiOk: boolean; onNewProject: () => void }) {
+function Content({ items, apiOk, user, onNewProject }: { items: NavItem[]; apiOk: boolean; user: User; onNewProject: () => void }) {
   const path = usePathname();
   return (
     <div className="flex h-full flex-col">
@@ -62,6 +64,7 @@ function Content({ items, apiOk, onNewProject }: { items: NavItem[]; apiOk: bool
         <button onClick={onNewProject} className="flex w-full items-center justify-center gap-2 rounded-lg bg-brand px-3 py-2 text-sm font-medium text-brand-ink hover:opacity-90">
           <Icon name="plus" /> Scan a project
         </button>
+        <UserMenu user={user} />
         <div className="flex items-center justify-between px-1">
           <span className="flex items-center gap-2 text-xs text-muted" title={apiOk ? "Dashboard API reachable" : "Cannot reach the dashboard API"}>
             <span className={`h-2 w-2 rounded-full ${apiOk ? "bg-emerald-500" : "bg-red-500"}`} />
@@ -75,7 +78,7 @@ function Content({ items, apiOk, onNewProject }: { items: NavItem[]; apiOk: bool
 }
 
 /** Persistent sidebar on desktop, a slide-in drawer on small screens. */
-export function Shell({ items, apiOk, children }: { items: NavItem[]; apiOk: boolean; children: React.ReactNode }) {
+export function Shell({ items, apiOk, user, children }: { items: NavItem[]; apiOk: boolean; user: User; children: React.ReactNode }) {
   const path = usePathname();
   const [drawer, setDrawer] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -84,7 +87,7 @@ export function Shell({ items, apiOk, children }: { items: NavItem[]; apiOk: boo
     <ScanDialogContext.Provider value={{ open: () => setDialogOpen(true) }}>
     <div className="min-h-screen lg:pl-64">
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-line bg-surface lg:block">
-        <Content items={items} apiOk={apiOk} onNewProject={() => setDialogOpen(true)} />
+        <Content items={items} apiOk={apiOk} user={user} onNewProject={() => setDialogOpen(true)} />
       </aside>
 
       <header className="sticky top-0 z-20 flex items-center justify-between border-b border-line bg-surface/90 px-4 py-2.5 backdrop-blur lg:hidden">
@@ -95,13 +98,13 @@ export function Shell({ items, apiOk, children }: { items: NavItem[]; apiOk: boo
         <div className="fixed inset-0 z-40 lg:hidden" role="dialog" aria-modal="true" aria-label="Navigation">
           <div className="absolute inset-0 bg-black/40" onClick={() => setDrawer(false)} />
           <div className="absolute inset-y-0 left-0 w-72 max-w-[85vw] border-r border-line bg-surface shadow-xl">
-            <Content items={items} apiOk={apiOk} onNewProject={() => { setDrawer(false); setDialogOpen(true); }} />
+            <Content items={items} apiOk={apiOk} user={user} onNewProject={() => { setDrawer(false); setDialogOpen(true); }} />
           </div>
         </div>
       )}
 
       <main className="mx-auto w-full max-w-[1400px] px-4 py-6 sm:px-6 lg:px-8 lg:py-8">{children}</main>
-      <ScanProjectDialog open={dialogOpen} onClose={() => setDialogOpen(false)} />
+      <ScanProjectDialog open={dialogOpen} onClose={() => setDialogOpen(false)} canScanLocal={user.can_scan_local} />
     </div>
     </ScanDialogContext.Provider>
   );

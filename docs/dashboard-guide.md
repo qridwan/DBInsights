@@ -5,11 +5,11 @@ most of it waiting for Docker images and the first compile.
 
 ## What you are starting
 
-Four things, plus one optional:
+Five things, plus one optional:
 
 | Piece | What it does | Where | Port |
 |---|---|---|---|
-| Docker stack | PostgreSQL 16, the two test apps (`ecommerce`, `blog`), the runtime collector | Docker | 5432, 3001, 3002, 8700 |
+| Docker stack | PostgreSQL 16, the two test apps (`ecommerce`, `blog`), the runtime collector, and **Mailpit** (a development mailbox that catches the sign-up and reset emails) | Docker | 5432, 3001, 3002, 8700, 1025, 8025 |
 | Dashboard API | Runs scans, stores findings, serves them read-only | your machine (Python) | 8710 |
 | Dashboard | The Next.js web UI you look at | your machine (Node) | 3003 |
 | AI explanations (optional) | Turns a finding's evidence into a written explanation | inside the dashboard API | n/a |
@@ -87,7 +87,7 @@ docker compose up --build -d
 docker compose ps
 ```
 
-All four services (`postgres`, `ecommerce`, `blog`, `collector`) should be `running`. On first start
+All five services (`postgres`, `ecommerce`, `blog`, `collector`, `mailpit`) should be `running`. On first start
 each app applies its Prisma migrations and loads deterministic seed data, which takes a minute or two.
 Wait until both apps answer:
 
@@ -97,7 +97,7 @@ curl -s -o /dev/null -w "blog %{http_code}\n" localhost:3002
 curl -s localhost:8700/health
 ```
 
-Expect `200`, `200` and `{"status":"ok"}`. Watch startup with `docker compose logs -f ecommerce blog`
+Expect `200`, `200` and `{"status":"ok"}`. Mailpit's inbox is at **http://localhost:8025**. Watch startup with `docker compose logs -f ecommerce blog`
 (look for "Ready in").
 
 Default credentials and ports come from `.env.example`. You only need a `.env` if you want to
@@ -136,14 +136,19 @@ In a **new terminal**, from `services/`:
 ```bash
 cd services
 DBINSIGHT_RESULTS_DATABASE_URL=postgresql://dbinsight:dbinsight@localhost:5432/dbinsight \
+DBINSIGHT_SMTP_HOST=localhost DBINSIGHT_SMTP_PORT=1025 \
   uv run uvicorn api.dashboard.app:app --port 8710
 ```
+
+The two `SMTP` lines send the account emails (verification and password-reset codes) to Mailpit,
+where you read them at http://localhost:8025. Leave them out and the emails are printed in this
+terminal instead, which is enough to try things out. See [Accounts](#accounts) for real mail servers.
 
 Leave it running. Check it from another terminal:
 
 ```bash
 curl -s localhost:8710/health           # {"status":"ok"}
-curl -s localhost:8710/v1/apps          # ecommerce and blog, with their latest scan
+curl -s localhost:8710/v1/apps          # 401: every other route needs you to be signed in
 ```
 
 The first request creates its tables (`dashboard` schema) in the results database.
@@ -161,9 +166,74 @@ The first page load compiles the app and takes about 15 seconds. Then open
 
 If the API is somewhere other than `localhost:8710`, set `DBINSIGHT_API_URL` before starting.
 
+## Accounts
+
+Every page needs an account. Anyone signed in can use the built-in test applications; the projects
+you scan yourself are private to you.
+
+### Creating the first account
+
+1. Open http://localhost:3003. You land on the sign-in page; choose **Create an account**.
+2. Enter a name (optional), your email and a password (10 or more characters; a short passphrase of
+   several words is ideal). A strength meter shows what is missing.
+3. Open Mailpit at **http://localhost:8025**, open the message "*123 456 is your DBInsight
+   verification code*", and type the six digits into the boxes. It signs you in as soon as the sixth
+   digit is entered. (Paste works too.)
+
+The **first verified account is the administrator**. It also takes over any projects that were
+scanned before accounts existed, so nothing you had is lost; the Overview page tells you how many.
+Later accounts are ordinary users.
+
+### Signing in, forgetting your password
+
+- **Sign in** with email and password. If the account is not verified yet, a new code is sent and
+  you are taken to the verification screen.
+- **Forgot password?** on the sign-in page asks for your email, sends a six-digit code, and lets you
+  choose a new password with it. Resetting signs you out of every device.
+- Codes are valid for 10 minutes, work once, allow five tries, and can be re-sent after 60 seconds
+  (at most five per hour).
+- Five wrong passwords lock that email out for 15 minutes.
+- The **Account and security** page (your name at the bottom of the sidebar) changes your name and
+  password, lists where you are signed in, and signs out your other devices.
+
+### What is private and what is shared
+
+| | Who can see it |
+|---|---|
+| The built-in apps (`ecommerce`, `blog`) | Everyone signed in can scan them. You see your own scans of them, plus the older sample scans made before accounts existed |
+| A project you scan | **Only you.** Another account gets "not found", never "forbidden", so its existence is not revealed |
+| Two people scanning the same repository | Each gets a separate, private copy |
+| Scanning a **folder on the server** | Administrators only. Everyone else uses a Git URL |
+
+You can remove a project you own from its page (**Remove**): its scans, findings and cloned copy are
+deleted.
+
+### Settings
+
+Set these in the environment of the dashboard API (step 6).
+
+| Variable | Meaning |
+|---|---|
+| `DBINSIGHT_SMTP_HOST`, `DBINSIGHT_SMTP_PORT` | The mail server. Unset: emails are printed in the API's terminal instead of sent. For Mailpit use `localhost` and `1025` |
+| `DBINSIGHT_SMTP_USER`, `DBINSIGHT_SMTP_PASSWORD` | Credentials for a real mail server |
+| `DBINSIGHT_SMTP_FROM` | The sender, e.g. `DBInsight <no-reply@yourdomain.com>` |
+| `DBINSIGHT_SMTP_STARTTLS` | `1` (default) or `0`. Port 465 uses TLS from the start; port 1025 defaults to off |
+| `DBINSIGHT_SMTP_HELO` | The name announced to the mail server (default `localhost`). Do not remove it: without one Python looks up this machine's name, which can stall for 30+ seconds on macOS |
+| `DBINSIGHT_ADMIN_EMAILS` | Comma-separated emails that become administrators when they verify, in addition to the first account |
+
+### Before exposing it beyond your own machine
+
+This is a research prototype. It is built carefully (passwords are hashed with scrypt, codes are stored
+only as keyed hashes, the session cookie is `httpOnly` and never readable by page scripts, wrong
+guesses are rate-limited, and the sign-in and reset forms do not reveal whether an email has an
+account), but before other people use it: serve the dashboard over HTTPS (the cookie is marked
+`Secure` in production builds), keep the API on `localhost` behind the dashboard rather than on a
+public port, use a real mail server, and note that rate limits per address rely on the dashboard
+forwarding the visitor's IP.
+
 ## 8. Use it
 
-1. Choose **ecommerce** in the sidebar or on the Overview page.
+1. Sign in (see [Accounts](#accounts)), then choose **ecommerce** in the sidebar or on the Overview page.
 2. Press **Run scan** (top right). It takes about 10 seconds: every evidence layer runs, and the
    runtime layer drives real traffic at the app. The page then shows the new scan.
 3. The five tabs, all describing the same scan:
@@ -273,6 +343,8 @@ and rebuilds the baseline). Old scans are stored in the database, so they are go
 | 5432 | PostgreSQL |
 | 8700 | runtime collector |
 | 8710 | dashboard API |
+| 1025 | Mailpit (SMTP: where the API sends emails in development) |
+| 8025 | Mailpit (the inbox you read them in) |
 
 If one is taken, stop what is using it (`lsof -iTCP:3003 -sTCP:LISTEN`) or change the app ports in
 `.env`.
@@ -297,6 +369,15 @@ If one is taken, stop what is using it (`lsof -iTCP:3003 -sTCP:LISTEN`) or chang
 | "Scan project" gives 404 or "Not Found" | The API is an older process without the project endpoints. Restart it (step 6). |
 | Scan project stays on "Cloning and scanning..." for minutes | A large repository or a slow disk. It is not a hang; the analyzer reads every source file. Wait, or check `docker`/disk load. |
 | A scanned project shows 0 findings and a red banner | The analyzer located no Prisma operations (see "Scan a project of your own"). The result says nothing about the code's quality. |
+| No verification or reset email arrives | Check the API is started with `DBINSIGHT_SMTP_HOST=localhost DBINSIGHT_SMTP_PORT=1025` and open http://localhost:8025. With no SMTP settings the email is printed in the API's terminal instead. Use "Send a new code" after the countdown |
+| "Please wait N seconds before asking for another code" | Codes can be re-sent once a minute (five an hour). Wait for the countdown |
+| "Too many failed attempts" when signing in | Five wrong passwords lock that email for 15 minutes. Resetting the password lifts it immediately |
+| "That code is not right. N tries left" | Each new code replaces the old one, so use the newest email. After five wrong tries the code is cancelled: ask for a new one |
+| Kicked back to the sign-in page with "Your session ended" | The session expired (30 days), you signed out elsewhere, or your password was changed or reset |
+| Emails take 30+ seconds to arrive | The API is an older version without the SMTP greeting fix, or `DBINSIGHT_SMTP_HELO` was cleared. Restart the API from the current code |
+| A project I scanned earlier is missing | Projects are private to the account that scanned them. Projects scanned before accounts existed are given to the **first** account you verify |
+| "scanning a folder on the server is limited to administrators" | Use a Git URL, or sign in as the administrator (the first account, or one listed in `DBINSIGHT_ADMIN_EMAILS`) |
+| A project cannot be named `login`, `account`, ... | Those names are pages of the dashboard itself; choose another |
 | Everything worked, then a scan shows odd data-quality numbers | The databases changed since setup. Repeat step 5; it is safe to re-run. |
 
 ## 13. Quick reference: every command in order
@@ -311,8 +392,10 @@ cd services && uv run python -m experiments.ablation setup && cd ..
 
 # every time (two terminals)
 cd services && DBINSIGHT_RESULTS_DATABASE_URL=postgresql://dbinsight:dbinsight@localhost:5432/dbinsight \
+  DBINSIGHT_SMTP_HOST=localhost DBINSIGHT_SMTP_PORT=1025 \
   uv run uvicorn api.dashboard.app:app --port 8710
-pnpm --filter dashboard dev        # then open http://localhost:3003
+pnpm --filter dashboard dev        # then open http://localhost:3003 and create an account
+# emails (verification and reset codes) appear at http://localhost:8025
 ```
 
 For a faster, production-style frontend: `pnpm --filter dashboard build && pnpm --filter dashboard start`.

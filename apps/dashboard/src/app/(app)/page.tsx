@@ -1,3 +1,4 @@
+import { unstable_rethrow } from "next/navigation";
 import Link from "next/link";
 import { NewScanButton } from "@/components/shell/NewScanButton";
 import { PageHeader } from "@/components/ui/Card";
@@ -69,12 +70,14 @@ function Card({ entry }: { entry: Entry }) {
   );
 }
 
-export default async function Home() {
+export default async function Home({ searchParams }: { searchParams: Promise<{ claimed?: string }> }) {
+  const { claimed } = await searchParams;
   let entries: Entry[];
   try {
     const rows = await api.apps();
     entries = await Promise.all(rows.map(async (row) => ({ row, scans: await api.scans(row.app).catch(() => []) })));
   } catch (error) {
+    unstable_rethrow(error);
     return <ApiProblem error={error} />;
   }
   const latest = entries.map((e) => e.scans.find((s) => s.status === "ok")).filter((s): s is ScanRow => Boolean(s));
@@ -84,6 +87,14 @@ export default async function Home() {
 
   return (
     <div className="space-y-8">
+      {claimed && Number(claimed) > 0 && (
+        <div role="status" className="flex items-start gap-3 rounded-xl border border-indigo-200 bg-brand-soft p-4 text-sm text-ink dark:border-indigo-500/30">
+          <Icon name="check" className="mt-0.5 h-5 w-5 shrink-0 text-brand" />
+          <p>
+            <b>Welcome.</b> You are the first account, so you are the administrator, and {claimed} scan{Number(claimed) === 1 ? "" : "s"} of projects made before accounts existed {Number(claimed) === 1 ? "was" : "were"} assigned to you.
+          </p>
+        </div>
+      )}
       <PageHeader
         title="Overview"
         description="Every application and project in one place: what the analyzer found, and how it changed since the last scan."

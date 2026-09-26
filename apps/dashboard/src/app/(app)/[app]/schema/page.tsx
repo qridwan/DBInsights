@@ -1,3 +1,4 @@
+import { unstable_rethrow } from "next/navigation";
 import { Card } from "@/components/ui/Card";
 import { Icon } from "@/components/ui/icons";
 import { ApiProblem, NoScan } from "@/components/ui/State";
@@ -17,6 +18,7 @@ export default async function Schema({ params, searchParams }: { params: Promise
     ctx = await loadScan(app, scanParam);
     if (ctx) view = await api.schema(ctx.scan.scan_id);
   } catch (error) {
+    unstable_rethrow(error);
     return <ApiProblem error={error} />;
   }
   if (!ctx || !view) return <NoScan app={app} />;

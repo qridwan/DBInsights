@@ -1,6 +1,9 @@
 // Server-side client for the dashboard API (services/api/dashboard). The dashboard shows what the
 // API returns and never recomputes a finding's type, severity or confidence.
 
+import { redirect } from "next/navigation";
+import { clientIp, getToken } from "./session";
+
 export const API_URL = process.env.DBINSIGHT_API_URL ?? "http://localhost:8710";
 
 export type Level = "LOW" | "MEDIUM" | "HIGH";
@@ -179,19 +182,57 @@ export interface SchemaView {
   } | null;
 }
 
-export class ApiError extends Error {}
+export class ApiError extends Error {
+  constructor(message: string, public status?: number) {
+    super(message);
+  }
+}
+
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  role: "user" | "admin";
+  created_at: string;
+  can_scan_local: boolean;
+}
+
+/** Headers that identify the signed-in visitor to the API. */
+export async function authHeaders(): Promise<Record<string, string>> {
+  const token = await getToken();
+  const ip = await clientIp();
+  return { ...(token ? { authorization: `Bearer ${token}` } : {}), ...(ip ? { "x-client-ip": ip } : {}) };
+}
 
 async function get<T>(path: string): Promise<T> {
   let response: Response;
   try {
-    response = await fetch(`${API_URL}${path}`, { cache: "no-store" });
+    response = await fetch(`${API_URL}${path}`, { cache: "no-store", headers: await authHeaders() });
   } catch {
     throw new ApiError(
       `Cannot reach the dashboard API at ${API_URL}. Start it with: cd services && uv run uvicorn api.dashboard.app:app --port 8710`,
     );
   }
-  if (!response.ok) throw new ApiError(`${path}: ${response.status} ${await response.text()}`);
+  if (response.status === 401) redirect("/login?expired=1");
+  if (!response.ok) throw new ApiError(`${path}: ${response.status} ${await response.text()}`, response.status);
   return response.json() as Promise<T>;
+}
+
+/** The signed-in user, or null when signed out (no cookie, expired, or revoked). */
+export async function currentUser(): Promise<User | null> {
+  if (!(await getToken())) return null;
+  try {
+    const response = await fetch(`${API_URL}/v1/auth/me`, { cache: "no-store", headers: await authHeaders() });
+    return response.ok ? ((await response.json()) as User) : null;
+  } catch {
+    throw new ApiError(`Cannot reach the dashboard API at ${API_URL}. Start it with: cd services && uv run uvicorn api.dashboard.app:app --port 8710`);
+  }
+}
+
+export async function requireUser(): Promise<User> {
+  const user = await currentUser();
+  if (!user) redirect("/login?expired=1");
+  return user;
 }
 
 export const api = {

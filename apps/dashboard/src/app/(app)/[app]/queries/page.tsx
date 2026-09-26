@@ -1,3 +1,4 @@
+import { unstable_rethrow } from "next/navigation";
 import { HorizontalBars } from "@/components/charts/Charts";
 import { Card } from "@/components/ui/Card";
 import { NeedsDatabase, ApiProblem, NoScan } from "@/components/ui/State";
@@ -16,6 +17,7 @@ export default async function Queries({ params, searchParams }: { params: Promis
     ctx = await loadScan(app, scanParam);
     if (ctx) q = await api.queries(ctx.scan.scan_id);
   } catch (error) {
+    unstable_rethrow(error);
     return <ApiProblem error={error} />;
   }
   if (!ctx) return <NoScan app={app} />;

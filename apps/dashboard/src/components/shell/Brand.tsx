@@ -1,4 +1,4 @@
-export function Brand({ compact = false }: { compact?: boolean }) {
+export function Brand({ compact = false, onDark = false }: { compact?: boolean; onDark?: boolean }) {
   return (
     <span className="inline-flex items-center gap-2.5">
       <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand text-brand-ink shadow-card">
@@ -10,8 +10,8 @@ export function Brand({ compact = false }: { compact?: boolean }) {
       </span>
       {!compact && (
         <span className="leading-tight">
-          <span className="block text-[15px] font-semibold tracking-tight text-ink">DBInsight</span>
-          <span className="block text-[11px] text-muted">Database health from evidence</span>
+          <span className={`block text-[15px] font-semibold tracking-tight ${onDark ? "text-white" : "text-ink"}`}>DBInsight</span>
+          <span className={`block text-[11px] ${onDark ? "text-slate-400" : "text-muted"}`}>Database health from evidence</span>
         </span>
       )}
     </span>

@@ -1,3 +1,4 @@
+import { unstable_rethrow } from "next/navigation";
 import Link from "next/link";
 import { FindingView } from "@/components/FindingView";
 import { ConfidenceMeter, LayerChip, NewBadge, RuleTag, SeverityBadge } from "@/components/ui/Badge";
@@ -47,6 +48,7 @@ export default async function Findings({ params, searchParams }: { params: Promi
       ]);
     }
   } catch (error) {
+    unstable_rethrow(error);
     return <ApiProblem error={error} />;
   }
   if (!ctx) return <NoScan app={app} />;

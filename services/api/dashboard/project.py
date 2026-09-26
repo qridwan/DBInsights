@@ -19,6 +19,18 @@ from analyzers.core_bridge import coverage
 
 WORK = Path(__file__).resolve().parents[2] / "experiments" / "realworld" / "work" / "projects"
 NAME_RE = re.compile(r"^[a-z0-9][a-z0-9._-]{0,62}$")
+# Names that are routes of the dashboard itself; a project called "login" would be unreachable.
+RESERVED = {
+    "login",
+    "register",
+    "verify",
+    "forgot-password",
+    "reset-password",
+    "account",
+    "api",
+    "static",
+    "favicon.ico",
+}
 GIT_URL_RE = re.compile(r"^https://[A-Za-z0-9.-]+/[A-Za-z0-9._-]+/[A-Za-z0-9._-]+?(?:\.git)?/?$")
 SKIPPED = {"node_modules", ".git", "dist", "build", ".next", "generated"}
 CLONE_TIMEOUT_S = 600
@@ -26,6 +38,10 @@ CLONE_TIMEOUT_S = 600
 
 class ProjectError(ValueError):
     """The request cannot be turned into a scannable project; the message says why."""
+
+    def __init__(self, message: str, status: int = 422) -> None:
+        super().__init__(message)
+        self.status = status
 
 
 def slug(text: str) -> str:
@@ -107,12 +123,19 @@ def resolve(
     schema_path: str | None = None,
     name: str | None = None,
     refresh: bool = False,
+    owner_key: str = "shared",
+    allow_local: bool = True,
 ) -> ProjectSource:
     if bool(path) == bool(git_url):
         raise ProjectError("give exactly one of a local path or a Git URL")
     notes: list[str] = []
 
     if path:
+        if not allow_local:
+            raise ProjectError(
+                "scanning a folder on the server is limited to administrators; use a Git URL",
+                status=403,
+            )
         root = Path(path).expanduser().resolve()
         if not root.is_dir():
             raise ProjectError(f"{root} is not a directory")
@@ -124,7 +147,9 @@ def resolve(
             raise ProjectError("the Git URL must look like https://host/owner/repository")
         stem = git_url.rstrip("/").removesuffix(".git").rsplit("/", 2)
         chosen_name = slug(name or f"{stem[-2]}-{stem[-1]}")
-        root = WORK / chosen_name
+        root = (
+            WORK / owner_key / chosen_name
+        )  # one folder per user: two users may scan the same name
         if root.exists() and refresh:
             pulled = subprocess.run(
                 ["git", "-C", str(root), "pull", "--ff-only", "--quiet"],
@@ -139,6 +164,8 @@ def resolve(
             clone(git_url, root)
         kind, origin = "git", git_url
 
+    if chosen_name in RESERVED:
+        raise ProjectError(f"'{chosen_name}' is reserved; choose another name")
     if not NAME_RE.match(chosen_name):
         raise ProjectError(f"'{chosen_name}' is not a usable project name")
 

@@ -11,6 +11,7 @@ from api.dashboard import app as dashboard
 from api.dashboard import project
 from api.dashboard.project import ProjectError
 from api.dashboard.store import ScanStore
+from tests.api.auth_fakes import make, sign_in
 
 FIXTURES = Path(__file__).resolve().parents[3] / "fixtures" / "source"
 
@@ -115,17 +116,20 @@ class Store:
     def __init__(self):
         self.project_rows = []
 
-    def projects(self):
+    def projects(self, viewer=None):
         return self.project_rows
 
-    def scans(self, app=None, limit=50):
+    def scans(self, app=None, limit=50, viewer=None):
         return []
 
 
 @pytest.fixture
 def client():
+    service, _, mail, _ = make()
     dashboard.app.state.store = Store()
-    with TestClient(dashboard.app) as c:
+    dashboard.app.state.auth = service
+    # The first verified account is the administrator, who may scan a folder on the server.
+    with TestClient(dashboard.app, headers=sign_in(service, mail, "admin@example.com")) as c:
         yield c
 
 
@@ -182,9 +186,10 @@ def test_a_project_is_scanned_with_only_the_layers_that_need_no_database(repo):
     name = f"test-{uuid.uuid4().hex[:8]}"
     source = project.resolve(path=str(repo), name=name)
     scan_id = None
+    owner = str(uuid.uuid4())
     try:
-        scan_id = run_project_scan(source, store)
-        scan = store.scan(scan_id)
+        scan_id = run_project_scan(source, store, owner)
+        scan = store.scan(scan_id, viewer=owner)
         assert scan["status"] == "ok" and scan["kind"] == "project"
         assert scan["layers"] == ["static_orm", "sql", "declared"]
         assert scan["query_analytics"] is None and scan["data_quality"] is None
@@ -197,7 +202,8 @@ def test_a_project_is_scanned_with_only_the_layers_that_need_no_database(repo):
         assert all(
             "RUNTIME" not in f["layers"] and "ACTUAL_SCHEMA" not in f["layers"] for f in findings
         )
-        assert [p["app"] for p in store.projects() if p["app"] == name] == [name]
+        assert [p["app"] for p in store.projects(owner) if p["app"] == name] == [name]
+        assert store.projects(str(uuid.uuid4())) == [], "another user sees none of it"
     finally:
         store.conn.execute("DELETE FROM dashboard.scan WHERE app = %s", (name,))
         store.close()

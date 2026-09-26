@@ -1,3 +1,4 @@
+import { unstable_rethrow } from "next/navigation";
 import Link from "next/link";
 import { SeverityDonut, SeverityTrend, HorizontalBars } from "@/components/charts/Charts";
 import { Card } from "@/components/ui/Card";
@@ -23,6 +24,7 @@ export default async function Overview({ params, searchParams }: { params: Promi
     ctx = await loadScan(app, scanParam);
     if (ctx) [findings, before] = await Promise.all([api.findings(ctx.scan.scan_id), ctx.previous ? api.findings(ctx.previous.scan_id) : Promise.resolve(null)]);
   } catch (error) {
+    unstable_rethrow(error);
     return <ApiProblem error={error} />;
   }
   if (!ctx) return <NoScan app={app} />;

@@ -61,5 +61,13 @@ services:
       timeout: 5s
       retries: 10
 
+  # Development mail catcher: the dashboard's verification and reset emails land here.
+  # Set DBINSIGHT_SMTP_HOST=localhost DBINSIGHT_SMTP_PORT=1025 on the dashboard API, read them at :8025.
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "${MAILPIT_SMTP_PORT:-1025}:1025"
+      - "${MAILPIT_UI_PORT:-8025}:8025"
+
 volumes:
   pgdata:

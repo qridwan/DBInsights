@@ -7,7 +7,7 @@ import { Icon } from "@/components/ui/icons";
 const field = "mt-1.5 block w-full rounded-lg border border-line-strong bg-surface px-3 py-2 text-sm text-ink placeholder:text-faint focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/25";
 
 /** Scan a project that is not one of the built-in apps: a local folder or an https Git URL. */
-export function ScanProjectDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
+export function ScanProjectDialog({ open, onClose, canScanLocal = false }: { open: boolean; onClose: () => void; canScanLocal?: boolean }) {
   const router = useRouter();
   const dialog = useRef<HTMLDialogElement>(null);
   const [mode, setMode] = useState<"git" | "local">("git");
@@ -63,13 +63,13 @@ export function ScanProjectDialog({ open, onClose }: { open: boolean; onClose: (
         <div className="flex items-start justify-between gap-4">
           <div>
             <h2 className="text-lg font-semibold tracking-tight">Scan a project</h2>
-            <p className="mt-1 text-sm text-muted">Any Prisma project, from a Git URL or a local folder.</p>
+            <p className="mt-1 text-sm text-muted">Any Prisma project{canScanLocal ? ", from a Git URL or a folder on this machine" : ", from a public Git URL"}. It stays private to your account.</p>
           </div>
           <button type="button" onClick={onClose} disabled={busy} className="rounded-md p-1 text-muted hover:bg-sunken disabled:opacity-50" aria-label="Close"><Icon name="x" className="h-5 w-5" /></button>
         </div>
 
         <div className="mt-5 inline-flex rounded-lg bg-sunken p-1 text-sm" role="tablist">
-          {(["git", "local"] as const).map((m) => (
+          {(canScanLocal ? (["git", "local"] as const) : (["git"] as const)).map((m) => (
             <button key={m} type="button" role="tab" aria-selected={mode === m} onClick={() => setMode(m)} className={`rounded-md px-3 py-1.5 ${mode === m ? "bg-surface font-medium text-ink shadow-card" : "text-muted"}`}>
               {m === "git" ? "Git URL" : "Local folder"}
             </button>

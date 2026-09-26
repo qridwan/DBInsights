@@ -1,3 +1,4 @@
+import { unstable_rethrow } from "next/navigation";
 import Link from "next/link";
 import { Card } from "@/components/ui/Card";
 import { RangeBar } from "@/components/RangeBar";
@@ -19,6 +20,7 @@ export default async function DataQuality({ params, searchParams }: { params: Pr
     ctx = await loadScan(app, sp.scan);
     if (ctx) columns = await api.dataQuality(ctx.scan.scan_id);
   } catch (error) {
+    unstable_rethrow(error);
     return <ApiProblem error={error} />;
   }
   if (!ctx) return <NoScan app={app} />;

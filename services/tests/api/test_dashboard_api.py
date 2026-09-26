@@ -8,6 +8,7 @@ from fastapi.testclient import TestClient
 
 from api.dashboard import app as dashboard
 from api.dashboard.store import ScanStore
+from tests.api.auth_fakes import make, sign_in
 
 SCAN = str(uuid.uuid4())
 
@@ -62,16 +63,16 @@ class FakeStore:
         }
         self.project_rows = []
 
-    def projects(self):
+    def projects(self, viewer=None):
         return self.project_rows
 
-    def scans(self, app=None, limit=50):
+    def scans(self, app=None, limit=50, viewer=None):
         counts = {"high": 1, "medium": 2, "low": 0, "total": 3}
         return [
             {**{k: self.scan_row[k] for k in ("scan_id", "app", "started_at", "status")}, **counts}
         ]
 
-    def scan(self, scan_id):
+    def scan(self, scan_id, viewer=None):
         if scan_id != SCAN:
             if scan_id == "not-a-uuid":
                 raise ValueError("bad uuid")
@@ -87,9 +88,11 @@ class FakeStore:
 
 @pytest.fixture
 def client():
+    service, _, mail, _ = make()
     dashboard.app.state.store = FakeStore()
+    dashboard.app.state.auth = service
     dashboard.app.state.__dict__.pop("explainer", None)
-    with TestClient(dashboard.app) as c:
+    with TestClient(dashboard.app, headers=sign_in(service, mail, "tester@example.com")) as c:
         yield c
 
 
@@ -216,9 +219,10 @@ def test_scan_store_round_trip():
         assert [r["finding_id"] for r in rows] == ["F001", "F002"]
         assert rows[0]["severity"] == "HIGH", "most severe first"
         assert rows[0]["layers"] == ["RUNTIME", "SQL"]
-        summary = store.scans("test-app")[0]
+        viewer = str(uuid.uuid4())
+        summary = store.scans("test-app", viewer=viewer)[0]
         assert (summary["high"], summary["low"], summary["total"]) == (1, 1, 2)
-        assert store.latest_scan_id("test-app") == scan_id
+        assert store.latest_scan_id("test-app", viewer=viewer) == scan_id
     finally:
         store.conn.execute("DELETE FROM dashboard.scan WHERE scan_id = %s", (scan_id,))
         store.close()

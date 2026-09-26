@@ -41,3 +41,5 @@ select = ["E", "F", "I", "B", "UP"]
 [tool.ruff.lint.per-file-ignores]
 # Prose and table-label strings in the thesis generator read better unwrapped.
 "experiments/writeup/*.py" = ["E501"]
+# Mail templates and SQL are clearer unwrapped.
+"api/dashboard/auth/*.py" = ["E501"]

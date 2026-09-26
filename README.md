@@ -155,6 +155,7 @@ services/                 Python 3.12, uv
   experiments/realworld/  repository selection, batch analysis, labelling worksheet
   experiments/writeup/    results chapter generator (template + stored results)
   api/dashboard/          scans, snapshots and read API for the dashboard
+  api/dashboard/auth/     accounts: scrypt passwords, emailed codes, sessions, mailer
   api/explain/            AI explanation layer (read-only projection in, two text fields out)
 apps/ecommerce/           test application 1 (Next.js + Prisma + Postgres)
 apps/blog/                test application 2
@@ -188,6 +189,7 @@ docker/postgres/init/     creates the ecommerce and blog databases
 | M8.1 | Dashboard with evidence chains | done |
 | M8.2 | AI explanation layer | done (needs an API key to run) |
 | M8.3 | Results chapter | draft; real-world precision pending labels |
+| M8+ | Dashboard accounts: register, email OTP, sign-in, password reset, per-user isolation | done |
 
 Static rules implemented in the core:
 
@@ -750,6 +752,11 @@ Open an application and press **Run scan** (about 10 s: the full hybrid pipeline
 A scan stores its findings plus snapshots of the query analytics, data-quality and schema views, so
 every page describes one scan and the health page trends across scans.
 
+- **Accounts**: email and password with an emailed one-time code to verify a new account and to reset a
+  forgotten password, session cookies, an account page (profile, password, signed-in devices). The
+  built-in apps are open to every signed-in user; a project you scan is private to you, and scanning a
+  server folder is administrator-only. The first verified account is the administrator and inherits
+  earlier scans. In development, emails land in Mailpit at http://localhost:8025 (in `docker compose`).
 - **Scan a project**: the sidebar button opens a dialog to scan any Prisma project from a local folder or an https Git URL,
   with the analysis that needs no database (static source, SQL text, declared schema). It warns when the
   analyzer located no Prisma operations, since zero findings then means nothing. See the guide.

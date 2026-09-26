@@ -32,6 +32,8 @@ CREATE TABLE IF NOT EXISTS dashboard.scan (
 );
 ALTER TABLE dashboard.scan ADD COLUMN IF NOT EXISTS kind text NOT NULL DEFAULT 'app';
 ALTER TABLE dashboard.scan ADD COLUMN IF NOT EXISTS source jsonb;
+ALTER TABLE dashboard.scan ADD COLUMN IF NOT EXISTS owner_id uuid;
+CREATE INDEX IF NOT EXISTS scan_owner_idx ON dashboard.scan (owner_id, app, started_at);
 CREATE INDEX IF NOT EXISTS scan_app_started_idx ON dashboard.scan (app, started_at);
 
 CREATE TABLE IF NOT EXISTS dashboard.finding (
@@ -55,6 +57,11 @@ CREATE TABLE IF NOT EXISTS dashboard.finding (
 
 SEVERITY_ORDER = {"HIGH": 0, "MEDIUM": 1, "LOW": 2}
 
+# Who may see a scan. A scanned project is private to whoever scanned it. A scan of a built-in app
+# is visible to the person who ran it, plus older scans that predate accounts (no owner), which
+# stay visible to everyone as shared samples.
+VISIBLE = "(s.owner_id = %(viewer)s::uuid OR (s.owner_id IS NULL AND s.kind = 'app'))"
+
 
 def _json(value: Any) -> str:
     return json.dumps(value, default=str)
@@ -76,10 +83,12 @@ class ScanStore:
         state: dict[str, Any],
         kind: str = "app",
         source: dict[str, Any] | None = None,
+        owner_id: str | None = None,
     ) -> None:
         self.conn.execute(
-            "INSERT INTO dashboard.scan (scan_id, app, layers, git_commit, git_dirty, kind, source)"
-            " VALUES (%s, %s, %s, %s, %s, %s, %s)",
+            "INSERT INTO dashboard.scan"
+            " (scan_id, app, layers, git_commit, git_dirty, kind, source, owner_id)"
+            " VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
             (
                 scan_id,
                 app,
@@ -88,6 +97,7 @@ class ScanStore:
                 state["dirty"],
                 kind,
                 _json(source) if source is not None else None,
+                owner_id,
             ),
         )
 
@@ -96,12 +106,29 @@ class ScanStore:
             "UPDATE dashboard.scan SET source = %s WHERE scan_id = %s", (_json(source), scan_id)
         )
 
-    def projects(self) -> list[dict[str, Any]]:
-        """The latest scan of each scanned project, newest first."""
+    def projects(self, viewer: str) -> list[dict[str, Any]]:
+        """The latest scan of each project this user has scanned. Projects are never shared."""
         return self.conn.execute(
             """SELECT DISTINCT ON (app) app, scan_id, source, started_at
-               FROM dashboard.scan WHERE kind = 'project' ORDER BY app, started_at DESC"""
+               FROM dashboard.scan WHERE kind = 'project' AND owner_id = %s::uuid
+               ORDER BY app, started_at DESC""",
+            (viewer,),
         ).fetchall()
+
+    def claim_legacy_projects(self, owner_id: str) -> int:
+        """Give the projects scanned before accounts existed to the first account (the operator)."""
+        return self.conn.execute(
+            "UPDATE dashboard.scan SET owner_id = %s::uuid"
+            " WHERE kind = 'project' AND owner_id IS NULL",
+            (owner_id,),
+        ).rowcount
+
+    def delete_project(self, owner_id: str, name: str) -> int:
+        return self.conn.execute(
+            "DELETE FROM dashboard.scan"
+            " WHERE kind = 'project' AND owner_id = %s::uuid AND app = %s",
+            (owner_id, name),
+        ).rowcount
 
     def fail(self, scan_id: str, error: str) -> None:
         self.conn.execute(
@@ -167,30 +194,35 @@ class ScanStore:
 
     # ---- reads ------------------------------------------------------------
 
-    def scans(self, app: str | None = None, limit: int = 50) -> list[dict[str, Any]]:
+    def scans(
+        self, app: str | None = None, limit: int = 50, *, viewer: str
+    ) -> list[dict[str, Any]]:
         return self.conn.execute(
-            """SELECT s.scan_id, s.app, s.started_at, s.finished_at, s.status, s.error, s.layers,
+            f"""SELECT s.scan_id, s.app, s.started_at, s.finished_at, s.status, s.error, s.layers,
                       s.git_commit, s.git_dirty, s.kind,
                       count(f.*) FILTER (WHERE f.severity = 'HIGH')   AS high,
                       count(f.*) FILTER (WHERE f.severity = 'MEDIUM') AS medium,
                       count(f.*) FILTER (WHERE f.severity = 'LOW')    AS low,
                       count(f.*)                                       AS total
                FROM dashboard.scan s LEFT JOIN dashboard.finding f USING (scan_id)
-               WHERE (%s::text IS NULL OR s.app = %s)
-               GROUP BY s.scan_id ORDER BY s.started_at DESC LIMIT %s""",
-            (app, app, limit),
+               WHERE (%(app)s::text IS NULL OR s.app = %(app)s) AND {VISIBLE}
+               GROUP BY s.scan_id ORDER BY s.started_at DESC LIMIT %(limit)s""",
+            {"app": app, "limit": limit, "viewer": viewer},
         ).fetchall()
 
-    def scan(self, scan_id: str) -> dict[str, Any] | None:
+    def scan(self, scan_id: str, *, viewer: str) -> dict[str, Any] | None:
+        """The scan, or None if it does not exist or is not this user's to see."""
         return self.conn.execute(
-            "SELECT * FROM dashboard.scan WHERE scan_id = %s", (scan_id,)
+            f"SELECT s.* FROM dashboard.scan s WHERE s.scan_id = %(id)s::uuid AND {VISIBLE}",
+            {"id": scan_id, "viewer": viewer},
         ).fetchone()
 
-    def latest_scan_id(self, app: str) -> str | None:
+    def latest_scan_id(self, app: str, *, viewer: str) -> str | None:
         row = self.conn.execute(
-            "SELECT scan_id FROM dashboard.scan WHERE app = %s AND status = 'ok'"
-            " ORDER BY started_at DESC LIMIT 1",
-            (app,),
+            "SELECT s.scan_id FROM dashboard.scan s"
+            f" WHERE s.app = %(app)s AND s.status = 'ok' AND {VISIBLE}"
+            " ORDER BY s.started_at DESC LIMIT 1",
+            {"app": app, "viewer": viewer},
         ).fetchone()
         return str(row["scan_id"]) if row else None
 

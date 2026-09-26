@@ -1,3 +1,4 @@
+import { unstable_rethrow } from "next/navigation";
 import Link from "next/link";
 import { FindingView } from "@/components/FindingView";
 import { Icon } from "@/components/ui/icons";
@@ -23,6 +24,7 @@ export default async function FindingPage({ params, searchParams }: { params: Pr
       }
     }
   } catch (error) {
+    unstable_rethrow(error);
     return <ApiProblem error={error} />;
   }
   if (!ctx) return <NoScan app={app} />;

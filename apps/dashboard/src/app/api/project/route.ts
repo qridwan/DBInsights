@@ -1,11 +1,11 @@
-import { API_URL } from "@/lib/api";
+import { API_URL, authHeaders } from "@/lib/api";
 
-// Proxies "Scan a project" (a local path or Git URL) to the dashboard API.
+// Proxies "Scan a project" (a Git URL, or a folder for administrators) to the dashboard API.
 export async function POST(request: Request) {
   try {
     const response = await fetch(`${API_URL}/v1/projects/scans`, {
       method: "POST",
-      headers: { "content-type": "application/json" },
+      headers: { ...(await authHeaders()), "content-type": "application/json" },
       body: await request.text(),
       cache: "no-store",
     });

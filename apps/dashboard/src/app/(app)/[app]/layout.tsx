@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { RemoveProject } from "@/components/RemoveProject";
 import { RunScan } from "@/components/ScanControls";
 import { Tabs } from "@/components/shell/Tabs";
 import { ScanPickerClient as ScanPickerBridge } from "@/components/shell/ScanPickerClient";
@@ -36,6 +37,7 @@ export default async function AppLayout({ children, params }: { children: React.
         </div>
         <div className="flex flex-wrap items-center gap-3">
           {latest && <Suspense fallback={null}><ScanPickerBridge scans={ok} /></Suspense>}
+          {project && <RemoveProject name={app} />}
           <RunScan app={app} project={project} />
         </div>
       </div>

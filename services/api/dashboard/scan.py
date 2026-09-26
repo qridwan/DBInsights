@@ -48,6 +48,7 @@ def _data_quality_snapshot(ctx: RunContext) -> list[dict[str, Any]]:
 def run_scan(
     app: str,
     store: ScanStore,
+    owner_id: str,
     *,
     providers: Mapping[Layer, Provider] | None = None,
     log: Callable[[str], None] = lambda _: None,
@@ -56,7 +57,13 @@ def run_scan(
     config = CONFIGURATIONS[SCAN_CONFIGURATION]
     ctx = context_for(app, 1, SEED)
     scan_id = str(uuid.uuid4())
-    store.start(scan_id, app, [layer.value for layer in config.ordered_layers()], code_state())
+    store.start(
+        scan_id,
+        app,
+        [layer.value for layer in config.ordered_layers()],
+        code_state(),
+        owner_id=owner_id,
+    )
     try:
         state = PipelineState()
         layer_findings: list[Finding] = []
@@ -96,6 +103,7 @@ def run_scan(
 def run_project_scan(
     source: ProjectSource,
     store: ScanStore,
+    owner_id: str,
     *,
     providers: Mapping[Layer, Provider] | None = None,
     log: Callable[[str], None] = lambda _: None,
@@ -131,6 +139,7 @@ def run_project_scan(
         code_state(),
         kind="project",
         source=source.as_json(),
+        owner_id=owner_id,
     )
     try:
         state = PipelineState()
