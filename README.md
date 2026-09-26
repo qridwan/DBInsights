@@ -737,7 +737,7 @@ uv run python -m experiments.realworld labels --worksheet <labelled.csv>   # M6.
 
 ### 15. Dashboard, explanation layer and results chapter (M8)
 
-**Dashboard (M8.1).** Two processes: a host API that runs scans and serves them, and the Next.js app.
+**Dashboard (M8.1).** Two processes: a host API that runs scans and serves them, and the Next.js app. A step-by-step guide with troubleshooting is in [`docs/dashboard-guide.md`](docs/dashboard-guide.md).
 
 ```bash
 cd services
@@ -750,6 +750,9 @@ Open an application and press **Run scan** (about 10 s: the full hybrid pipeline
 A scan stores its findings plus snapshots of the query analytics, data-quality and schema views, so
 every page describes one scan and the health page trends across scans.
 
+- **Scan a project**: the home page can also scan any Prisma project from a local folder or an https Git URL,
+  with the analysis that needs no database (static source, SQL text, declared schema). It warns when the
+  analyzer located no Prisma operations, since zero findings then means nothing. See the guide.
 - **Health**: findings by severity per scan, by contributing layer, layer timings.
 - **Findings**: filter by severity, confidence, rule and evidence layer. Each finding shows its
   **evidence chain**: every item labelled with the layer it came from, with the layers that

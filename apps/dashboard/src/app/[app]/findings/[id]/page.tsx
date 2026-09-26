@@ -3,7 +3,7 @@ import { ApiProblem, Card, NoScan } from "@/components/Page";
 import { ConfidenceBadge, SeverityBadge } from "@/components/Badges";
 import { EvidenceChain } from "@/components/EvidenceChain";
 import { Explanation } from "@/components/Explanation";
-import { api, resolveScan, type Finding, type ScanRow } from "@/lib/api";
+import { api, resolveScan, SCAN_LAYER_TO_SOURCE, type Finding, type Layer, type ScanRow } from "@/lib/api";
 
 export const dynamic = "force-dynamic";
 
@@ -12,9 +12,13 @@ export default async function FindingPage({ params, searchParams }: { params: Pr
   const { scan: scanParam } = await searchParams;
   let scan: ScanRow | null;
   let finding: Finding | null = null;
+  let ran: Layer[] = [];
   try {
     scan = await resolveScan(app, scanParam);
-    if (scan) finding = await api.finding(scan.scan_id, id).catch(() => null);
+    if (scan) {
+      finding = await api.finding(scan.scan_id, id).catch(() => null);
+      ran = (await api.scan(scan.scan_id)).layers.map((l) => SCAN_LAYER_TO_SOURCE[l]).filter(Boolean);
+    }
   } catch (error) {
     return <ApiProblem error={error} />;
   }
@@ -35,7 +39,7 @@ export default async function FindingPage({ params, searchParams }: { params: Pr
       </div>
 
       <Card title="Evidence chain" note="each item is labelled with the layer it came from">
-        <EvidenceChain evidence={finding.evidence} layers={finding.layers} />
+        <EvidenceChain evidence={finding.evidence} layers={finding.layers} ran={ran} />
       </Card>
 
       <Card title="What the analyzer says">

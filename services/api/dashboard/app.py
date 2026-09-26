@@ -12,12 +12,14 @@ from contextlib import asynccontextmanager
 from typing import Annotated, Any
 
 from fastapi import Depends, FastAPI, HTTPException, Query, Request
+from pydantic import BaseModel, ConfigDict
 
 from analyzers.finding import Finding
 from api.explain import AnthropicLLM, Explainer, ExplainError, PostgresCache
 from experiments.ablation.experiment import REPO_ROOT
 
-from .scan import run_scan
+from . import project as projects
+from .scan import run_project_scan, run_scan
 from .store import ScanStore
 
 APPS = sorted(
@@ -43,9 +45,13 @@ def get_store(request: Request) -> ScanStore:
 StoreDep = Annotated[ScanStore, Depends(get_store)]
 
 
-def _require_app(name: str) -> str:
-    if name not in APPS:
-        raise HTTPException(404, f"unknown app '{name}'; known: {', '.join(APPS)}")
+def _known(store: ScanStore) -> set[str]:
+    return set(APPS) | {p["app"] for p in store.projects()}
+
+
+def _require_app(name: str, store: ScanStore) -> str:
+    if name not in _known(store):
+        raise HTTPException(404, f"unknown app or project '{name}'")
     return name
 
 
@@ -66,21 +72,37 @@ def health() -> dict[str, str]:
 
 @app.get("/v1/apps")
 def apps(store: StoreDep) -> list[dict[str, Any]]:
+    """The built-in test apps, then the projects that have been scanned."""
     out = []
     for name in APPS:
         scans = store.scans(name, limit=1)
-        out.append({"app": name, "latest_scan": scans[0] if scans else None})
+        out.append(
+            {"app": name, "kind": "app", "source": None, "latest_scan": scans[0] if scans else None}
+        )
+    for project in store.projects():
+        scans = store.scans(project["app"], limit=1)
+        out.append(
+            {
+                "app": project["app"],
+                "kind": "project",
+                "source": project["source"],
+                "latest_scan": scans[0] if scans else None,
+            }
+        )
     return out
 
 
 @app.get("/v1/apps/{app_name}/scans")
 def scans(app_name: str, store: StoreDep, limit: Annotated[int, Query(ge=1, le=200)] = 50):
-    return store.scans(_require_app(app_name), limit)
+    return store.scans(_require_app(app_name, store), limit)
 
 
 @app.post("/v1/apps/{app_name}/scans", status_code=201)
 def start_scan(app_name: str, store: StoreDep) -> dict[str, Any]:
-    _require_app(app_name)
+    if app_name not in APPS:
+        raise HTTPException(
+            404, f"'{app_name}' is not a built-in app; scan a project with POST /v1/projects/scans"
+        )
     if not _scan_lock.acquire(blocking=False):
         raise HTTPException(409, "a scan is already running")
     try:
@@ -90,6 +112,63 @@ def start_scan(app_name: str, store: StoreDep) -> dict[str, Any]:
     finally:
         _scan_lock.release()
     return {"scan_id": scan_id}
+
+
+class ProjectRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    path: str | None = None
+    git_url: str | None = None
+    schema_path: str | None = None
+    name: str | None = None
+
+
+def _scan_project(
+    store: ScanStore, *, refresh: bool = False, **request: str | None
+) -> dict[str, Any]:
+    try:
+        source = projects.resolve(refresh=refresh, **request)
+    except projects.ProjectError as error:
+        raise HTTPException(422, str(error)) from error
+    except Exception as error:  # a git failure or timeout
+        raise HTTPException(502, f"could not fetch the project: {error}") from error
+    if source.name in APPS:
+        raise HTTPException(409, f"'{source.name}' is a built-in app; choose another project name")
+    if not _scan_lock.acquire(blocking=False):
+        raise HTTPException(409, "a scan is already running")
+    try:
+        scan_id = run_project_scan(source, store)
+    except Exception as error:
+        raise HTTPException(500, f"scan failed: {type(error).__name__}: {error}") from error
+    finally:
+        _scan_lock.release()
+    return {"scan_id": scan_id, "app": source.name}
+
+
+@app.post("/v1/projects/scans", status_code=201)
+def scan_project(body: ProjectRequest, store: StoreDep) -> dict[str, Any]:
+    """Scan a project given as a local path or an https Git URL (Approach B: no database)."""
+    return _scan_project(
+        store, path=body.path, git_url=body.git_url, schema_path=body.schema_path, name=body.name
+    )
+
+
+@app.post("/v1/projects/{name}/rescan", status_code=201)
+def rescan_project(name: str, store: StoreDep) -> dict[str, Any]:
+    """Scan a known project again from its stored source (a Git project is updated first)."""
+    known = next((p for p in store.projects() if p["app"] == name), None)
+    if known is None:
+        raise HTTPException(404, f"no scanned project '{name}'")
+    source = known["source"] or {}
+    is_git = source.get("kind") == "git"
+    return _scan_project(
+        store,
+        refresh=True,
+        path=None if is_git else source.get("origin"),
+        git_url=source.get("origin") if is_git else None,
+        schema_path=source.get("schema_path"),
+        name=name,
+    )
 
 
 @app.get("/v1/scans/{scan_id}")
@@ -102,6 +181,8 @@ def scan_summary(scan_id: str, store: StoreDep) -> dict[str, Any]:
         "layer_seconds": scan["layer_seconds"],
         "git_commit": scan["git_commit"],
         "git_dirty": scan["git_dirty"],
+        "kind": scan["kind"],
+        "source": scan["source"],
         "counts": {k: counts.get(k, 0) for k in ("high", "medium", "low", "total")},
     }
 

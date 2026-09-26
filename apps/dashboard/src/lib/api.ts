@@ -65,11 +65,26 @@ export interface ScanSummary {
   layer_seconds: Record<string, number>;
   git_commit: string | null;
   git_dirty: boolean | null;
+  kind: "app" | "project";
+  source: ProjectSource | null;
   counts: ScanCounts;
+}
+
+export interface ProjectSource {
+  kind: "local" | "git";
+  origin: string;
+  commit: string | null;
+  dirty: boolean | null;
+  schema_path: string | null;
+  schema_candidates: { path: string; models: number; postgresql: boolean }[];
+  notes: string[];
+  coverage: { source_files: number; orm_operations: number } | null;
 }
 
 export interface AppRow {
   app: string;
+  kind: "app" | "project";
+  source: ProjectSource | null;
   latest_scan: ScanRow | null;
 }
 
@@ -141,6 +156,7 @@ export interface IndexDivergence {
 }
 
 export interface SchemaView {
+  /** `actual` and `divergence` are null for a scanned project: there is no database to read. */
   declared: {
     model: string;
     table: string;
@@ -151,7 +167,7 @@ export interface SchemaView {
     table: string;
     columns: { name: string; type: string; nullable: boolean }[];
     indexes: { name: string; columns: string[]; kind: string }[];
-  }[];
+  }[] | null;
   divergence: {
     indexes_not_declared: IndexDivergence[];
     declared_indexes_not_applied: IndexDivergence[];
@@ -160,7 +176,7 @@ export interface SchemaView {
     tables_not_declared: string[];
     foreign_keys_not_applied: { table: string; columns: string[]; referenced_table: string }[];
     foreign_keys_not_declared: { table: string; columns: string[]; referenced_table: string }[];
-  };
+  } | null;
 }
 
 export class ApiError extends Error {}
@@ -189,8 +205,8 @@ export const api = {
     return get<Finding[]>(`/v1/scans/${id}/findings${query ? `?${query}` : ""}`);
   },
   finding: (id: string, findingId: string) => get<Finding>(`/v1/scans/${id}/findings/${findingId}`),
-  queries: (id: string) => get<QueryAnalytics>(`/v1/scans/${id}/queries`),
-  dataQuality: (id: string) => get<ColumnQuality[]>(`/v1/scans/${id}/data-quality`),
+  queries: (id: string) => get<QueryAnalytics | null>(`/v1/scans/${id}/queries`),
+  dataQuality: (id: string) => get<ColumnQuality[] | null>(`/v1/scans/${id}/data-quality`),
   schema: (id: string) => get<SchemaView>(`/v1/scans/${id}/schema`),
 };
 
@@ -200,3 +216,15 @@ export async function resolveScan(app: string, scan?: string): Promise<ScanRow |
   const ok = scans.filter((s) => s.status === "ok");
   return (scan ? ok.find((s) => s.scan_id === scan) : ok[0]) ?? null;
 }
+
+/** Scan layer ids (as the scan records them) to the evidence source they produce. */
+export const SCAN_LAYER_TO_SOURCE: Record<string, Layer> = {
+  static_orm: "STATIC_SOURCE",
+  sql: "SQL",
+  declared: "DECLARED_SCHEMA",
+  actual: "ACTUAL_SCHEMA",
+  runtime: "RUNTIME",
+  data: "DATA_QUALITY",
+};
+
+export const isProject = (row: { kind: string }) => row.kind === "project";

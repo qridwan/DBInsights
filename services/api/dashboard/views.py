@@ -117,32 +117,41 @@ def data_quality(
     return out
 
 
+def declared_models(declared: DeclaredSchema) -> list[dict[str, Any]]:
+    return [
+        {
+            "model": m.name,
+            "table": m.table,
+            "fields": [
+                {"name": f.name, "column": f.column, "type": f.type, "optional": f.optional}
+                for f in m.fields
+                if f.kind == "scalar"
+            ],
+            "indexes": [
+                {"kind": i.kind, "columns": [f.name for f in i.fields], "line": i.line}
+                for i in m.indexes
+            ],
+        }
+        for m in declared.models
+        if m.block_type == "model"
+    ]
+
+
+def declared_only_view(declared: DeclaredSchema | None) -> dict[str, Any]:
+    """A scanned project has no database of ours: only the declared schema exists to show."""
+    return {
+        "declared": declared_models(declared) if declared else [],
+        "actual": None,
+        "divergence": None,
+    }
+
+
 def schema_view(
     declared: DeclaredSchema, actual: ActualSchema, divergence: DivergenceReport
 ) -> dict[str, Any]:
     """The two schemas as separate structures, plus their divergence. Never merged."""
     return {
-        "declared": [
-            {
-                "model": m.name,
-                "table": m.table,
-                "fields": [
-                    {"name": f.name, "column": f.column, "type": f.type, "optional": f.optional}
-                    for f in m.fields
-                    if f.kind == "scalar"
-                ],
-                "indexes": [
-                    {
-                        "kind": i.kind,
-                        "columns": [f.name for f in i.fields],
-                        "line": i.line,
-                    }
-                    for i in m.indexes
-                ],
-            }
-            for m in declared.models
-            if m.block_type == "model"
-        ],
+        "declared": declared_models(declared),
         "actual": [
             {
                 "table": t.name,

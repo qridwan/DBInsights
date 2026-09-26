@@ -12,12 +12,12 @@ const TABS = [
 ];
 
 /** Tabs keep the selected scan in the URL so every view describes the same scan. */
-export function AppNav({ app }: { app: string }) {
+export function AppNav({ app, project = false }: { app: string; project?: boolean }) {
   const path = usePathname();
   const scan = useSearchParams().get("scan");
   return (
     <nav className="flex gap-1 border-b border-slate-200">
-      {TABS.map((tab) => {
+      {TABS.filter((tab) => !(project && ["/queries", "/data-quality"].includes(tab.href))).map((tab) => {
         const href = `/${app}${tab.href}`;
         const active = tab.href === "" ? path === `/${app}` : path.startsWith(href);
         return (

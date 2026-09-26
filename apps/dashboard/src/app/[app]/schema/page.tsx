@@ -19,9 +19,10 @@ export default async function Schema({ params, searchParams }: { params: Promise
   if (!scan || !view) return <NoScan app={app} />;
 
   const d = view.divergence;
-  const notApplied = new Set(d.declared_indexes_not_applied.map((i) => key(i.table, i.columns)));
-  const notDeclared = new Set(d.indexes_not_declared.map((i) => key(i.table, i.columns)));
-  const summary: [string, number][] = [
+  const actual = view.actual;
+  const notApplied = new Set((d?.declared_indexes_not_applied ?? []).map((i) => key(i.table, i.columns)));
+  const notDeclared = new Set((d?.indexes_not_declared ?? []).map((i) => key(i.table, i.columns)));
+  const summary: [string, number][] = !d ? [] : [
     ["Indexes in the database, not in schema.prisma", d.indexes_not_declared.length],
     ["Indexes in schema.prisma, not in the database", d.declared_indexes_not_applied.length],
     ["Column type / nullability mismatches", d.column_mismatches.length],
@@ -31,20 +32,26 @@ export default async function Schema({ params, searchParams }: { params: Promise
 
   return (
     <div className="space-y-5">
+      {!actual && (
+        <p className="rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
+          Only the declared schema is shown. There is no database to read, so the actual schema and the divergence between the two are not
+          available for a scanned project. Findings about missing indexes assume the declared indexes are the whole truth.
+        </p>
+      )}
       <p className="text-sm text-slate-600">
         The declared schema (schema.prisma) and the actual schema (the live database catalog) are separate evidence sources, shown side by
         side and never merged. Their divergence is the measurement.
       </p>
-      <div className="grid gap-3 sm:grid-cols-5">
+      {d && <div className="grid gap-3 sm:grid-cols-5">
         {summary.map(([label, n]) => (
           <div key={label} className={`rounded-lg border p-3 ${n ? "border-amber-300 bg-amber-50" : "border-slate-200 bg-white"}`}>
             <div className="text-2xl font-semibold tabular-nums">{n}</div>
             <div className="text-xs text-slate-600">{label}</div>
           </div>
         ))}
-      </div>
+      </div>}
 
-      <div className="grid gap-5 md:grid-cols-2">
+      <div className={`grid gap-5 ${actual ? "md:grid-cols-2" : ""}`}>
         <Card title="Declared: schema.prisma" note={`${view.declared.length} models`}>
           <div className="space-y-4">
             {view.declared.map((m) => (
@@ -68,9 +75,9 @@ export default async function Schema({ params, searchParams }: { params: Promise
           </div>
         </Card>
 
-        <Card title="Actual: the database" note={`${view.actual.length} tables`}>
+        {actual && <Card title="Actual: the database" note={`${actual.length} tables`}>
           <div className="space-y-4">
-            {view.actual.map((t) => (
+            {actual.map((t) => (
               <div key={t.table}>
                 <div className="text-sm font-semibold">{t.table}</div>
                 <div className="mt-1 flex flex-wrap gap-1">
@@ -89,7 +96,7 @@ export default async function Schema({ params, searchParams }: { params: Promise
               </div>
             ))}
           </div>
-        </Card>
+        </Card>}
       </div>
     </div>
   );

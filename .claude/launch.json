@@ -4,7 +4,11 @@
     {
       "name": "dashboard",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["--filter", "dashboard", "dev"],
+      "runtimeArgs": [
+        "--filter",
+        "dashboard",
+        "dev"
+      ],
       "port": 3003
     }
   ]

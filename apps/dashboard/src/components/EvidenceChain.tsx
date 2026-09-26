@@ -7,16 +7,23 @@ import { LayerChip } from "./Badges";
  * it came from. Layers that contributed nothing are listed too, so what is NOT known is as visible
  * as what is.
  */
-export function EvidenceChain({ evidence, layers }: { evidence: Evidence[]; layers: Layer[] }) {
+export function EvidenceChain({ evidence, layers, ran }: { evidence: Evidence[]; layers: Layer[]; ran?: Layer[] }) {
   const contributed = new Set(layers);
+  const notRun = new Set(ran ? LAYERS.map((l) => l.id).filter((id) => !ran.includes(id)) : []);
   return (
     <div>
       <div className="mb-3 flex flex-wrap items-center gap-2">
         <span className="text-sm font-medium text-slate-700">
-          {contributed.size} of {LAYERS.length} layers contributed
+          {contributed.size} of {LAYERS.length - notRun.size} layers contributed
+          {notRun.size > 0 && <span className="font-normal text-slate-500"> ({notRun.size} not run in this scan)</span>}
         </span>
-        {LAYERS.map((l) => (
+        {LAYERS.filter((l) => !notRun.has(l.id)).map((l) => (
           <LayerChip key={l.id} layer={l.id} muted={!contributed.has(l.id)} />
+        ))}
+        {LAYERS.filter((l) => notRun.has(l.id)).map((l) => (
+          <span key={l.id} className="inline-flex items-center rounded-full border border-dashed border-slate-300 px-2 py-0.5 text-xs text-slate-400" title={`${l.label}: not run for this project`}>
+            {l.label}: not run
+          </span>
         ))}
       </div>
       <ol className="relative space-y-3 border-l-2 border-slate-200 pl-5">

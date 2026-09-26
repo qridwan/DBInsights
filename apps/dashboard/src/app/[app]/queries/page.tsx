@@ -1,4 +1,4 @@
-import { ApiProblem, Card, NoScan } from "@/components/Page";
+import { ApiProblem, Card, NeedsDatabase, NoScan } from "@/components/Page";
 import { HorizontalBars } from "@/components/Charts";
 import { api, resolveScan, type QueryAnalytics, type ScanRow } from "@/lib/api";
 import { fmtMs, shapeLabel } from "@/lib/ui";
@@ -16,7 +16,8 @@ export default async function Queries({ params, searchParams }: { params: Promis
   } catch (error) {
     return <ApiProblem error={error} />;
   }
-  if (!scan || !q) return <NoScan app={app} />;
+  if (!scan) return <NoScan app={app} />;
+  if (!q) return <NeedsDatabase view="Query analytics" needs="runtime capture from a running application" />;
 
   return (
     <div className="space-y-5">

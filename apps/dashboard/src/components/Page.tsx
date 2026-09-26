@@ -32,3 +32,12 @@ export function Card({ title, children, note }: { title: string; children: React
     </section>
   );
 }
+
+export function NeedsDatabase({ view, needs }: { view: string; needs: string }) {
+  return (
+    <div className="rounded-lg border border-dashed border-slate-300 bg-white p-8 text-center">
+      <p className="text-slate-700">{view} is not available for a scanned project.</p>
+      <p className="mt-1 text-sm text-slate-500">It needs {needs}. A scanned project gets the analysis that needs no database.</p>
+    </div>
+  );
+}

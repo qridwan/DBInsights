@@ -57,7 +57,13 @@ class FakeStore:
             "query_analytics": {"statements": 3},
             "data_quality": [{"table": "T"}],
             "schema_view": {"declared": [], "actual": []},
+            "kind": "app",
+            "source": None,
         }
+        self.project_rows = []
+
+    def projects(self):
+        return self.project_rows
 
     def scans(self, app=None, limit=50):
         counts = {"high": 1, "medium": 2, "low": 0, "total": 3}

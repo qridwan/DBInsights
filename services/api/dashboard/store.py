@@ -30,6 +30,8 @@ CREATE TABLE IF NOT EXISTS dashboard.scan (
   data_quality    jsonb,
   schema_view     jsonb
 );
+ALTER TABLE dashboard.scan ADD COLUMN IF NOT EXISTS kind text NOT NULL DEFAULT 'app';
+ALTER TABLE dashboard.scan ADD COLUMN IF NOT EXISTS source jsonb;
 CREATE INDEX IF NOT EXISTS scan_app_started_idx ON dashboard.scan (app, started_at);
 
 CREATE TABLE IF NOT EXISTS dashboard.finding (
@@ -66,12 +68,40 @@ class ScanStore:
     def close(self) -> None:
         self.conn.close()
 
-    def start(self, scan_id: str, app: str, layers: list[str], state: dict[str, Any]) -> None:
+    def start(
+        self,
+        scan_id: str,
+        app: str,
+        layers: list[str],
+        state: dict[str, Any],
+        kind: str = "app",
+        source: dict[str, Any] | None = None,
+    ) -> None:
         self.conn.execute(
-            "INSERT INTO dashboard.scan (scan_id, app, layers, git_commit, git_dirty)"
-            " VALUES (%s, %s, %s, %s, %s)",
-            (scan_id, app, _json(layers), state["commit"], state["dirty"]),
+            "INSERT INTO dashboard.scan (scan_id, app, layers, git_commit, git_dirty, kind, source)"
+            " VALUES (%s, %s, %s, %s, %s, %s, %s)",
+            (
+                scan_id,
+                app,
+                _json(layers),
+                state["commit"],
+                state["dirty"],
+                kind,
+                _json(source) if source is not None else None,
+            ),
         )
+
+    def set_source(self, scan_id: str, source: dict[str, Any]) -> None:
+        self.conn.execute(
+            "UPDATE dashboard.scan SET source = %s WHERE scan_id = %s", (_json(source), scan_id)
+        )
+
+    def projects(self) -> list[dict[str, Any]]:
+        """The latest scan of each scanned project, newest first."""
+        return self.conn.execute(
+            """SELECT DISTINCT ON (app) app, scan_id, source, started_at
+               FROM dashboard.scan WHERE kind = 'project' ORDER BY app, started_at DESC"""
+        ).fetchall()
 
     def fail(self, scan_id: str, error: str) -> None:
         self.conn.execute(
@@ -140,7 +170,7 @@ class ScanStore:
     def scans(self, app: str | None = None, limit: int = 50) -> list[dict[str, Any]]:
         return self.conn.execute(
             """SELECT s.scan_id, s.app, s.started_at, s.finished_at, s.status, s.error, s.layers,
-                      s.git_commit, s.git_dirty,
+                      s.git_commit, s.git_dirty, s.kind,
                       count(f.*) FILTER (WHERE f.severity = 'HIGH')   AS high,
                       count(f.*) FILTER (WHERE f.severity = 'MEDIUM') AS medium,
                       count(f.*) FILTER (WHERE f.severity = 'LOW')    AS low,

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ApiProblem, NoScan } from "@/components/Page";
+import { ApiProblem, NoScan, NeedsDatabase } from "@/components/Page";
 import { RangeBar } from "@/components/RangeBar";
 import { api, resolveScan, type ColumnQuality, type ScanRow } from "@/lib/api";
 import { pct } from "@/lib/ui";
@@ -12,7 +12,7 @@ export default async function DataQuality({ params, searchParams }: { params: Pr
   const { app } = await params;
   const sp = await searchParams;
   let scan: ScanRow | null;
-  let columns: ColumnQuality[] = [];
+  let columns: ColumnQuality[] | null = [];
   try {
     scan = await resolveScan(app, sp.scan);
     if (scan) columns = await api.dataQuality(scan.scan_id);
@@ -20,6 +20,7 @@ export default async function DataQuality({ params, searchParams }: { params: Pr
     return <ApiProblem error={error} />;
   }
   if (!scan) return <NoScan app={app} />;
+  if (!columns) return <NeedsDatabase view="Data quality" needs="a database to profile" />;
 
   const flagged = columns.filter((c) => c.metrics.some((m) => m.anomalous));
   const shown = sp.all ? columns : flagged;
