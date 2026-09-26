@@ -16,8 +16,9 @@ DBInsight is a hybrid static and runtime analysis framework that detects databas
   5. [Compare declared and actual schema (RQ6)](#5-compare-declared-and-actual-schema-rq6)
   6. [Watch runtime queries](#6-watch-runtime-queries)
   7. [Load harness, runtime N+1 and collector overhead](#7-load-harness-runtime-n1-and-collector-overhead)
-  8. [Score findings against the ground truth](#8-score-findings-against-the-ground-truth)
-  9. [Run the test suites](#9-run-the-test-suites)
+  8. [Profile data quality](#8-profile-data-quality)
+  9. [Score findings against the ground truth](#9-score-findings-against-the-ground-truth)
+  10. [Run the test suites](#10-run-the-test-suites)
 - [Resetting](#resetting)
 
 ---
@@ -50,7 +51,8 @@ flowchart LR
     GT["ground truth:<br/>manifests · injection · scorer"]
     API["collector service<br/>(FastAPI)"]
     FP["SQL fingerprinting<br/>(SQLGlot AST)"]
-    RES[("results DB<br/>runtime.* · experiments.*")]
+    RES[("results DB<br/>runtime.* · experiments.* · dataquality.*")]
+    DQ["data-quality profiler<br/>(windowed history ·<br/>referential integrity)"]
     RT["runtime N+1 detector"]
     LOAD["load harness<br/>(fixed seed, ABBA overhead)"]
   end
@@ -67,6 +69,8 @@ flowchart LR
   LOAD -->|HTTP| App
   LOAD -->|requests, CPU/memory samples| RES
   RES --> RT -->|Findings| GT
+  DB -->|rows, read-only| DQ -->|profiles: one run per window| RES
+  DQ -->|orphan findings| GT
 ```
 
 ### Evidence layers
@@ -78,7 +82,7 @@ flowchart LR
 | Actual schema | `information_schema`, `pg_catalog` | `services/analyzers/schema` | yes | done (M3.1) |
 | Runtime | Prisma client extension + driver-adapter wrapper, per-request SQL | `packages/collector`, `services/api`, `services/analyzers/runtime` | yes | done (M3.2–M3.3) |
 | SQL | generated SQL (SQLGlot) | `services/analyzers` | yes | planned |
-| Data quality | profiles + learned-baseline anomaly detection | `services/analyzers` | yes | M4 |
+| Data quality | windowed profiles, referential integrity; learned-baseline anomaly detection | `services/analyzers/dataquality` | yes | profiler done (M4.1); anomaly detection M4.2 |
 
 **Approach B** = static ORM analysis + declared schema. It runs with no database at all, and it is what the TypeScript core delivers on its own.
 
@@ -129,6 +133,7 @@ services/                 Python 3.12, uv
   analyzers/schema/       declared + actual schema, divergence comparator
   analyzers/sql/          query fingerprinting (SQLGlot AST normalization)
   analyzers/runtime/      runtime N+1 detection over collected requests
+  analyzers/dataquality/  data-quality profiler: windowed history, referential integrity
   api/                    collector service (FastAPI) + runtime event storage
   experiments/groundtruth/  manifests, data-quality injection, scorer
   experiments/load/       load harness: fixed sequences, repeatability, collector overhead
@@ -148,8 +153,10 @@ docker/postgres/init/     creates the ecommerce and blog databases
 | M3.1 | Actual-schema reader + divergence comparator | done |
 | M3.2 | Runtime collector, collector service, AST query fingerprinting | done |
 | M3.3 | Load harness, runtime N+1 detection, collector overhead (RQ5) | done |
-| M3.4 | M3 exit check | next |
-| M4–M8 | Data quality, correlation, ablation, real-world validation, dashboard | planned |
+| M3.4 | M3 exit check | done |
+| M4.1 | Data-quality profiler: windowed history, referential integrity | done |
+| M4.2–M4.4 | Anomaly detector (learned baselines), correlation engine, M4 exit check | next |
+| M5–M8 | Ablation, real-world validation, dashboard, AI explanation layer | planned |
 
 Static rules implemented in the core:
 
@@ -381,7 +388,73 @@ docker compose exec postgres psql -U dbinsight -d dbinsight -c "
   WHERE NOT r.warmup GROUP BY 1"
 ```
 
-### 8. Score findings against the ground truth
+### 8. Profile data quality
+
+The profiler records, per table and column: row count, NULL count and rate, distinct count, **duplicate rate** (the fraction of non-null values that repeat another), and the frequency of each value for low-cardinality columns. It reads the live database read-only and stores every profile as its own immutable run in the results database (schema `dataquality`), so history accumulates. It applies no thresholds and judges nothing: deciding what is anomalous is M4.2's job, from each column's own history.
+
+**Snapshot** of whole tables, plus referential-integrity checks against the *declared* relations in schema.prisma:
+
+```bash
+cd services
+uv run python -m analyzers.dataquality profile --app ecommerce --label snapshot \
+  --schema ../apps/ecommerce/prisma/schema.prisma
+```
+
+**History** comes from time windows over each table's creation-time column (the timestamp that defaults to `CURRENT_TIMESTAMP`, i.e. Prisma's `@default(now())`). Twelve consecutive 30-day windows ending at the end of the seed data, one stored run per window:
+
+```bash
+uv run python -m analyzers.dataquality profile --app ecommerce --label demo \
+  --windows 12 --window-days 30 --end 2026-09-01
+```
+
+Tables with no creation-time column (e.g. order items) cannot be windowed and are listed under `skipped_tables` in the output; the snapshot profile covers them.
+
+Read a column's history. After step 4 (injection) the last window, 2026-08-02 onwards, is the injected one:
+
+```bash
+uv run python -m analyzers.dataquality history --app ecommerce --table Customer --column phone --label demo \
+  | jq -c '.[] | {window: .window_start[0:10], rows: .row_count, null_rate}'
+# ... {"window":"2026-07-03","rows":121,"null_rate":0.04}   {"window":"2026-08-02","rows":120,"null_rate":0.63}
+
+uv run python -m analyzers.dataquality history --app ecommerce --table Review --column rating --label demo --categories \
+  | jq -c '.[-2:][] | {window: .window_start[0:10], distribution}'
+# rating 1 goes from ~20% of reviews to ~62%
+```
+
+The same columns, straight from SQL:
+
+```bash
+docker compose exec postgres psql -U dbinsight -d dbinsight -c "
+  SELECT r.window_start::date, c.row_count, round(c.null_rate::numeric, 3) AS null_rate
+  FROM dataquality.profile_run r JOIN dataquality.column_profile c USING (run_id)
+  WHERE r.label = 'demo' AND c.table_name = 'Customer' AND c.column_name = 'phone'
+  ORDER BY r.window_start"
+```
+
+**Referential integrity**: for each declared relation whose key lives on the model, count child rows whose (fully non-null) key matches no parent. Rows with a NULL key are exempt, as in SQL. Whether the database also *enforces* the constraint is a different question, answered by the schema comparison in step 5:
+
+```bash
+uv run python -m analyzers.dataquality integrity --app ecommerce \
+  --schema ../apps/ecommerce/prisma/schema.prisma --report \
+  | jq -c '.checks[] | {relation: "\(.model).\(.relation)", checked: .checked_rows, orphans: .orphan_rows}'
+# Order.customer 339 orphans, OrderItem.order 645, OrderItem.product 309: exactly the injected ones
+```
+
+Without `--report` the same command prints `Finding[]` (rule `ORPHANED_FOREIGN_KEY`), which step 9 scores against the manifest.
+
+**Seeding a clean baseline for M4.2** needs the data *before* injection, so the order matters:
+
+```bash
+docker compose down -v && docker compose up -d                     # clean seed
+cd services
+uv run python -m analyzers.dataquality profile --app ecommerce --label clean-seed --windows 12 --end 2026-09-01
+uv run python -m experiments.groundtruth.inject ecommerce          # apply the problems
+uv run python -m analyzers.dataquality profile --app ecommerce --label injected --windows 12 --end 2026-09-01
+```
+
+Two knobs: `--max-categories N` (default 50) only caps how many distinct values are *stored* per column; statistics are unaffected, and a column whose values are all unique stores no distribution. `--time-column TABLE=COLUMN` names the window column for a table where it cannot be detected.
+
+### 9. Score findings against the ground truth
 
 Any `Finding[]`, from any layer, is scored the same way:
 
@@ -403,21 +476,33 @@ uv run python -m experiments.groundtruth \
   --manifest experiments/groundtruth/manifests/blog.json --findings /tmp/blog-static.json | jq '.aggregate'
 ```
 
-Matching is by **problem type and location**: code findings must overlap the manifest entry's lines; data and schema findings match on the `table`/`column` named in their evidence. See the module docstring of [`scorer.py`](services/experiments/groundtruth/scorer.py) for the exact rules.
+And the orphaned-row findings from the data-quality profiler:
 
-### 9. Run the test suites
+```bash
+uv run python -m analyzers.dataquality integrity --app ecommerce \
+  --schema ../apps/ecommerce/prisma/schema.prisma > /tmp/ecommerce-orphans.json
+uv run python -m experiments.groundtruth \
+  --manifest experiments/groundtruth/manifests/ecommerce.json --findings /tmp/ecommerce-orphans.json \
+  | jq -c '.perProblemType[] | select(.problemType == "orphaned_foreign_key") | {tp, fp, fn}'
+# {"tp":3,"fp":0,"fn":0}
+```
+
+Matching is by **problem type and location**: code findings must overlap the manifest entry's lines; data and schema findings match on the `table`/`column` named in their evidence; runtime findings match on the `route` in their evidence against the entry's endpoint. See the module docstring of [`scorer.py`](services/experiments/groundtruth/scorer.py) for the exact rules.
+
+### 10. Run the test suites
 
 ```bash
 pnpm typecheck && pnpm test              # TypeScript: core (parser, ORM location, data-flow, rules, CLI) + collector
 
 cd services
 uv run ruff check . && uv run ruff format --check .
-uv run pytest                            # unit tests; DB tests skip
+uv run pytest                            # unit tests; database tests skip
 DBINSIGHT_TEST_DATABASE_URL=postgresql://dbinsight:dbinsight@localhost:5432/dbinsight \
 DBINSIGHT_ECOMMERCE_DATABASE_URL=postgresql://dbinsight:dbinsight@localhost:5432/ecommerce \
-  uv run pytest                          # + catalog reader, event storage, and a live run that
-                                         #   regenerates Prisma IN-list SQL (1/5/50 ids) and checks
-                                         #   it collapses to one fingerprint
+  uv run pytest                          # + catalog reader, event storage, data-quality profiler
+                                         #   and integrity checks on a scratch schema, and a live run
+                                         #   that regenerates Prisma IN-list SQL (1/5/50 ids) and
+                                         #   checks it collapses to one fingerprint
 ```
 
 CI (`.github/workflows/ci.yml`) runs both suites on every push, with a Postgres service for the integration tests.

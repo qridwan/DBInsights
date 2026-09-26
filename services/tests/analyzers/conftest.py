@@ -109,3 +109,29 @@ def build():
     for fn in (field, native, index, model, declared, column, actual_index, table, actual):
         setattr(Build, fn.__name__, staticmethod(fn))
     return Build
+
+
+# ---- throwaway schema in the test database (integration tests) ----------------------------
+
+import os  # noqa: E402
+import uuid  # noqa: E402
+from types import SimpleNamespace  # noqa: E402
+
+TEST_DATABASE_URL = os.environ.get("DBINSIGHT_TEST_DATABASE_URL")
+
+
+@pytest.fixture
+def temp_schema():
+    """A scratch schema in the test database. `conn` is writable and already points at it."""
+    if not TEST_DATABASE_URL:
+        pytest.skip("DBINSIGHT_TEST_DATABASE_URL not set")
+    import psycopg
+
+    name = f"dq_test_{uuid.uuid4().hex[:8]}"
+    with psycopg.connect(TEST_DATABASE_URL, autocommit=True) as conn:
+        conn.execute(f'CREATE SCHEMA "{name}"')
+        conn.execute(f'SET search_path TO "{name}"')
+        try:
+            yield SimpleNamespace(url=TEST_DATABASE_URL, name=name, conn=conn)
+        finally:
+            conn.execute(f'DROP SCHEMA "{name}" CASCADE')
