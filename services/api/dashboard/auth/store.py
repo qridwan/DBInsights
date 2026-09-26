@@ -4,8 +4,7 @@ import secrets
 from datetime import datetime
 from typing import Any
 
-import psycopg
-from psycopg.rows import dict_row
+from api.dbconn import ReconnectingConnection
 
 SCHEMA_SQL = """
 CREATE SCHEMA IF NOT EXISTS dashboard;
@@ -59,7 +58,7 @@ CREATE TABLE IF NOT EXISTS dashboard.app_secret (name text PRIMARY KEY, value te
 
 class AuthStore:
     def __init__(self, database_url: str) -> None:
-        self.conn = psycopg.connect(database_url, autocommit=True, row_factory=dict_row)
+        self.conn = ReconnectingConnection(database_url)
         self.conn.execute(SCHEMA_SQL)
 
     def close(self) -> None:

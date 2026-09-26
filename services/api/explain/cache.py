@@ -10,8 +10,7 @@ import json
 from dataclasses import asdict
 from typing import Protocol
 
-import psycopg
-from psycopg.rows import dict_row
+from api.dbconn import ReconnectingConnection
 
 from .contract import Explanation
 from .projection import FindingView
@@ -58,7 +57,7 @@ CREATE TABLE IF NOT EXISTS explain.cache (
 
 class PostgresCache:
     def __init__(self, database_url: str) -> None:
-        self.conn = psycopg.connect(database_url, autocommit=True, row_factory=dict_row)
+        self.conn = ReconnectingConnection(database_url)
         self.conn.execute(SCHEMA_SQL)
 
     def close(self) -> None:

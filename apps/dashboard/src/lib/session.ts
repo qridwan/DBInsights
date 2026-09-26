@@ -9,11 +9,16 @@ export async function getToken(): Promise<string | undefined> {
   return (await cookies()).get(COOKIE)?.value;
 }
 
+// A Secure cookie is only kept over HTTPS. That is right for a deployed dashboard, but the desktop
+// app (and anyone running a production build on their own machine) uses http://localhost, where
+// some web views drop it and sign-in would silently fail. DBINSIGHT_COOKIE_SECURE=0 turns it off.
+const secure = process.env.DBINSIGHT_COOKIE_SECURE ? process.env.DBINSIGHT_COOKIE_SECURE !== "0" : process.env.NODE_ENV === "production";
+
 export async function setSession(token: string, expiresAt: string): Promise<void> {
   (await cookies()).set(COOKIE, token, {
     httpOnly: true,
     sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
+    secure,
     path: "/",
     expires: new Date(expiresAt),
   });

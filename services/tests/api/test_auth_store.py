@@ -130,3 +130,17 @@ def test_the_whole_flow_works_end_to_end_on_the_real_store(store):
     assert service.login(address, "correct horse battery").user["email"] == address
     service.logout(signed.token)
     assert service.authenticate(signed.token) is None
+
+
+def test_a_connection_dropped_by_the_server_is_reopened(store):
+    import psycopg
+
+    pid = store.conn.execute("SELECT pg_backend_pid() AS pid").fetchone()["pid"]
+    with psycopg.connect(
+        os.environ.get("DBINSIGHT_TEST_DATABASE_URL")
+        or os.environ["DBINSIGHT_RESULTS_DATABASE_URL"],
+        autocommit=True,
+    ) as other:
+        other.execute("SELECT pg_terminate_backend(%s)", (pid,))
+    assert store.count_verified() >= 0
+    assert store.conn.execute("SELECT pg_backend_pid() AS pid").fetchone()["pid"] != pid

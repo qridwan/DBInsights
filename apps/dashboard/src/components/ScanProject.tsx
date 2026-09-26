@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { FolderBrowser, type Picked } from "@/components/FolderBrowser";
+import { isDesktop, pickFolder } from "@/lib/desktop";
 import { Icon } from "@/components/ui/icons";
 
 const field = "mt-1.5 block w-full rounded-lg border border-line-strong bg-surface px-3 py-2 text-sm text-ink placeholder:text-faint focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/25";
@@ -28,6 +29,18 @@ export function ScanProjectDialog({ open, onClose, canScanLocal = false }: { ope
     if (open && !d.open) d.showModal();
     if (!open && d.open) d.close();
   }, [open]);
+
+  /** In the desktop app this is the operating system's own folder dialog; in a browser, the in-app browser. */
+  async function browse() {
+    if (!isDesktop()) return setBrowsing(true);
+    const start = origin.trim().startsWith("/") ? origin.trim() : undefined;
+    const path = await pickFolder("Choose a project folder", start);
+    if (!path) return;
+    setOrigin(path);
+    // Ask the API what the folder is, so the hint can say whether it is a Prisma project.
+    const info = await fetch(`/api/fs?path=${encodeURIComponent(path)}`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+    setPicked({ path, isProject: Boolean(info?.is_project) });
+  }
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
@@ -93,7 +106,7 @@ export function ScanProjectDialog({ open, onClose, canScanLocal = false }: { ope
             <input required autoFocus value={origin} onChange={(e) => { setOrigin(e.target.value); setPicked(null); }} className={mode === "local" ? field.replace("mt-1.5 ", "") : field}
               placeholder={mode === "git" ? "https://github.com/owner/repository" : "Choose a folder, or paste its path"} />
             {mode === "local" && (
-              <button type="button" onClick={() => setBrowsing(true)} className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-line-strong bg-surface px-3.5 py-2 text-sm font-medium text-ink hover:bg-sunken">
+              <button type="button" onClick={browse} className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-line-strong bg-surface px-3.5 py-2 text-sm font-medium text-ink hover:bg-sunken">
                 <Icon name="folder" className="h-4 w-4" /> Browse...
               </button>
             )}

@@ -1,0 +1,10 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "dashboard",
+  "description": "The dashboard web app may open the native folder picker. Nothing else: it cannot call the app's own commands.",
+  "windows": ["main"],
+  "remote": {
+    "urls": ["http://localhost:3003/*", "http://127.0.0.1:3003/*"]
+  },
+  "permissions": ["dialog:allow-open"]
+}

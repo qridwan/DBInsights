@@ -5,6 +5,7 @@ packages:
   - apps/ecommerce
   - apps/blog
   - apps/dashboard
+  - apps/desktop
 
 onlyBuiltDependencies:
   - "@prisma/engines"

@@ -160,6 +160,7 @@ services/                 Python 3.12, uv
 apps/ecommerce/           test application 1 (Next.js + Prisma + Postgres)
 apps/blog/                test application 2
 apps/dashboard/           Next.js dashboard (M8)
+apps/desktop/             Tauri desktop app: native window that runs the dashboard stack (docs/desktop-guide.md)
 fixtures/                 synthetic inputs for analyzer tests; recorded Prisma SQL
 docker/postgres/init/     creates the ecommerce and blog databases
 ```
@@ -740,6 +741,8 @@ uv run python -m experiments.realworld labels --worksheet <labelled.csv>   # M6.
 ### 15. Dashboard, explanation layer and results chapter (M8)
 
 **Dashboard (M8.1).** Two processes: a host API that runs scans and serves them, and the Next.js app. A step-by-step guide with troubleshooting is in [`docs/dashboard-guide.md`](docs/dashboard-guide.md).
+
+**Desktop app.** The dashboard also runs as a native Tauri app (`pnpm --filter desktop tauri dev`) that starts and stops the stack for you and offers a native folder picker. See [`docs/desktop-guide.md`](docs/desktop-guide.md).
 
 ```bash
 cd services

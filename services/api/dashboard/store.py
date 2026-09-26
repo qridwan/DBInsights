@@ -8,8 +8,7 @@ one scan and trends across scans are just rows.
 import json
 from typing import Any
 
-import psycopg
-from psycopg.rows import dict_row
+from api.dbconn import ReconnectingConnection
 
 SCHEMA_SQL = """
 CREATE SCHEMA IF NOT EXISTS dashboard;
@@ -69,7 +68,7 @@ def _json(value: Any) -> str:
 
 class ScanStore:
     def __init__(self, database_url: str) -> None:
-        self.conn = psycopg.connect(database_url, autocommit=True, row_factory=dict_row)
+        self.conn = ReconnectingConnection(database_url)
         self.conn.execute(SCHEMA_SQL)
 
     def close(self) -> None:
@@ -152,7 +151,8 @@ class ScanStore:
             findings,
             key=lambda f: (SEVERITY_ORDER[f["severity"]], f["file"], f["line"], f["ruleId"]),
         )
-        with self.conn.transaction(), self.conn.cursor() as cursor:
+        live = self.conn.live()
+        with live.transaction(), live.cursor() as cursor:
             cursor.executemany(
                 """INSERT INTO dashboard.finding (scan_id, finding_id, rule_id, severity,
                      confidence, file, line, end_line, title, body, evidence, layers,

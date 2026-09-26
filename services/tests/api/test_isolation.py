@@ -194,7 +194,7 @@ def test_a_legacy_project_scan_without_an_owner_belongs_to_nobody_until_claimed(
 def test_the_first_verified_account_inherits_projects_scanned_before_accounts(world):
     # Claiming re-owns EVERY unowned project scan, which in a shared database includes real ones.
     # So this runs inside a transaction that is always rolled back and touches nothing permanent.
-    world.store.conn.autocommit = False
+    world.store.conn.live().autocommit = False
     try:
         name = f"inherit-{uuid.uuid4().hex[:6]}"
         scan_id = world.scan(None, name)
@@ -203,8 +203,8 @@ def test_the_first_verified_account_inherits_projects_scanned_before_accounts(wo
         assert world.get("admin", f"/v1/scans/{scan_id}").status_code == 200
         assert name not in names(world.get("bob", "/v1/apps"))
     finally:
-        world.store.conn.rollback()
-        world.store.conn.autocommit = True
+        world.store.conn.live().rollback()
+        world.store.conn.live().autocommit = True
 
 
 @pytest.mark.parametrize(
