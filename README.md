@@ -750,10 +750,10 @@ Open an application and press **Run scan** (about 10 s: the full hybrid pipeline
 A scan stores its findings plus snapshots of the query analytics, data-quality and schema views, so
 every page describes one scan and the health page trends across scans.
 
-- **Scan a project**: the home page can also scan any Prisma project from a local folder or an https Git URL,
+- **Scan a project**: the sidebar button opens a dialog to scan any Prisma project from a local folder or an https Git URL,
   with the analysis that needs no database (static source, SQL text, declared schema). It warns when the
   analyzer located no Prisma operations, since zero findings then means nothing. See the guide.
-- **Health**: findings by severity per scan, by contributing layer, layer timings.
+- **Overview**: counts with the change since the previous scan, new and resolved findings, trend, severity mix, findings by rule, layer coverage. A sidebar shows every app and project with a health dot; light and dark themes.
 - **Findings**: filter by severity, confidence, rule and evidence layer. Each finding shows its
   **evidence chain**: every item labelled with the layer it came from, with the layers that
   contributed nothing shown greyed out.

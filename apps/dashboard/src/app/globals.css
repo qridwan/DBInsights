@@ -1,9 +1,116 @@
 @import "tailwindcss";
 
+/* Dark mode is a class on <html> (set before first paint by the inline script in layout.tsx). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-sunken: var(--sunken);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-brand: var(--brand);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-soft: var(--brand-soft);
+  --shadow-card: var(--shadow);
+}
+
 :root {
+  --canvas: #f5f6f8;
+  --surface: #ffffff;
+  --sunken: #f0f2f5;
+  --line: #e5e8ee;
+  --line-strong: #d3d8e1;
+  --ink: #0f172a;
+  --muted: #5b6577;
+  --faint: #94a0b4;
+  --brand: #4f46e5;
+  --brand-ink: #ffffff;
+  --brand-soft: #eef0ff;
+  --shadow: 0 1px 2px rgb(15 23 42 / 0.04), 0 1px 1px rgb(15 23 42 / 0.03);
   color-scheme: light;
 }
 
+.dark {
+  --canvas: #0a0d13;
+  --surface: #11151d;
+  --sunken: #161b25;
+  --line: #232a37;
+  --line-strong: #323b4b;
+  --ink: #e7eaf1;
+  --muted: #9aa4b6;
+  --faint: #667186;
+  --brand: #8b93ff;
+  --brand-ink: #0a0d13;
+  --brand-soft: #1b2040;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.4);
+  color-scheme: dark;
+}
+
+html {
+  background: var(--canvas);
+}
+
 body {
-  @apply bg-slate-50 text-slate-900 antialiased;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--brand) 25%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Quiet, consistent scrollbars. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .fade-in {
+    animation: fade-in 0.25s ease-out both;
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--sunken) 0%, var(--line) 50%, var(--sunken) 100%);
+  background-size: 200% 100%;
+  border-radius: 6px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .skeleton {
+    animation: shimmer 1.4s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    from {
+      background-position: 200% 0;
+    }
+    to {
+      background-position: -200% 0;
+    }
+  }
 }

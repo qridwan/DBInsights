@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Icon } from "@/components/ui/icons";
 
 export function RunScan({ app, project = false }: { app: string; project?: boolean }) {
   const router = useRouter();
@@ -26,14 +27,11 @@ export function RunScan({ app, project = false }: { app: string; project?: boole
 
   return (
     <div className="flex items-center gap-3">
-      <button
-        onClick={run}
-        disabled={state === "running"}
-        className="rounded-md bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-700 disabled:opacity-60"
-      >
-        {state === "running" ? (project ? "Scanning..." : "Scanning (about 10 s)...") : project ? "Scan again" : "Run scan"}
+      {state === "error" && <span role="alert" className="max-w-xs truncate text-xs text-red-600 dark:text-red-400" title={message}>{message}</span>}
+      <button onClick={run} disabled={state === "running"} className="inline-flex items-center gap-2 rounded-lg bg-brand px-3.5 py-2 text-sm font-medium text-brand-ink shadow-card hover:opacity-90 disabled:opacity-70">
+        {state === "running" ? <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" /> : <Icon name="refresh" />}
+        {state === "running" ? (project ? "Scanning..." : "Scanning, about 10 s") : project ? "Scan again" : "Run scan"}
       </button>
-      {state === "error" && <span className="max-w-md truncate text-xs text-red-700" title={message}>{message}</span>}
     </div>
   );
 }

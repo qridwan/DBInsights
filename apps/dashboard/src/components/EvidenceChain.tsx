@@ -1,59 +1,54 @@
 import type { Evidence, Layer } from "@/lib/api";
 import { LAYERS, layerInfo } from "@/lib/ui";
-import { LayerChip } from "./Badges";
+import { LayerChip } from "@/components/ui/Badge";
 
 /**
  * The evidence chain: every item that supports the finding, in order, each labelled with the layer
  * it came from. Layers that contributed nothing are listed too, so what is NOT known is as visible
- * as what is.
+ * as what is. Layers that were not run for this scan are shown separately as "not run".
  */
 export function EvidenceChain({ evidence, layers, ran }: { evidence: Evidence[]; layers: Layer[]; ran?: Layer[] }) {
   const contributed = new Set(layers);
   const notRun = new Set(ran ? LAYERS.map((l) => l.id).filter((id) => !ran.includes(id)) : []);
+  const considered = LAYERS.length - notRun.size;
   return (
     <div>
-      <div className="mb-3 flex flex-wrap items-center gap-2">
-        <span className="text-sm font-medium text-slate-700">
-          {contributed.size} of {LAYERS.length - notRun.size} layers contributed
-          {notRun.size > 0 && <span className="font-normal text-slate-500"> ({notRun.size} not run in this scan)</span>}
-        </span>
-        {LAYERS.filter((l) => !notRun.has(l.id)).map((l) => (
-          <LayerChip key={l.id} layer={l.id} muted={!contributed.has(l.id)} />
-        ))}
-        {LAYERS.filter((l) => notRun.has(l.id)).map((l) => (
-          <span key={l.id} className="inline-flex items-center rounded-full border border-dashed border-slate-300 px-2 py-0.5 text-xs text-slate-400" title={`${l.label}: not run for this project`}>
-            {l.label}: not run
-          </span>
-        ))}
+      <div className="mb-4 rounded-lg bg-sunken p-3">
+        <div className="flex items-baseline justify-between gap-2">
+          <span className="text-sm font-medium text-ink">{contributed.size} of {considered} layers contributed evidence</span>
+          {notRun.size > 0 && <span className="text-xs text-muted">{notRun.size} not run in this scan</span>}
+        </div>
+        <div className="mt-2 flex flex-wrap gap-1.5">
+          {LAYERS.filter((l) => !notRun.has(l.id)).map((l) => <LayerChip key={l.id} layer={l.id} muted={!contributed.has(l.id)} size="xs" />)}
+          {LAYERS.filter((l) => notRun.has(l.id)).map((l) => (
+            <span key={l.id} className="inline-flex items-center rounded-full border border-dashed border-line-strong px-1.5 py-0.5 text-[11px] text-faint" title={`${l.label}: not run for this scan`}>{l.label}: not run</span>
+          ))}
+        </div>
       </div>
-      <ol className="relative space-y-3 border-l-2 border-slate-200 pl-5">
+
+      <ol className="relative space-y-3">
+        <span className="absolute bottom-3 left-[11px] top-3 w-px bg-line" aria-hidden="true" />
         {evidence.map((item, index) => {
           const info = layerInfo(item.source);
           return (
-            <li key={index} className="relative">
-              <span
-                className={`absolute -left-[27px] top-1.5 h-3 w-3 rounded-full ring-4 ring-slate-50 ${info.dot}`}
-              />
-              <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-sm">
-                <div className="mb-1 flex flex-wrap items-center gap-2">
-                  <LayerChip layer={item.source} />
-                  {item.file && (
-                    <code className="text-xs text-slate-500">
-                      {item.file}
-                      {item.line ? `:${item.line}` : ""}
-                    </code>
-                  )}
+            <li key={index} className="relative flex gap-3">
+              <span className="relative z-10 mt-3 flex h-[23px] w-[23px] shrink-0 items-center justify-center rounded-full border border-line bg-surface text-[10px] font-semibold text-muted">
+                {index + 1}
+              </span>
+              <div className="min-w-0 flex-1 rounded-lg border border-line bg-surface p-3.5">
+                <div className="mb-1.5 flex flex-wrap items-center gap-2">
+                  <LayerChip layer={item.source} size="xs" />
+                  {item.file && <code className="truncate font-mono text-[11px] text-muted">{item.file}{item.line ? `:${item.line}` : ""}</code>}
                 </div>
-                <p className="text-sm text-slate-800">{item.description}</p>
+                <p className="text-sm leading-relaxed text-ink">{item.description}</p>
                 {item.data && (
-                  <details className="mt-2">
-                    <summary className="cursor-pointer text-xs text-slate-500">structured data</summary>
-                    <pre className="mt-1 max-h-56 overflow-auto rounded bg-slate-50 p-2 text-xs text-slate-700">
-                      {JSON.stringify(item.data, null, 2)}
-                    </pre>
+                  <details className="group mt-2">
+                    <summary className="cursor-pointer select-none text-xs text-muted hover:text-ink">Structured data</summary>
+                    <pre className="mt-2 max-h-56 overflow-auto rounded-md bg-sunken p-2.5 font-mono text-[11px] leading-relaxed text-muted">{JSON.stringify(item.data, null, 2)}</pre>
                   </details>
                 )}
               </div>
+              <span className="sr-only">from {info.label}</span>
             </li>
           );
         })}

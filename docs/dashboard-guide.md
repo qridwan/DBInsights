@@ -163,18 +163,24 @@ If the API is somewhere other than `localhost:8710`, set `DBINSIGHT_API_URL` bef
 
 ## 8. Use it
 
-1. Choose **ecommerce** on the home page.
+1. Choose **ecommerce** in the sidebar or on the Overview page.
 2. Press **Run scan** (top right). It takes about 10 seconds: every evidence layer runs, and the
    runtime layer drives real traffic at the app. The page then shows the new scan.
 3. The five tabs, all describing the same scan:
 
 | Tab | What it shows |
 |---|---|
-| Health | Findings by severity per scan (a trend once you have run several scans), by contributing layer, layer timings |
-| Findings | Filter by severity, confidence, rule and evidence layer |
+| Overview | Findings, high and medium counts with the change since the previous scan; how many findings are **new** and how many were **resolved**; findings over time; severity mix; findings by rule; which evidence layers ran and how many findings each backs; the most severe findings |
+| Findings | Search and filter by severity, confidence, evidence layer and rule. On a wide screen the list sits beside the selected finding's full evidence chain; on a phone each finding opens on its own page. "New" marks findings that were not in the previous scan |
 | Query analytics | Which endpoints repeat the same query most within one request, the most frequent and slowest query shapes |
 | Data quality | Each column's current value against the range learned from its own history; a red dot is outside it |
-| Schema divergence | Declared schema (`schema.prisma`) and actual database catalog side by side, never merged, with indexes present in only one highlighted |
+| Schema | Declared schema (`schema.prisma`) and actual database catalog side by side, never merged, with indexes present in only one highlighted |
+
+Around the tabs: the **sidebar** lists every application and project with a health dot (red: high-severity
+findings, amber: medium only, green: none, grey: not scanned) and its finding count; the **scan picker** at
+the top right switches every tab to an earlier scan; the **moon/sun button** in the sidebar switches between
+dark and light themes (it follows your system setting until you choose, and remembers your choice). On a
+phone the sidebar becomes a menu.
 
 ### Demo: an N+1 problem end to end, under five minutes
 
@@ -191,14 +197,14 @@ If the API is somewhere other than `localhost:8710`, set `DBINSIGHT_API_URL` bef
 
 ### Scan a project of your own (real-world project)
 
-The home page has a **Scan a project** form under "Scanned projects". Give it either:
+Press **Scan a project** (sidebar, or the Overview page) to open a dialog. Give it either:
 
 - **Git URL**: an `https://host/owner/repository` address (public repositories; only plain https is accepted).
   It is cloned shallowly into `services/experiments/realworld/work/projects/`.
 - **Local folder**: an absolute path on the machine running the dashboard API.
 
-Optionally set the **schema path** (default: the `schema.prisma` with the most models, skipping
-`node_modules`) and a **name**. Press **Scan project**. A small repository takes seconds; a large
+Under **Options** you can set the **schema path** (default: the `schema.prisma` with the most models, skipping
+`node_modules`) and a **name**. Then press **Scan project**. A small repository takes seconds; a large
 one, or a slow disk, can take a minute or more, and cloning adds to that.
 
 A scanned project is analysed **without a database**: static ORM analysis, SQL text in the
