@@ -179,7 +179,7 @@ docker/postgres/init/     creates the ecommerce and blog databases
 | M5.3 | M5 exit check | next |
 | M6.1 | Repository selection protocol and candidate list | done |
 | M6.2 | Batch analysis at pinned commits, labelling worksheet | done |
-| M6.3 | Analysis of labels | after labelling |
+| M6.3 | Analysis of labels | tooling done; needs your labels |
 | M7–M8 | Adapter generalisation, dashboard, AI explanation layer | planned |
 
 Static rules implemented in the core:
@@ -705,6 +705,7 @@ uv run python -m experiments.realworld select      # M6.1: pool -> seeded order 
 uv run python -m experiments.realworld analyze     # M6.2: analyze the study set at pinned commits
 uv run python -m experiments.realworld show        # per-repository status and finding counts
 uv run python -m experiments.realworld worksheet   # M6.2: write labelling/worksheet.csv
+uv run python -m experiments.realworld labels --worksheet <labelled.csv>   # M6.3: analyze the labels
 ```
 
 - [`PROTOCOL.md`](services/experiments/realworld/PROTOCOL.md): inclusion and exclusion criteria,
@@ -718,6 +719,12 @@ uv run python -m experiments.realworld worksheet   # M6.2: write labelling/works
   excerpt, and **empty** `label` / `fp_cause` / `rationale` columns. Confidence and severity are
   kept out of the worksheet (in `worksheet_key.csv`) so labelling is blind to them. The
   double-labelled sample (at least 20% of every rule) is drawn with a fixed seed before labelling.
+- `labels` (M6.3) validates the labelled worksheet against the protocol (it refuses one that
+  departs from it, listing every problem), then computes per-rule and overall precision with
+  Wilson and repository-clustered bootstrap intervals, Cohen's kappa on the double-labelled rows,
+  the false-positive causes, the `MISSING_INDEX` rows whose index existed outside `schema.prisma`
+  (the real-world RQ6 number), and the comparison with the controlled experiment's per-rule
+  precision. Rows left unlabelled or `UNSURE` are counted and reported, never guessed.
 - [`LABELLING.md`](services/experiments/realworld/LABELLING.md) is a **draft** labelling protocol
   for the author to review. Nothing is labelled by the tooling.
 

@@ -33,6 +33,13 @@ def main(argv: list[str] | None = None) -> int:
     sheet = commands.add_parser("worksheet")
     sheet.add_argument("--analysis")
     sheet.add_argument("--out", type=Path, default=DEFAULT_OUT)
+    lab = commands.add_parser("labels")
+    lab.add_argument("--worksheet", type=Path, required=True)
+    lab.add_argument("--key", type=Path, default=DEFAULT_OUT / "worksheet_key.csv")
+    lab.add_argument("--out", type=Path, default=DEFAULT_OUT / "labels_results.json")
+    lab.add_argument(
+        "--allow-partial", action="store_true", help="some rows are unlabelled (reported)"
+    )
     show = commands.add_parser("show")
     show.add_argument("--analysis")
     args = parser.parse_args(argv)
@@ -43,6 +50,20 @@ def main(argv: list[str] | None = None) -> int:
         only = args.only.split(",") if args.only else None
         analysis = analyze_repos.run(args.timeout, only, log=lambda m: sys.stderr.write(m + "\n"))
         print(analysis)
+        return 0
+
+    if args.command == "labels":
+        import json
+
+        from . import labels
+
+        try:
+            result = labels.analyze(args.worksheet, args.key, args.allow_partial)
+        except labels.LabelError as error:
+            sys.stderr.write(f"the worksheet does not follow LABELLING.md:\n{error}\n")
+            return 1
+        args.out.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
+        print(args.out)
         return 0
 
     store = _store()
